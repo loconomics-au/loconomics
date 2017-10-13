@@ -28,6 +28,17 @@ Next steps describe the SSIS method from the link, also know as using "Microsoft
   - At the top of the file, change `USE [Dev]` to `USE [loconomics]`
   - Execute the query
   - _(repeat this process for the views: Dev -> Views)_
+  
+- Creating Identites
+  - Identíties need to be created manually in SSMS as the identity cannot be added to an existing column with data via a script. Thankfully we can run a script that lets us know which tables have identities. [1. creatingidenties.sql](../web/_DBUpdate/install/1. creatingidentities.sql). Make sure you can create table identities on your database by un checking Tools>Options>Designers>'Prevent saving changes that require table re-creation'.
+  - for each of those tables, make sure the ID column is an identity in the table designer.
+- Creating Constraints
+  - We can create the constraints with a scipt by using [2. creatingconstraints.sql](../web/_DBUpdate/install/2. creatingconstraints.sql). This script will create a series of ALTER TABLE statements that can be run against your local database.
+- Creating foreign keys
+  - We can create the foreign keys with a script by using [3. creatingforeignkeys.sql](../web/_DBUpdate/install/3. creatingforeignkeys.sql). This script will print the neccessary ALTER TABLE commands that can be run against your local database.
+- Creating primary keys
+  - We can create the primary keys with a script by using [4. creatingprimarykeys.sql](../web/_DBUpdate/install/4. creatingprimarykeys.sql). This script will print the neccessary ALTER TABLE commands that can be run against your local database.
+
 
 **Note 1:** a database created with a different collation than the source will lead to warnings about conversions between varchar columns (different size required for same data), and potentially an error in the process. The indicated collation is the default at Azure DB, but in case was manually changed check it running "SELECT DATABASEPROPERTYEX('TestDB', 'Collation')" (change TestDB by the database name).
 
