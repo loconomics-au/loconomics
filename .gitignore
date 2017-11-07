@@ -37,6 +37,9 @@ bld/
 [Oo]bj/
 [Ll]og/
 
+# Testing web site precomplied
+loconomics_Precompiled/
+
 # Visual Studio IDE temp files
 *.ide/
 
