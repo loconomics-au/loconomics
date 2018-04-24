@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 
@@ -49,7 +50,7 @@ namespace LcRest
         /// <returns></returns>
         public static int GetCountryIDByCode(string CountryCode)
         {
-            switch (CountryCode)
+            switch (CountryCode.ToUpper())
             {
                 case "US":
                     return 1;
@@ -87,7 +88,7 @@ namespace LcRest
         /// <returns></returns>
         public static int GetLanguageIDByCode(string LanguageCode)
         {
-            switch (LanguageCode)
+            switch (LanguageCode.ToUpper())
             {
                 case "EN":
                     return 1;
@@ -97,6 +98,27 @@ namespace LcRest
                     // EN by default
                     return 1;
             }
+        }
+
+        private static dynamic AnalyzeCulture()
+        {
+            CultureInfo cultureInfo = System.Threading.Thread.CurrentThread.CurrentCulture;
+            if (cultureInfo == null)
+                return null;
+
+            RegionInfo regionInfo = new RegionInfo(cultureInfo.LCID);
+            if (regionInfo == null)
+            {
+                return null;
+            }
+
+            var lang = cultureInfo.TwoLetterISOLanguageName;
+            var country = regionInfo.TwoLetterISORegionName;
+            return new
+            {
+                language = lang,
+                country = country
+            };
         }
 
         /// <summary>
@@ -151,7 +173,11 @@ namespace LcRest
         {
             get
             {
-                var info = AnalyzeUrl(HttpContext.Current.Request.RawUrl);
+                var info = AnalyzeCulture();
+                if (info == null)
+                {
+                    info = AnalyzeUrl(HttpContext.Current.Request.RawUrl);
+                }
 
                 if (info != null)
                 {

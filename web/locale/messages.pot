@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2018-04-03 22:05+10:00\n"
+"POT-Creation-Date: 2018-04-24 22:54+10:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,7 +13,7 @@ msgid "%0 %1's phone number: %2"
 msgstr ""
 
 #. TRANSLATORS: format is number of days
-#: App_Code\LcHelpers.cshtml:293
+#: App_Code\LcHelpers.cshtml:294
 msgid "%0 days"
 msgstr ""
 
@@ -22,7 +22,7 @@ msgid "%0 has a not valid value"
 msgstr ""
 
 #. TRANSLATORS: format is number of hours
-#: App_Code\LcHelpers.cshtml:298
+#: App_Code\LcHelpers.cshtml:299
 msgid "%0 hours"
 msgstr ""
 
@@ -31,17 +31,17 @@ msgid "%0 is required"
 msgstr ""
 
 #. TRANSLATORS: format is number of milliseconds
-#: App_Code\LcHelpers.cshtml:313
+#: App_Code\LcHelpers.cshtml:314
 msgid "%0 milliseconds"
 msgstr ""
 
 #. TRANSLATORS: format is number of minutes
-#: App_Code\LcHelpers.cshtml:303
+#: App_Code\LcHelpers.cshtml:304
 msgid "%0 minutes"
 msgstr ""
 
 #. TRANSLATORS: format is number of seconds
-#: App_Code\LcHelpers.cshtml:308
+#: App_Code\LcHelpers.cshtml:309
 msgid "%0 seconds"
 msgstr ""
 
@@ -107,23 +107,23 @@ msgstr ""
 msgid "{1} appointments - {0} each"
 msgstr ""
 
-#: App_Code\LcHelpers.cshtml:295
+#: App_Code\LcHelpers.cshtml:296
 msgid "1 day"
 msgstr ""
 
-#: App_Code\LcHelpers.cshtml:300
+#: App_Code\LcHelpers.cshtml:301
 msgid "1 hour"
 msgstr ""
 
-#: App_Code\LcHelpers.cshtml:315
+#: App_Code\LcHelpers.cshtml:316
 msgid "1 millisecond"
 msgstr ""
 
-#: App_Code\LcHelpers.cshtml:305
+#: App_Code\LcHelpers.cshtml:306
 msgid "1 minute"
 msgstr ""
 
-#: App_Code\LcHelpers.cshtml:310
+#: App_Code\LcHelpers.cshtml:311
 msgid "1 second"
 msgstr ""
 
@@ -454,10 +454,10 @@ msgstr ""
 msgid "CVV code is required"
 msgstr ""
 
-#: _specialRoutes\app.html:107
-#: _specialRoutes\app.html:206
-#: _specialRoutes\app.html:3957
-#: _specialRoutes\app.html:9764
+#: _specialRoutes\app.html:4
+#: _specialRoutes\app.html:4
+#: _specialRoutes\app.html:41
+#: _specialRoutes\app.html:1042
 msgid "Dashboard"
 msgstr ""
 
@@ -534,7 +534,7 @@ msgstr ""
 msgid "Duration:"
 msgstr ""
 
-#: App_Code\LcAuthHelper.cs:461
+#: App_Code\LcAuthHelper.cs:463
 msgid "E-mail address is already in use."
 msgstr ""
 
@@ -585,11 +585,11 @@ msgstr ""
 msgid "External Listing not found."
 msgstr ""
 
-#: App_Code\LcAuthHelper.cs:392
+#: App_Code\LcAuthHelper.cs:394
 msgid "Facebook account already connected. Sign in."
 msgstr ""
 
-#: App_Code\LcAuthHelper.cs:510
+#: App_Code\LcAuthHelper.cs:511
 msgid "Facebook account does not exists."
 msgstr ""
 
@@ -704,7 +704,7 @@ msgstr ""
 msgid "Include my profile in search listings preference is required"
 msgstr ""
 
-#: App_Code\LcAuthHelper.cs:589
+#: App_Code\LcAuthHelper.cs:590
 msgid "Incorrect user"
 msgstr ""
 
@@ -725,7 +725,7 @@ msgstr ""
 msgid "Invalid Facebook cookie."
 msgstr ""
 
-#: App_Code\LcAuthHelper.cs:604
+#: App_Code\LcAuthHelper.cs:605
 msgid "Invalid Facebook credentials"
 msgstr ""
 
@@ -915,7 +915,7 @@ msgstr ""
 msgid "No Facebook user is authenticated."
 msgstr ""
 
-#: App_Code\LcAuthHelper.cs:288
+#: App_Code\LcAuthHelper.cs:289
 msgid "Not allowed"
 msgstr ""
 
@@ -1317,7 +1317,7 @@ msgstr ""
 msgid "The custom URL you've entered is invalid. Remember: just words and dashes, no white space, no slashes"
 msgstr ""
 
-#: App_Code\LcAuthHelper.cs:362
+#: App_Code\LcAuthHelper.cs:363
 #: api\v1\lead-generation\newsletter.cshtml:70
 #: api\v1\lead-generation\referral.cshtml:186
 #: api\v1\lead-generation\referral.cshtml:246
@@ -1506,14 +1506,14 @@ msgstr ""
 msgid "We know you're not psychic (or are you?) and probably need to visit the client and review the work before determining a price. We'll help facilitate."
 msgstr ""
 
-#: App_Code\LcAuthHelper.cs:243
+#: App_Code\LcAuthHelper.cs:244
 msgid ""
 "We see one of our service professionals has already scheduled services for you in the past.\n"
 "        We've just sent an invitation to create your account to %0.\n"
 "        Please follow its instructions. We can't wait to get you on board!"
 msgstr ""
 
-#: App_Code\LcAuthHelper.cs:248
+#: App_Code\LcAuthHelper.cs:249
 msgid ""
 "We see you have subscribed previously to our newsletter or referrenced a service professional.\n"
 "        We've just sent an invitation to create your account to %0.\n"
@@ -1607,8 +1607,8 @@ msgstr ""
 msgid "You must set your hourly rate"
 msgstr ""
 
-#: App_Code\LcAuthHelper.cs:71
-#: App_Code\LcAuthHelper.cs:379
+#: App_Code\LcAuthHelper.cs:72
+#: App_Code\LcAuthHelper.cs:381
 msgid "You must specify a password."
 msgstr ""
 
@@ -1620,23 +1620,23 @@ msgstr ""
 msgid "You must specify a starting rate or check 'I prefer not to state'"
 msgstr ""
 
-#: App_Code\LcAuthHelper.cs:70
+#: App_Code\LcAuthHelper.cs:71
 msgid "You must specify a user name."
 msgstr ""
 
-#: App_Code\LcAuthHelper.cs:359
+#: App_Code\LcAuthHelper.cs:360
 msgid "You must specify an email."
 msgstr ""
 
-#: App_Code\LcAuthHelper.cs:400
+#: App_Code\LcAuthHelper.cs:402
 msgid "You must specify your first name."
 msgstr ""
 
-#: App_Code\LcAuthHelper.cs:401
+#: App_Code\LcAuthHelper.cs:403
 msgid "You must specify your last name."
 msgstr ""
 
-#: App_Code\LcAuthHelper.cs:399
+#: App_Code\LcAuthHelper.cs:401
 msgid "You must specify your mobile phone number."
 msgstr ""
 
@@ -1648,7 +1648,7 @@ msgstr ""
 msgid "Your account has been locked due to too many unsuccessful login attempts. Please try logging in again after 5 minutes or click Forget password"
 msgstr ""
 
-#: App_Code\LcAuthHelper.cs:200
+#: App_Code\LcAuthHelper.cs:201
 msgid "Your account has not yet been confirmed. Please check your inbox and spam folders and click on the e-mail sent."
 msgstr ""
 
