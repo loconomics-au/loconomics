@@ -52,6 +52,11 @@
                 return new { rows = new object[] { }, message = message };
             }
 
+            if (Request["name"] == "date")
+            {
+                return new { rows = new object[] { }, date = "2014-03-25 09:00:00 +11:00" };
+            }
+
             if (Request["name"] == "userpos") {
                 var pos = LcData.UserInfo.GetUserPos();
                 if (pos == null || pos.Count == 0)

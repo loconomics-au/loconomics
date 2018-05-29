@@ -1,4 +1,5 @@
 ﻿@using WebMatrix.WebData;
+@using System.Configuration;
 @*
     Allows users to send feedback to Loconomics.
 
@@ -36,6 +37,7 @@
 @functions{
     public class RestFeedback : RestWebPage
     {
+        private string supportAltEmail = ConfigurationManager.AppSettings["SupportAltEmail"];
         public override dynamic Post()
         {
             if (UrlData.Count == 1)
@@ -51,7 +53,7 @@
                     default:
                         return base.Post();
                 }
-                
+
                 var feedback = new LcRest.Feedback {
                     vocExperienceCategoryID = vocExperienceCategoryID,
                     userID = WebSecurity.CurrentUserId,
@@ -61,11 +63,11 @@
                     userDevice = Request["userDevice"]
                 };
 
- 	            LcRest.Feedback.PostFeedback(feedback);
+                LcRest.Feedback.PostFeedback(feedback);
 
                 // On support request, send an email
                 // TODO: localise email subject and email address
-                var email = "support@loconomics.zendesk.com";
+                var email = supportAltEmail;
                 var subject = "Feedback";
                 if (vocExperienceCategoryID == 2) {
                     subject = "Support Request";

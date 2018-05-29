@@ -207,6 +207,7 @@ public static class LcAuthHelper
     #region Signup
     const int COUNTRY_CODE_USA = 1;
     const string SERVICE_PROFESSIONAL_TYPE = "SERVICE-PROFESSIONAL";
+    private static string signupMessageEmail = ConfigurationManager.AppSettings["SignupMessageEmail"];
 
     /// <summary>
     /// Sets the OnboardingStep of the user to 'welcome', so can start the onboarding process
@@ -370,7 +371,6 @@ public static class LcAuthHelper
         var facebookAccessToken = Request.Form["facebookAccessToken"];
         var email = Request.Form["email"];
         var atBooking = Request.Form["atBooking"].AsBool();
-        var signupMessageEmail = ConfigurationManager.AppSettings["SignupMessageEmail"];
 
         //
         // Conditional validations
@@ -531,7 +531,7 @@ public static class LcAuthHelper
                 LcAuth.SendRegisterUserEmail(registered);
 
                 // SIGNUP
-                LcMessaging.SendMail("joshua.danielson@loconomics.com", "Sign-up", String.Format(@"
+                LcMessaging.SendMail(signupMessageEmail, "Sign-up", String.Format(@"
                     <html><body><h3>Sign-up.</h3>
                     <dl>
                     <dt>Profile:</dt><dd>{0}</dd>
