@@ -2,7 +2,7 @@
 
 <script runat="server">
 
-    void Application_Start(object sender, EventArgs e) 
+    void Application_Start(object sender, EventArgs e)
     {
         // Mail password set from special setting that is set at the server settings to avoid
         // write it at files (Azure does not make available to set the system.net-smtp settings from dashboard,
@@ -11,7 +11,7 @@
         {
             System.Web.Helpers.WebMail.UserName = ConfigurationManager.AppSettings["smtpUserName"];
             System.Web.Helpers.WebMail.Password = ConfigurationManager.AppSettings["smtpPassword"];
-            System.Web.Helpers.WebMail.From = ConfigurationManager.AppSettings["smtpFrom"];            
+            System.Web.Helpers.WebMail.From = ConfigurationManager.AppSettings["smtpFrom"];
             System.Web.Helpers.WebMail.SmtpServer = ConfigurationManager.AppSettings["smtpHost"];
             System.Web.Helpers.WebMail.SmtpPort = (int)ConfigurationManager.AppSettings["smtpPort"].AsLong();
             System.Web.Helpers.WebMail.EnableSsl = ConfigurationManager.AppSettings["smtpEnableSsl"] == "true";
@@ -27,12 +27,12 @@
             return message;
         };
     }
-    
-    void Application_End(object sender, EventArgs e) 
+
+    void Application_End(object sender, EventArgs e)
     {
     }
 
-    void Application_Error(object sender, EventArgs e) 
+    void Application_Error(object sender, EventArgs e)
     {
         Exception ex = Server.GetLastError();
         // Special cases (each page creates its own log file)
@@ -97,11 +97,11 @@
         }
     }
 
-    void Session_Start(object sender, EventArgs e) 
+    void Session_Start(object sender, EventArgs e)
     {
     }
 
-    void Session_End(object sender, EventArgs e) 
+    void Session_End(object sender, EventArgs e)
     {
         // Código que se ejecuta cuando finaliza una sesión. 
         // Nota: El evento Session_End se desencadena sólo con el modo sessionstate
@@ -128,13 +128,16 @@
             Response.End();
             return;
         }
-        
+
         // Autologin
         LcAuth.RequestAutologin(Request);
     }
     void Application_EndRequest(object sender, EventArgs e)
     {
-        LcData.UserInfo.RegisterLastActivityTime();
+        if (ASP.LcHelpers.Channel != "localdev")
+        {
+            LcData.UserInfo.RegisterLastActivityTime();
+        }
         LcHelpers.CloseDebugLogger();
 
         // IMPORTANT Additional code to make REST pages can
@@ -145,7 +148,7 @@
             var code = Response.Headers["REST-Code"];
             Response.Headers.Remove("REST");
             Response.Headers.Remove("REST-Code");
-            
+
             Response.TrySkipIisCustomErrors = true;
             Response.ClearContent();
             Response.StatusCode = int.Parse(code);
@@ -154,12 +157,12 @@
             Response.Flush();
             Response.End();
         }
-        
+
         /* TESTING
         using (var f = System.IO.File.AppendText(Request.MapPath(LcUrl.RenderAppPath + "EndRequest.log")))
         {
             f.WriteLine("EXECUTION: " + (HttpContext.Current.Handler.GetType()).ToString());
         } */
     }
-       
+
 </script>
