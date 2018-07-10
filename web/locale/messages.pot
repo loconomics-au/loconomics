@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2018-04-24 22:54+10:00\n"
+"POT-Creation-Date: 2018-07-10 21:39+10:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -244,7 +244,7 @@ msgstr ""
 msgid "All services must be selected from the same job title"
 msgstr ""
 
-#: api\v1\me\profile.cshtml:126
+#: api\v1\me\profile.cshtml:174
 msgid "Already a service professional"
 msgstr ""
 
@@ -260,7 +260,7 @@ msgstr ""
 msgid "An email or phone number is required"
 msgstr ""
 
-#: api\v1\Test.cshtml:148
+#: api\v1\Test.cshtml:153
 msgid "An Item ID is required at the URL"
 msgstr ""
 
@@ -284,7 +284,7 @@ msgstr ""
 msgid "Bad stored payment plan"
 msgstr ""
 
-#: api\v1\me\profile.cshtml:156
+#: api\v1\me\profile.cshtml:212
 msgid "Birth Day must be an number (day of the month)"
 msgstr ""
 
@@ -296,7 +296,7 @@ msgstr ""
 msgid "Birth Month must be a number between 1 and 12"
 msgstr ""
 
-#: api\v1\me\profile.cshtml:157
+#: api\v1\me\profile.cshtml:213
 msgid "Birth Month must be an number"
 msgstr ""
 
@@ -388,7 +388,7 @@ msgstr ""
 msgid "Cannot charge booking cancellation fee because there is no payment method."
 msgstr ""
 
-#: api\v1\Test.cshtml:78
+#: api\v1\Test.cshtml:83
 msgid "Cannot POST to an item"
 msgstr ""
 
@@ -456,8 +456,8 @@ msgstr ""
 
 #: _specialRoutes\app.html:4
 #: _specialRoutes\app.html:4
-#: _specialRoutes\app.html:41
-#: _specialRoutes\app.html:1042
+#: _specialRoutes\app.html:52
+#: _specialRoutes\app.html:1057
 msgid "Dashboard"
 msgstr ""
 
@@ -534,7 +534,7 @@ msgstr ""
 msgid "Duration:"
 msgstr ""
 
-#: App_Code\LcAuthHelper.cs:463
+#: App_Code\LcAuthHelper.cs:461
 msgid "E-mail address is already in use."
 msgstr ""
 
@@ -585,11 +585,11 @@ msgstr ""
 msgid "External Listing not found."
 msgstr ""
 
-#: App_Code\LcAuthHelper.cs:394
+#: App_Code\LcAuthHelper.cs:396
 msgid "Facebook account already connected. Sign in."
 msgstr ""
 
-#: App_Code\LcAuthHelper.cs:511
+#: App_Code\LcAuthHelper.cs:510
 msgid "Facebook account does not exists."
 msgstr ""
 
@@ -611,6 +611,10 @@ msgstr ""
 
 #: api\v1\Test.cshtml:38
 msgid "Give me an error"
+msgstr ""
+
+#: api\v1\auth\signup.cshtml:171
+msgid "Given user type is not valid"
 msgstr ""
 
 #: App_Code\LcRessources.cs:12
@@ -704,7 +708,7 @@ msgstr ""
 msgid "Include my profile in search listings preference is required"
 msgstr ""
 
-#: App_Code\LcAuthHelper.cs:590
+#: App_Code\LcAuthHelper.cs:589
 msgid "Incorrect user"
 msgstr ""
 
@@ -725,7 +729,7 @@ msgstr ""
 msgid "Invalid Facebook cookie."
 msgstr ""
 
-#: App_Code\LcAuthHelper.cs:605
+#: App_Code\LcAuthHelper.cs:604
 msgid "Invalid Facebook credentials"
 msgstr ""
 
@@ -858,6 +862,10 @@ msgstr ""
 msgid "Longitude must be a number"
 msgstr ""
 
+#: en-US\EmailCommunications\Admin\ToClient\Welcome.cshtml:37
+msgid "Make life better.<br>Build local economies."
+msgstr ""
+
 #: api\v1\me\privacy-settings.cshtml:83
 msgid "Marketing e-mails about Loconomics Service Providers preference is required"
 msgstr ""
@@ -915,7 +923,7 @@ msgstr ""
 msgid "No Facebook user is authenticated."
 msgstr ""
 
-#: App_Code\LcAuthHelper.cs:289
+#: App_Code\LcAuthHelper.cs:290
 msgid "Not allowed"
 msgstr ""
 
@@ -951,10 +959,11 @@ msgstr ""
 #: api\v1\me\privacy-settings.cshtml:64
 #: api\v1\me\privacy-settings.cshtml:73
 #: api\v1\me\profile-picture.cshtml:182
-#: api\v1\me\profile.cshtml:99
-#: api\v1\me\profile.cshtml:135
-#: api\v1\me\profile.cshtml:141
-#: api\v1\me\profile.cshtml:148
+#: api\v1\me\profile.cshtml:110
+#: api\v1\me\profile.cshtml:162
+#: api\v1\me\profile.cshtml:183
+#: api\v1\me\profile.cshtml:190
+#: api\v1\me\profile.cshtml:204
 #: api\v1\me\scheduling-preferences.cshtml:42
 #: api\v1\me\scheduling-preferences.cshtml:51
 msgid "Not found"
@@ -966,7 +975,7 @@ msgstr ""
 #: App_Code\RestPages\RestUserJobProfile.cs:263
 #: api\v1\auth\change-password.cshtml:48
 #: api\v1\auth\login.cshtml:58
-#: api\v1\auth\signup.cshtml:102
+#: api\v1\auth\signup.cshtml:104
 #: api\v1\me\client-booking.cshtml:111
 #: api\v1\me\client-booking.cshtml:122
 #: api\v1\me\client-booking.cshtml:147
@@ -990,7 +999,7 @@ msgstr ""
 msgid "not recommended"
 msgstr ""
 
-#: api\v1\Test.cshtml:120
+#: api\v1\Test.cshtml:125
 msgid "Num must be a number"
 msgstr ""
 
@@ -1003,12 +1012,28 @@ msgid "Number of occurrences must be a number"
 msgstr ""
 
 #: App_Code\LcRessources.cs:13
-#: api\v1\me\profile.cshtml:131
+#: api\v1\me\profile.cshtml:179
 msgid "OK"
 msgstr ""
 
 #: api\v1\lead-generation\referral.cshtml:207
 msgid "Only registered users can refer professionals"
+msgstr ""
+
+#: api\v1\me\profile.cshtml:139
+msgid "Organization description must contain less than 400 charactres"
+msgstr ""
+
+#: api\v1\me\profile.cshtml:138
+msgid "Organization name must contain between 3 and 200 charactres"
+msgstr ""
+
+#: api\v1\me\profile.cshtml:141
+msgid "Organization website is malformed"
+msgstr ""
+
+#: api\v1\me\profile.cshtml:140
+msgid "Organization website must contain less than 255 charactres"
 msgstr ""
 
 #: App_Code\LcPricing\LcPricing.PackageBasePricingTypeConfigs.cs:51
@@ -1231,7 +1256,7 @@ msgstr ""
 msgid "Services"
 msgstr ""
 
-#: api\v1\Test.cshtml:118
+#: api\v1\Test.cshtml:123
 msgid "Short must be 5 or less"
 msgstr ""
 
@@ -1293,7 +1318,7 @@ msgstr ""
 msgid "That e-mail is not valid"
 msgstr ""
 
-#: api\v1\me\profile.cshtml:155
+#: api\v1\me\profile.cshtml:211
 msgid "The alternative email is not valid."
 msgstr ""
 
@@ -1317,7 +1342,7 @@ msgstr ""
 msgid "The custom URL you've entered is invalid. Remember: just words and dashes, no white space, no slashes"
 msgstr ""
 
-#: App_Code\LcAuthHelper.cs:363
+#: App_Code\LcAuthHelper.cs:365
 #: api\v1\lead-generation\newsletter.cshtml:70
 #: api\v1\lead-generation\referral.cshtml:186
 #: api\v1\lead-generation\referral.cshtml:246
@@ -1332,11 +1357,11 @@ msgstr ""
 msgid "The file is too large, maximum file size is %0"
 msgstr ""
 
-#: App_Code\LcRest\Client.cs:369
+#: App_Code\LcRest\Client.cs:357
 msgid "The given e-mail already exists for other client at loconomics.com and cannot be saved."
 msgstr ""
 
-#: api\v1\Test.cshtml:158
+#: api\v1\Test.cshtml:163
 msgid "The Item ID must be an integer"
 msgstr ""
 
@@ -1471,8 +1496,8 @@ msgstr ""
 
 #: api\v1\users\availability.cshtml:47
 #: api\v1\users\availability.cshtml:66
-#: api\v1\users\index.cshtml:46
-#: api\v1\users\index.cshtml:53
+#: api\v1\users\index.cshtml:49
+#: api\v1\users\index.cshtml:56
 #: api\v1\users\profile.cshtml:35
 #: api\v1\users\profile.cshtml:40
 #: api\v1\users\ratings.cshtml:43
@@ -1492,9 +1517,9 @@ msgstr ""
 msgid "Username"
 msgstr ""
 
-#: api\v1\Test.cshtml:136
-#: api\v1\Test.cshtml:146
-#: api\v1\Test.cshtml:156
+#: api\v1\Test.cshtml:141
+#: api\v1\Test.cshtml:151
+#: api\v1\Test.cshtml:161
 msgid "Validation rules"
 msgstr ""
 
@@ -1506,14 +1531,14 @@ msgstr ""
 msgid "We know you're not psychic (or are you?) and probably need to visit the client and review the work before determining a price. We'll help facilitate."
 msgstr ""
 
-#: App_Code\LcAuthHelper.cs:244
+#: App_Code\LcAuthHelper.cs:245
 msgid ""
 "We see one of our service professionals has already scheduled services for you in the past.\n"
 "        We've just sent an invitation to create your account to %0.\n"
 "        Please follow its instructions. We can't wait to get you on board!"
 msgstr ""
 
-#: App_Code\LcAuthHelper.cs:249
+#: App_Code\LcAuthHelper.cs:250
 msgid ""
 "We see you have subscribed previously to our newsletter or referrenced a service professional.\n"
 "        We've just sent an invitation to create your account to %0.\n"
@@ -1527,6 +1552,14 @@ msgstr ""
 #: api\v1\Test.cshtml:48
 #: api\v1\Test.cshtml:49
 msgid "welcome %1, today is %0"
+msgstr ""
+
+#: en-US\EmailCommunications\Admin\ToClient\Welcome.cshtml:62
+msgid "Welcome in, %0!"
+msgstr ""
+
+#: en-US\EmailCommunications\Admin\ToClient\Welcome.cshtml:24
+msgid "Welcome in, %0)! We&rsquo;re glad you&rsquo;re a part of our ever-growing community."
 msgstr ""
 
 #: App_Code\LcPricing\LcPricing.PackageBasePricingTypeConfigs.cs:202
@@ -1561,15 +1594,15 @@ msgstr ""
 msgid "You can now log-in with your new password"
 msgstr ""
 
-#: App_Code\LcRest\Client.cs:370
+#: App_Code\LcRest\Client.cs:358
 msgid "You can perform a search by that email and add it as your client."
 msgstr ""
 
-#: App_Code\LcRest\UserLicenseCertification.cs:207
+#: App_Code\LcRest\UserLicenseCertification.cs:209
 msgid "You have already registered that license, please try to update it if you want to submit a new file."
 msgstr ""
 
-#: api\v1\Test.cshtml:58
+#: api\v1\Test.cshtml:63
 msgid "You have not positions. Logged?"
 msgstr ""
 
@@ -1581,23 +1614,23 @@ msgstr ""
 msgid "You must complete another %0 steps to activate this profile."
 msgstr ""
 
-#: api\v1\auth\signup.cshtml:170
+#: api\v1\auth\signup.cshtml:183
 msgid "You must denote your birh date."
 msgstr ""
 
-#: api\v1\auth\signup.cshtml:168
+#: api\v1\auth\signup.cshtml:181
 msgid "You must select a field of study."
 msgstr ""
 
-#: api\v1\auth\signup.cshtml:169
+#: api\v1\auth\signup.cshtml:182
 msgid "You must select a gender."
 msgstr ""
 
-#: api\v1\auth\signup.cshtml:163
+#: api\v1\auth\signup.cshtml:176
 msgid "You must select an institution."
 msgstr ""
 
-#: api\v1\auth\signup.cshtml:164
+#: api\v1\auth\signup.cshtml:177
 msgid "You must select user type."
 msgstr ""
 
@@ -1608,7 +1641,7 @@ msgid "You must set your hourly rate"
 msgstr ""
 
 #: App_Code\LcAuthHelper.cs:72
-#: App_Code\LcAuthHelper.cs:381
+#: App_Code\LcAuthHelper.cs:383
 msgid "You must specify a password."
 msgstr ""
 
@@ -1624,19 +1657,19 @@ msgstr ""
 msgid "You must specify a user name."
 msgstr ""
 
-#: App_Code\LcAuthHelper.cs:360
+#: App_Code\LcAuthHelper.cs:362
 msgid "You must specify an email."
 msgstr ""
 
-#: App_Code\LcAuthHelper.cs:402
+#: App_Code\LcAuthHelper.cs:404
 msgid "You must specify your first name."
 msgstr ""
 
-#: App_Code\LcAuthHelper.cs:403
+#: App_Code\LcAuthHelper.cs:405
 msgid "You must specify your last name."
 msgstr ""
 
-#: App_Code\LcAuthHelper.cs:401
+#: App_Code\LcAuthHelper.cs:403
 msgid "You must specify your mobile phone number."
 msgstr ""
 
