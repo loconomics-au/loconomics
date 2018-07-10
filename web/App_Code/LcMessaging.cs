@@ -980,6 +980,7 @@ public class LcMessaging
     {
         try
         {
+            // TODO: make support email config setting
             SendMail("support@loconomics.com", LcHelpers.Channel + ": Exception on " + where + ": " + url,
                 exceptionPageContent);
         }

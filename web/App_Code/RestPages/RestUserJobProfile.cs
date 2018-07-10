@@ -97,7 +97,7 @@ public class RestUserJobProfile : RestWebPage
                                 // be that constraints for 'active profile' were not
                                 // fullfilled to allow manual activation.
                                 // Notify about pending steps:
-                                var alertsMsg = "You must complete another {0} steps to activate this profile.";
+                                var alertsMsg = "[[[You must complete another {0} steps to activate this profile.]]]";
                                 var alerts = LcRest.Alert.GetActiveRequiredCount(userID, jobTitleID);
                                 throw new HttpException(400, String.Format(alertsMsg, alerts));
                             }
@@ -114,7 +114,7 @@ public class RestUserJobProfile : RestWebPage
             }
             else
             {
-                throw new HttpException(400, "Invalid Job Title ID");
+                throw new HttpException(400, "[[[Invalid Job Title ID]]]");
             }
         }
 
