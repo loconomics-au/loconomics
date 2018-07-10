@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.IO;
+using System.Configuration;
 
 namespace LcRest
 {
@@ -35,6 +36,7 @@ namespace LcRest
         public string status; 
         public string statusDescription; 
         public int languageID;
+        private static string supportAltEmail = ConfigurationManager.AppSettings["SupportAltEmail"];
         #endregion
 
         #region Link
@@ -305,7 +307,7 @@ namespace LcRest
             // TODO: i18n
             var msg = "UserID: " + item.userID + " submitted a photo of their License/Certification to being verified and added. It can be found in the FTP an folder: " + virtualPath;
             // TODO create config value
-            var email = "support@loconomics.zendesk.com";
+            var email = supportAltEmail;
             LcMessaging.SendMail(email, "License/Certification Verification Request", msg);
 
             return Set(item);

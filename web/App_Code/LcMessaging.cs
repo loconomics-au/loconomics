@@ -7,12 +7,18 @@ using System.Web.Helpers;
 using ASP;
 using System.Net;
 using System.Web.Caching;
+using System.Configuration;
 
 /// <summary>
 /// Descripción breve de LcMessaging
 /// </summary>
 public class LcMessaging
 {
+    private static string automatedEmail = ConfigurationManager.AppSettings["AutomatedEmail"];
+    private static string accountLockedEmail = ConfigurationManager.AppSettings["AccountLockedEmail"];
+    private static string supportEmail = ConfigurationManager.AppSettings["SupportEmail"];
+    private static string supportAltEmail = ConfigurationManager.AppSettings["SupportAltEmail"];
+    private static string legalEmail = ConfigurationManager.AppSettings["LegalEmail"];
     #region SQLs
     private static readonly string sqlInsThread = @"
         INSERT INTO [MessagingThreads]
@@ -365,6 +371,7 @@ public class LcMessaging
         string fromEmail = "";
         string replyTo = "";
         string subject = "";
+        string automatedEmail = ConfigurationManager.AppSettings["AutomatedEmail"];
         LcEmailTemplate.BookingEmailInfo info;
         JobTitleMessagingFlags flags;
         #endregion
@@ -395,11 +402,11 @@ public class LcMessaging
         }
         protected virtual string getSenderForClient()
         {
-            return info.serviceProfessional.firstName + " " + info.serviceProfessional.lastName + " <automated@loconomics.com>";
+            return string.Format("{0} {1} <{2}>", info.serviceProfessional.firstName, info.serviceProfessional.lastName, automatedEmail);
         }
         protected virtual string getSenderForServiceProfessional()
         {
-            return "Loconomics Scheduler <automated@loconomics.com>";
+            return string.Format("Loconomics Scheduler <{0}>", automatedEmail);
         }
         void sendToClient(string tplName)
         {
@@ -492,6 +499,8 @@ public class LcMessaging
                 prepareData(info);
                 return this;
             }
+
+            // TODO: i18n make string set from service 
             public override void BookingCancelledByClient()
             {
                 var neutralSubject = String.Format("Appointment cancelled by {0}", info.client.firstName);
@@ -578,12 +587,13 @@ public class LcMessaging
             }
             protected override string getSenderForClient()
             {
-                return "Loconomics <automated@loconomics.com>";
+                return string.Format("Loconomics <{0}>", automatedEmail);
             }
             protected override string getSenderForServiceProfessional()
             {
-                return "Loconomics Marketplace <automated@loconomics.com>";
+                return string.Format("Loconomics Marketplace <{0}>", automatedEmail);
             }
+            // TODO: i18n make string set from service 
             public override void BookingCancelledByClient()
             {
                 var neutralSubject = String.Format("Appointment cancelled by {0}", info.client.firstName);
@@ -860,7 +870,7 @@ public class LcMessaging
             ApplyTemplate(LcUrl.LangPath + "EmailCommunications/Admin/ToServiceProfessional/Welcome/",
             new Dictionary<string,object> {
                 { "userID", userID }
-         }), "Loconomics Cooperative <automated@loconomics.com>");
+         }), String.Format("Loconomics Cooperative <{0}>", automatedEmail));
     }
     public static void SendWelcomeCustomer(int userID, string userEmail)
     {
@@ -868,7 +878,7 @@ public class LcMessaging
             ApplyTemplate(LcUrl.LangPath + "EmailCommunications/Admin/ToClient/Welcome/",
             new Dictionary<string, object> {
                 { "userID", userID }
-        }), "Loconomics Cooperative <automated@loconomics.com>");
+        }), String.Format("Loconomics Cooperative <{0}>", automatedEmail));
     }
     public static void SendResetPassword(int userID, string userEmail, string token)
     {
@@ -888,7 +898,7 @@ public class LcMessaging
             ApplyTemplate(LcUrl.LangPath + "EmailCommunications/Admin/ToServiceProfessional/BackgroundCheckRequestReceived/",
             new Dictionary<string, object> {
                 { "UserID", userID }
-        }), "Loconomics Marketplace <automated@loconomics.com>");
+        }), String.Format("Loconomics Marketplace <{0}>", automatedEmail));
     }
     public static void SendOptionalCertificationVerificationRequestReceived(int userID, string userEmail)
     {
@@ -896,7 +906,7 @@ public class LcMessaging
             ApplyTemplate(LcUrl.LangPath + "EmailCommunications/Admin/ToServiceProfessional/OptionalCertificationVerificationRequestReceived/",
             new Dictionary<string, object> {
                 { "UserID", userID }
-        }), "Loconomics Marketplace <automated@loconomics.com>");
+        }), String.Format("Loconomics Marketplace <{0}>"), automatedEmail);
     }
     public static void SendRequiredLicenseVerificationRequestReceived(int userID, string userEmail)
     {
@@ -904,7 +914,7 @@ public class LcMessaging
             ApplyTemplate(LcUrl.LangPath + "EmailCommunications/Admin/ToServiceProfessional/RequiredLicenseVerificationRequestReceived/",
             new Dictionary<string, object> {
                 { "UserID", userID }
-        }), "Loconomics Marketplace <automated@loconomics.com>");
+        }), String.Format("Loconomics Marketplace <{0}>", automatedEmail));
     }
     /// <summary>
     /// Sended when scheduled task indicates service professional has their marketplace profile activated, and they've completed two bookings
@@ -917,7 +927,7 @@ public class LcMessaging
             ApplyTemplate(LcUrl.LangPath + "EmailCommunications/Admin/ToServiceProfessional/OwnerInvitation/",
             new Dictionary<string, object> {
                 { "UserID", userID }
-        }), "Loconomics Marketplace <automated@loconomics.com>");
+        }), String.Format("Loconomics Marketplace <{0}>", automatedEmail));
     }
     /// <summary>
     /// Sended when scheduled task indicates the professional must be reminded to enter its earnings
@@ -930,7 +940,7 @@ public class LcMessaging
             ApplyTemplate(LcUrl.LangPath + "EmailCommunications/Admin/ToServiceProfessional/EarningsEntryReminder/",
             new Dictionary<string, object> {
                 { "UserID", userID }
-        }), "Loconomics Cooperative <automated@loconomics.com>");
+        }), String.Format("Loconomics Cooperative <{0}>", automatedEmail));
     }
     /// <summary>
     /// Sended when a user creates a user posting, and this user seems to match the requirements so we
@@ -970,7 +980,7 @@ public class LcMessaging
     {
         try
         {
-            SendMail("hipaasecurityofficial@loconomics.com", "Account Locked Out",
+            SendMail(accountLockedEmail, "Account Locked Out",
                 String.Format("Attempt to log-in ended in 'Account Lock Out' message for userID:{0}, email:{1} at {2}", lockedUserID, lockedEmail, whenHappened)
             );
         }
@@ -981,7 +991,7 @@ public class LcMessaging
         try
         {
             // TODO: make support email config setting
-            SendMail("support@loconomics.com", LcHelpers.Channel + ": Exception on " + where + ": " + url,
+            SendMail(supportEmail, LcHelpers.Channel + ": Exception on " + where + ": " + url,
                 exceptionPageContent);
         }
         catch { }
@@ -991,7 +1001,7 @@ public class LcMessaging
         try
         {
             var channel = LcHelpers.Channel == "live" ? "" : " at " + LcHelpers.Channel;
-            SendMail("support@loconomics.zendesk.com",
+            SendMail(supportAltEmail,
                 "New job title" + channel + ": " + jobTitleName,
                 "Generated new job title with name '" + jobTitleName + "', assigned ID: " + jobTitleID
             );
@@ -1008,7 +1018,7 @@ public class LcMessaging
             );
 
             var channel = LcHelpers.Channel == "live" ? "" : " at " + LcHelpers.Channel;
-            SendMail("support@loconomics.zendesk.com",
+            SendMail(supportAltEmail,
                 "New service attributes" + channel,
                 msg
             );
@@ -1017,7 +1027,7 @@ public class LcMessaging
     }
     public static void SendMerchantAccountNotification(int providerUserID)
     {
-        SendMail("support@loconomics.com", "Marketplace: Merchant Account Notification",
+        SendMail(supportEmail, "Marketplace: Merchant Account Notification",
             ApplyTemplate(LcUrl.LangPath + "EmailCommunications/Admin/Internal/EmailProviderPaymentAccountNotification/",
             new Dictionary<string, object> {
                 { "userID", providerUserID}
@@ -1025,18 +1035,18 @@ public class LcMessaging
     }
     public static void SendReportUnauthorizedUse(int reportedByUserID, int reportedUserID, string message)
     {
-        SendMail("legal@loconomics.com", "Report of Unauthorized Use",
+        SendMail(legalEmail, "Report of Unauthorized Use",
             ApplyTemplate(LcUrl.LangPath + "EmailCommunications/Admin/Internal/EmailReportUnauthorizedUse/",
             new Dictionary<string, object> {
                 { "ReportedByUserID", reportedByUserID },
                 { "ReportedUserID", reportedUserID },
                 { "Message", message },
-                { "EmailTo", "legal@loconomics.com" }
+                { "EmailTo", legalEmail }
          }));
     }
     public static void SendBackgroundCheckRequest(int userID, int backgroundCheckID)
     {
-        SendMail("support@loconomics.com", "Background Check Request",
+        SendMail(supportEmail, "Background Check Request",
             ApplyTemplate(LcUrl.LangPath + "EmailCommunications/Admin/Internal/EmailBackgroundCheckRequest/",
             new Dictionary<string, object> {
                 { "userID", userID },
@@ -1045,7 +1055,7 @@ public class LcMessaging
     }
     public static void SendLicenseVerificationRequest(int userID, int jobTitleID, int licenseCertificationID)
     {
-        SendMail("support@loconomics.com", "License Verification Request",
+        SendMail(supportEmail, "License Verification Request",
             ApplyTemplate(LcUrl.LangPath + "EmailCommunications/Admin/Internal/EmailLicenseVerificationRequest/",
             new Dictionary<string, object> {
                 { "userID", userID },

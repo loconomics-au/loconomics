@@ -16,6 +16,7 @@ using WebMatrix.Data;
 using WebMatrix.Security;
 using WebMatrix.WebData;
 using System.Web.Security;
+using System.Configuration;
 
 public static class LcAuthHelper
 {
@@ -206,6 +207,7 @@ public static class LcAuthHelper
     #region Signup
     const int COUNTRY_CODE_USA = 1;
     const string SERVICE_PROFESSIONAL_TYPE = "SERVICE-PROFESSIONAL";
+    private static string signupMessageEmail = ConfigurationManager.AppSettings["SignupMessageEmail"];
 
     /// <summary>
     /// Sets the OnboardingStep of the user to 'welcome', so can start the onboarding process
@@ -241,13 +243,13 @@ public static class LcAuthHelper
     }
     const string UserIsServiceProfessionalClientMessage = @"
         [[[We see one of our service professionals has already scheduled services for you in the past.
-        We've just sent an invitation to create your account to {0}.
-        Please follow its instructions. We can't wait to get you on board!]]]
+        We've just sent an invitation to create your account to %0.
+        Please follow its instructions. We can't wait to get you on board!|||{0}]]]
     ";
     const string UserIsSubscriberMessage = @"
         [[[We see you have subscribed previously to our newsletter or referrenced a service professional.
-        We've just sent an invitation to create your account to {0}.
-        Please follow its instructions. We can't wait to get you on board!]]]
+        We've just sent an invitation to create your account to %0.
+        Please follow its instructions. We can't wait to get you on board!|||{0}]]]
     ";
     /// <summary>
     /// Convert a user record with 'Not Enabled Account' into a standard enabled account. See IsUserButNotEnabledAccount
@@ -479,9 +481,9 @@ public static class LcAuthHelper
 
                     StartOnboardingForUser(userID);
                 }
-
+                
                 // SIGNUP
-                LcMessaging.SendMail("joshua.danielson@loconomics.com", "Sign-up", String.Format(@"
+                LcMessaging.SendMail(signupMessageEmail, "Sign-up", String.Format(@"
                     <html><body><h3>Sign-up.</h3>
                     <strong>This user was already in the database, is re-registering itself again!</strong><br/>
                     <dl>
@@ -528,7 +530,7 @@ public static class LcAuthHelper
                 LcAuth.SendRegisterUserEmail(registered);
 
                 // SIGNUP
-                LcMessaging.SendMail("joshua.danielson@loconomics.com", "Sign-up", String.Format(@"
+                LcMessaging.SendMail(signupMessageEmail, "Sign-up", String.Format(@"
                     <html><body><h3>Sign-up.</h3>
                     <dl>
                     <dt>Profile:</dt><dd>{0}</dd>
