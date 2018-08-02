@@ -294,6 +294,8 @@ namespace LcRest
             // Fees:
             var summary = new PricingSummary();
             booking.pricingSummary = summary;
+            // empty details
+            booking.pricingSummary.details = new List<PricingSummaryDetail>();
             var flags = LcMessaging.SendBooking.JobTitleMessagingFlags.Get(jobTitleID, langID, countryID);
 
             var type = BookingType.Get(booking.bookingTypeID);
@@ -1927,6 +1929,7 @@ namespace LcRest
             using (var db = new LcDatabase())
             {
                 db.Execute("BEGIN TRANSACTION");
+
                 try
                 {
                     // Persists changes in the pricing (cancellation fees and new totals) generating
@@ -1941,7 +1944,7 @@ namespace LcRest
                 catch (Exception ex)
                 {
                     LcMessaging.NotifyError("Booking payment was refunded and/or cancellation fee applied, but database couldn't get updated", "", "");
-                    throw ex;
+                    throw new Exception("Booking.RefundPayment failed", ex);
                 }
             }
         }
@@ -2333,7 +2336,7 @@ namespace LcRest
         /// An address may not be required, and then serviceAddressID being set to null, if the service(s) is phone-only.
         /// 
         /// Must be executed after proper booking initialization/load. That includes to use 'CreatePricing' or
-        /// 'pricingSummary.SetDetailServices', that sets properly the flag 'booking.pricingSummary.isPhoneServiceOnly'.
+        /// 'pricingSummary.SetDetailServices', that sets properly the flag 'booking.pricingSummary.isRemoteService'.
         /// Throws ConstraintException if ownership of the addressID fails for the booking.
         /// </summary>
         /// <param name="serviceAddress"></param>
@@ -2341,7 +2344,7 @@ namespace LcRest
         /// <param name="db"></param>
         private static void ProcessAddressForServiceProfessionalBooking(Address serviceAddress, Booking booking, LcDatabase db)
         {
-            if (booking.pricingSummary.isPhoneServiceOnly)
+            if (booking.pricingSummary.isRemoteService)
             {
                 booking.serviceAddressID = null;
             }
@@ -2724,7 +2727,7 @@ namespace LcRest
                 booking.pricingSummaryRevision = booking.pricingSummary.pricingSummaryRevision;
 
                 // 4º: Validate addressID or save the new one provided
-                if (booking.pricingSummary.isPhoneServiceOnly)
+                if (booking.pricingSummary.isRemoteService)
                 {
                     booking.serviceAddressID = null;
                 }
@@ -2956,7 +2959,7 @@ namespace LcRest
 
                 // 4º: Validate addressID or update the existent, service-specific, one
                 booking.FillServiceAddress();
-                if (booking.pricingSummary.isPhoneServiceOnly)
+                if (booking.pricingSummary.isRemoteService)
                 {
                     booking.serviceAddressID = null;
                 }
