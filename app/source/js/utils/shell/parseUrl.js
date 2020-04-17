@@ -28,6 +28,7 @@ function parseUrl(baseUrl, link) {
 
     // Remove the baseUrl to get the app base.
     baseUrl = baseUrl.replace(/^\//, '');
+    baseUrl = baseUrl.replace(/\/$/, '');
     var path = link.replace(new RegExp('^' + escapeRegExp(baseUrl), 'i'), '');
 
     // Get first segment or page name (anything until a slash or extension beggining)
