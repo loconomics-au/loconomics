@@ -13,11 +13,13 @@
 **/
 /*global google*/
 var loader = require('./loader');
+var $ = require('jquery');
 
 // Private static collection of callbacks registered
 var stack = [];
 
 var googleMapReady = module.exports = function googleMapReady(ready) {
+    var apiKey = $('html').data('googlemaps-apikey');
     stack.push(ready);
 
     if (googleMapReady.isReady)
@@ -28,8 +30,8 @@ var googleMapReady = module.exports = function googleMapReady(ready) {
             scripts: ['https://www.google.com/jsapi'],
             completeVerification: function () { return !!window.google; },
             complete: function () {
-                google.load('maps', '3.26',
-                    { other_params: 'libraries=places', callback: function () {
+                google.load('maps', '3.40',
+                    { other_params: 'libraries=places&key=' + apiKey, callback: function () {
                         googleMapReady.isReady = true;
                         googleMapReady.isLoading = false;
 

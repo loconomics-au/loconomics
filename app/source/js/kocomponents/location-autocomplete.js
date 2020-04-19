@@ -40,7 +40,7 @@ function ViewModel(params) {
                 autocomplete.getPlacePredictions({
                     input: newValue,
                     componentRestrictions: {
-                        country: 'US'
+                        country: 'AU'
                     }
                 }, function(results) {
                     self.suggestions(results);

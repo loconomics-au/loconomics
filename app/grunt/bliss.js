@@ -13,6 +13,8 @@ module.exports = function(grunt) {
     const facebookAppID = '180579422039773';
     const facebookLang = 'en-US';
 
+    const googleMapsApiKey = "AIzaSyDh0PfCGxGV-5OE13OV59bAMBbLdMKKz5Q";
+
     var moment = require('moment');
     var version = moment().format('YYYYMMDDHHmm');
     var pkg = grunt.file.readJSON('package.json');
@@ -33,6 +35,7 @@ module.exports = function(grunt) {
                 cordovajs: false,
                 facebookAppID: facebookAppID,
                 facebookLang: facebookLang,
+                googleMapsApiKey: googleMapsApiKey,
                 cssVersion: version,
                 jsVersion: version,
                 appVersion: '<%= package.version %>',
@@ -53,6 +56,7 @@ module.exports = function(grunt) {
                 siteUrl: 'https://dev.loconomics.com',
                 facebookAppID: facebookAppID,
                 facebookLang: facebookLang,
+                googleMapsApiKey: googleMapsApiKey,
                 appVersion: '<%= package.version %>',
                 appId: '<%= package.devAppId %>',
                 appName: '<%= package.devAppName %>'
@@ -71,6 +75,7 @@ module.exports = function(grunt) {
                 siteUrl: 'https://loconomics.com',
                 facebookAppID: facebookAppID,
                 facebookLang: facebookLang,
+                googleMapsApiKey: googleMapsApiKey,
                 appVersion: '<%= package.version %>',
                 appId: '<%= package.appId %>',
                 appName: '<%= package.appName %>'
@@ -89,6 +94,7 @@ module.exports = function(grunt) {
                 siteUrl: 'https://dev.loconomics.com',
                 facebookAppID: facebookAppID,
                 facebookLang: facebookLang,
+                googleMapsApiKey: googleMapsApiKey,
                 appVersion: '<%= package.version %>',
                 appId: '<%= package.devAppId %>',
                 appName: '<%= package.devAppName %>'
@@ -125,7 +131,8 @@ module.exports = function(grunt) {
                     },
                     facebookAppID: facebookAppID,
                     facebookLang: facebookLang,
-                    facebookAppName: '<%= package.appName %>'
+                    facebookAppName: '<%= package.appName %>',
+                    googleMapsApiKey: googleMapsApiKey,
                 }
             }
         },
@@ -147,7 +154,8 @@ module.exports = function(grunt) {
                     },
                     facebookAppID: facebookAppID,
                     facebookLang: facebookLang,
-                    facebookAppName: '<%= package.appName %>'
+                    facebookAppName: '<%= package.appName %>',
+                    googleMapsApiKey: googleMapsApiKey,
                 }
             }
         }
@@ -170,6 +178,7 @@ module.exports = function(grunt) {
             context: {
                 facebookAppID: facebookAppID,
                 facebookLang: facebookLang,
+                googleMapsApiKey: googleMapsApiKey,
                 includedFiles: landingPageTemplatesFiles,
                 dotVersion: '',
                 cordovajs: false,
@@ -183,6 +192,7 @@ module.exports = function(grunt) {
             context: {
                 facebookAppID: facebookAppID,
                 facebookLang: facebookLang,
+                googleMapsApiKey: googleMapsApiKey,
                 dotVersion: '.min.' + version,
                 includedFiles: landingPageTemplatesFiles,
                 cordovajs: false,

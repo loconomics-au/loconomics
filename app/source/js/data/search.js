@@ -14,10 +14,10 @@ var remote = require('./drivers/restClient');
  * @member {string} city
  */
 exports.DEFAULT_LOCATION = {
-    lat: '37.788479',
-    lng: '-122.40297199999998',
+    lat: '-37.722757',
+    lng: '145.016648',
     searchDistance: 30,
-    city: 'San Francisco, CA USA'
+    city: 'Darebin, VIC Australia'
 };
 
 /**

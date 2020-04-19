@@ -359,7 +359,7 @@ exports.registerAll = function(app) {
 
                 googleMapReady(function(google) {
                     // Avoid put the map in the limits (array with top-left lat-lng, bottom-right lat-lng):
-                    var mapLimits = [ 70, -168, 14, -63 ]; // USA limits
+                    var mapLimits = [ -10, 113, -44, 154 ]; // Australia limits
                     if (v.lat > mapLimits[0]) v.lat = mapLimits[0];
                     else if (v.lat < mapLimits[2]) v.lat = mapLimits[0];
                     if (v.lng < mapLimits[1]) v.lng = mapLimits[1];
