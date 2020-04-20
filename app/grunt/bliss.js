@@ -10,8 +10,8 @@ module.exports = function(grunt) {
         filter: grunt.file.isFile
     }, includedPatterns);
 
-    const facebookAppID = '180579422039773';
-    const facebookLang = 'en-US';
+    const facebookAppID = '273905020314811';
+    const facebookLang = 'en-AU';
 
     const googleMapsApiKey = "AIzaSyDh0PfCGxGV-5OE13OV59bAMBbLdMKKz5Q";
 
