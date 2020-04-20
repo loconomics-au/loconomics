@@ -108,7 +108,7 @@ function User(values) {
         return (this.userType() & type);
     }.bind(this);
 
-    this.isUSUser = ko.pureComputed(function() {
+    this.isDefaultRegion = ko.pureComputed(function() {
         return this.countryID() == AU_COUNTRY_ID;
     }, this);
 }

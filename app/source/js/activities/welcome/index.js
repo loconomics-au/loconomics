@@ -52,7 +52,7 @@ export default class WelcomeActivity extends Activity {
         this.startClientOnboarding = () => {
             onboarding.goNext();
         };
-        this.isUSUser = user.isUSUser;
+        this.isUserDefaultRegion = user.isDefaultRegion;
     }
 
     show(state) {
@@ -65,7 +65,7 @@ export default class WelcomeActivity extends Activity {
         // we are displaying a notice of non-availability while skipping onboarding
         // steps; to prevent they get trapped in onboarding forever #722, we should
         // immediately finish it.
-        if (!user.isUSUser()) {
+        if (!user.isDefaultRegion()) {
             onboarding.finish();
             userProfile.saveOnboardingStep(onboarding.stepName());
         }
