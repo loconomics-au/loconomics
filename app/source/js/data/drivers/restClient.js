@@ -5,7 +5,7 @@
  */
 'use strict';
 
-var API_BASE_URL = '/api/v1/en-US/';
+var API_BASE_URL = '/api/v1/en-AU/';
 var Rest = require('../../utils/Rest');
 var presets = require('../appPresets');
 var session = require('../session');
