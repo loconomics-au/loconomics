@@ -7,8 +7,7 @@
 'use strict';
 
 var countries = [
-        [1, 'United States'],
-        [2, 'Spain'],
+        [15, 'Australia'],
         [3, 'Afghanistan'],
         [4, 'Albania'],
         [5, 'Algeria'],
@@ -21,7 +20,6 @@ var countries = [
         [12, 'Argentina'],
         [13, 'Armenia'],
         [14, 'Aruba'],
-        [15, 'Australia'],
         [16, 'Austria'],
         [17, 'Azerbaijan'],
         [18, 'Bahamas'],
@@ -207,6 +205,7 @@ var countries = [
         [198, 'Somalia'],
         [199, 'South Africa'],
         [200, 'South Georgia'],
+        [2, 'Spain'],
         [201, 'Sri Lanka'],
         [202, 'Sudan'],
         [203, 'Suriname'],
@@ -233,6 +232,7 @@ var countries = [
         [224, 'Ukraine'],
         [225, 'United Arab Emirates'],
         [226, 'United Kingdom'],
+        [1, 'United States'],
         [227, 'US Minor Outlying Islands'],
         [228, 'Uruguay'],
         [229, 'Uzbekistan'],
@@ -247,7 +247,7 @@ var countries = [
         [238, 'Zambia'],
         [239, 'Zimbabwe']
     ];
-var unitedStates = countries[0];
+var australia = countries[0];
 
 var option = function(country) {
     return { 'id': country[0], 'name': country[1] };
@@ -257,6 +257,6 @@ var countriesOptions = function() {
     return countries.map(option);
 };
 
-countriesOptions.unitedStates = option(unitedStates);
+countriesOptions.default = option(australia);
 
 module.exports = countriesOptions;

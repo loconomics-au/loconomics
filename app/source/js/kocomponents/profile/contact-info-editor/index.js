@@ -133,7 +133,7 @@ export default class ProfileContactInfoEditor extends Komponent {
          * @member {KnockoutComputed<boolean>}
          */
         this.isPhoneValid = ko.pureComputed(() => {
-            var isUSA = this.data.countryID() === countriesOptions.unitedStates.id;
+            var isUSA = this.data.countryID() === countriesOptions.default.id;
             var phoneRegex = isUSA ? phoneValidationRegex.NORTH_AMERICA_PATTERN : phoneValidationRegex.GENERAL_VALID_CHARS;
             return phoneRegex.test(this.data.phone());
         });

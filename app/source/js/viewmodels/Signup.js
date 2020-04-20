@@ -86,7 +86,7 @@ function SignupVM() {
     this.confirmationCode = ko.observable(null);
     this.countriesOptions = countriesOptions();
     this.country = new Field();
-    this.country(countriesOptions.unitedStates);
+    this.country(countriesOptions.default);
 
     this.facebookUserID = ko.observable();
     this.facebookAccessToken = ko.observable();
@@ -119,7 +119,7 @@ function SignupVM() {
     }, this);
 
     this.isPhoneValid = ko.pureComputed(function() {
-        var isUSA = this.country() === countriesOptions.unitedStates;
+        var isUSA = this.country() === countriesOptions.default;
         var phoneRegex = isUSA ? phoneValidationRegex.NORTH_AMERICA_PATTERN : phoneValidationRegex.GENERAL_VALID_CHARS;
         return phoneRegex.test(this.phone());
     }, this);
@@ -207,7 +207,7 @@ function SignupVM() {
         this.firstName('');
         this.lastName('');
         this.phone('');
-        this.country(countriesOptions.unitedStates);
+        this.country(countriesOptions.default);
         this.facebookUserID('');
         this.facebookAccessToken('');
         this.email('');

@@ -6,7 +6,7 @@ import Model from './Model';
 import UserType from '../enums/UserType';
 import ko from 'knockout';
 
-var US_COUNTRY_ID = 1;
+var AU_COUNTRY_ID = 15; // Australia
 
 function User(values) {
 
@@ -109,7 +109,7 @@ function User(values) {
     }.bind(this);
 
     this.isUSUser = ko.pureComputed(function() {
-        return this.countryID() == US_COUNTRY_ID;
+        return this.countryID() == AU_COUNTRY_ID;
     }, this);
 }
 
