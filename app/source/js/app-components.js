@@ -170,7 +170,7 @@ exports.registerAll = function(app) {
 
             ko.computed(function() {
                 var link = this.helpLink();
-                if (link) {
+                if (link && help.useHelp()) { 
                     var type;
                     Object.keys(types).some(function(t) {
                         if (link.indexOf(t) > -1) {

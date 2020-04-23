@@ -128,6 +128,7 @@ var ko = require('knockout');
 
 function ViewModel() {
     this.isInOnboarding = onboarding.inProgress;
+    this.useHelp = help.useHelp;
     this.articles = ko.observableArray([]);
     this.searchText = ko.observable('');
     this.isLoading = ko.observable(false);

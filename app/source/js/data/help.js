@@ -210,3 +210,8 @@ exports.getSectionsByCategory = function(categoryID) {
         });
     });
 };
+
+exports.useHelp = function() {
+    // disable help (zendesk not currently available)
+    return false;
+};
