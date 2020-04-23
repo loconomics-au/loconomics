@@ -13,6 +13,7 @@ var $ = require('jquery');
 var NavBar = require('./viewmodels/NavBar');
 var NavAction = require('./viewmodels/NavAction');
 var user = require('./data/userProfile').data;
+var help = require('./data/help');
 
 // Components in use by the AppNav template
 require('./kocomponents/smart-nav-bar-action');
@@ -230,7 +231,8 @@ exports.extend = function (app) {
         isApp: ko.observable(!!window.cordova),
         isInOnboarding: ko.observable(false),
         isAtCurrentOnboardingStep: ko.observable(false),
-        active: ko.observable('')
+        active: ko.observable(''),
+        useHelp: help.useHelp
     };
 
     var onboarding = require('./data/onboarding');
