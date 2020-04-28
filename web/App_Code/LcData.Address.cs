@@ -6,6 +6,7 @@ using WebMatrix.Data;
 using WebMatrix.WebData;
 using System.Web.WebPages;
 using System.Net;
+using System.Configuration;
 
 public static partial class LcData
 {
@@ -42,6 +43,7 @@ public static partial class LcData
                 SpecialInstructions = (string)dbdata["SpecialInstructions"];
             if (dbdata.Columns.Contains("CountryID"))
                 CountryID = (int)(dbdata["CountryID"] ?? 1);
+
         }
 
         public string Name;
@@ -50,6 +52,7 @@ public static partial class LcData
         public string City;
         public int StateProvinceID;
         private string stateProvinceCode;
+
         public string StateProvinceCode
         {
             get
@@ -118,7 +121,8 @@ public static partial class LcData
         {
             try
             {
-                string url = "http://maps.googleapis.com/maps/api/geocode/json?sensor=true&address=";
+                string googleMapsPrivateKey = ConfigurationManager.AppSettings["googleMapsPrivateKey"];
+                string url = String.Format("https://maps.googleapis.com/maps/api/geocode/json?key={0}&sensor=true&address=", googleMapsPrivateKey);
                 var uri = new Uri(url + Uri.EscapeDataString(address));
 
                 using (WebClient wc = new WebClient())
