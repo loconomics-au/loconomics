@@ -57,12 +57,25 @@ public static class LcUrl
             // We need this only when executed out of the loconomics.com domain, as in local ('dev' channel) or
             // in hosting using the hosting cannonical urls (as in winhost: http://loconomi.w03.wh-2.com, this is
             // important for ScheduledTask execution and the restricted scheduled tasks configuration of winhost)
-            if (!context.Request.Url.Authority.Contains("loconomics.com"))
+            if (!context.Request.Url.Authority.Contains("loconomics.com.au"))
+            {
                 url = context.Request.ApplicationPath;
+            }
+
+            if(context.Request.Url.Authority.Contains("localdev.loconomics.com.au"))
+            {
+                url = context.Request.ApplicationPath;
+            }
+                
             if (url.EndsWith("/"))
+            {
                 return url;
+            }                
             else
+            {
                 return url + "/";
+            }
+                
         }
     }
     /// <summary>
