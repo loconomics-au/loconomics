@@ -652,7 +652,8 @@ namespace LcRest
         /// </summary>
         static readonly List<int> countryIdsWithPostalCodeValidation = new List<int>
         {
-            1 // US
+            1, // US
+            15 // Australia
         };
         /// <summary>
         /// For an address with the Country (code or ID) and Postal Code information,
@@ -684,7 +685,7 @@ namespace LcRest
                     address.countryCode = LcRest.Locale.GetCountryCodeByID(address.countryID);
             }
 
-            // IMPORTANT: For now, only validate Postal Code for US since we only have that list complete, on the other
+            // IMPORTANT: For now, only validate Postal Code for US and Australia since we only have that list complete, on the other
             // cases we set some values to empty when null to avoid database not-null constraint errors.
             if (countryIdsWithPostalCodeValidation.Contains(address.countryID))
             {

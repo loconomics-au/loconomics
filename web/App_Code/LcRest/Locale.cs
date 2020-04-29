@@ -36,6 +36,8 @@ namespace LcRest
                     return "US";
                 case 2:
                     return "ES";
+                case 15:
+                    return "AU";
                 default:
                     // US by default
                     return "US";
@@ -55,6 +57,8 @@ namespace LcRest
                     return 1;
                 case "ES":
                     return 2;
+                case "AU":
+                    return 15;
                 default:
                     // US by default
                     return 1;
