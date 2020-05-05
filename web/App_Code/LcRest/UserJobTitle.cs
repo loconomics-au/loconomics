@@ -175,7 +175,7 @@ namespace LcRest
         /// <param name="jobTitleID"></param>
         public static UserJobTitle GetItem(int userID, int jobTitleID)
         {
-            return GetItem(userID, LcData.GetCurrentCountryID(), LcData.GetCurrentLanguageID(), jobTitleID, true, false);
+            return GetItem(userID, LcData.GetCurrentLanguageID(), LcData.GetCurrentCountryID(), jobTitleID, true, false);
         }
 
         /// <summary>
