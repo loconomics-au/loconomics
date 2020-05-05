@@ -12,7 +12,6 @@ namespace LcRest
     {
         #region Fields
         public int pricingTypeID;
-        public int clientTypeID;
         public DateTime updatedDate;
         #endregion
 
@@ -23,7 +22,6 @@ namespace LcRest
             return new JobTitlePricingType
             {
                 pricingTypeID = record.pricingTypeID,
-                clientTypeID = record.clientTypeID,
                 updatedDate = record.updatedDate
             };
         }
@@ -34,7 +32,6 @@ namespace LcRest
         const string sqlGetList = @"
             SELECT
                 PricingTypeID As pricingTypeID,
-                ClientTypeID As clientTypeID,
                 UpdatedDate As updatedDate
             FROM
                 positionpricingtype
