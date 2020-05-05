@@ -311,7 +311,7 @@ export default class AddressEditorActivity extends Activity {
                     this.address().isServiceLocation(false);
                     this.title('Add an area where you work');
                     this.titleIcon('ion-pinpoint');
-                    this.formInstructions("Enter a zip code and a distance from that zip code to create an area where you are willing to go to a client's home or business to perform your ");
+                    this.formInstructions("Enter a postcode and a distance from that postcode to create an area where you are willing to go to a client's home or business to perform your ");
                     break;
                 case 'serviceLocation':
                     this.address().isServiceArea(false);
