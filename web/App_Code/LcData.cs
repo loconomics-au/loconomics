@@ -264,6 +264,8 @@ public static partial class LcData
                 return 1;
             case "ES":
                 return 2;
+            case "AU":
+                return 15;
             default:
                 // USA as default
                 return 1;

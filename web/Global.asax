@@ -117,7 +117,7 @@
         // database preferences.
         System.Threading.Thread.CurrentThread.CurrentCulture =
         System.Threading.Thread.CurrentThread.CurrentUICulture =
-        System.Globalization.CultureInfo.CreateSpecificCulture("en-US");
+        System.Globalization.CultureInfo.CreateSpecificCulture("en-AU");
 
         // REST OPTIONS preflight request. Be fast and response OK
         // Asp.net will always includes the custom headers from web.config
