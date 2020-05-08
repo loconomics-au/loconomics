@@ -3,6 +3,7 @@
 .DS_Store
 packages/
 _logs/*
+!.gitkeep
 node_modules
 node_modules/*
 _specialRoutes/app.html
