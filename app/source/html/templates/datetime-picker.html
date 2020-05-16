@@ -2,7 +2,7 @@
 <script type="text/html" id="datetime-picker-template">
     <div class="calendar-placeholder Box-sm" data-date="today"></div>
     <div>
-        <h2 class="SectionTitle" data-bind="text: selectedDate, format: { type: 'datetime', format: 'dddd (M/D)' }"></h2>
+        <h2 class="SectionTitle" data-bind="text: selectedDate, format: { type: 'datetime', format: 'dddd (D/M)' }"></h2>
         <div data-bind="css: { 'is-loading': isLoading }">
             <app-loading-spinner params="mod: 'floating bigger'"></app-loading-spinner>
         </div>

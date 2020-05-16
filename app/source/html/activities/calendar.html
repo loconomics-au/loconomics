@@ -17,11 +17,11 @@
                             so ensuring no one does it (consistency) and using the same date-text in the sr-only label -->
                         <span aria-hidden="true">
                             <time aria-hidden="true" data-bind="attr: { datetime: currentDate },
-                                text: currentDate, format: { type: 'datetime', format: 'dddd (M/D)' }"></time>
+                                text: currentDate, format: { type: 'datetime', format: 'dddd (D/M)' }"></time>
                             <span class="caret" aria-hidden="true"></span>
                         </span>
                         <span class="sr-only">
-                            <span data-bind="text: currentDate, format: { type: 'datetime', format: 'dddd (M/D)' }"></span>
+                            <span data-bind="text: currentDate, format: { type: 'datetime', format: 'dddd (D/M)' }"></span>
                             - Press to change date
                         </span>
                     </button>
