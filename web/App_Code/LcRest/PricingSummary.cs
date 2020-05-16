@@ -171,12 +171,12 @@ namespace LcRest
             -- Getting the ID and Revision
             IF @id = 0 BEGIN
                 -- new id
-                SELECT @id = MAX(PricingSummaryID) + 1 FROM PricingSummary WITH (UPDLOCK, HOLDLOCK)
+                SELECT @id = ISNULL(MAX(PricingSummaryID), 0) + 1 FROM PricingSummary WITH (UPDLOCK, HOLDLOCK)
                 -- first revision
                 SET @revision = 1
             END ELSE BEGIN
                 -- use updated id and get new revision
-                SELECT @revision = MAX(PricingSummaryRevision) + 1 FROM PricingSummary WITH (UPDLOCK, HOLDLOCK)
+                SELECT @revision = ISNULL(MAX(PricingSummaryRevision), 0) + 1 FROM PricingSummary WITH (UPDLOCK, HOLDLOCK)
                 WHERE PricingSummaryID = @id
             END
 
