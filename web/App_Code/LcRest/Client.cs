@@ -255,11 +255,13 @@ namespace LcRest
                            -- Full name
                            @1 is not null AND (dbo.fx_concat(dbo.fx_concat(coalesce(uc.FirstName, ''), coalesce(uc.LastName, ''), ' '), coalesce(uc.SecondLastName, ''), ' ')) like @1
                             OR
-                           -- email
-                           @2 is not null AND up.Email like @2
-                            OR
-                           -- Phone
-                           @3 is not null AND uc.MobilePhone like @3
+                            (
+                               -- email
+                               @2 is not null AND up.Email like @2
+                                AND
+                               -- Phone
+                               @3 is not null AND uc.MobilePhone like @3
+                            )
                          )
                 ",
                     excludedServiceProfessionalUserID,
