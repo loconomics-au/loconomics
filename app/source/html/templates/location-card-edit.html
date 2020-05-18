@@ -12,7 +12,7 @@
             <div class="Card-description">
                 <hr>
                 <p data-bind="visible: !isServiceArea()"><span data-bind="text: singleLine"></span></p>
-                <p data-bind="visible: isServiceArea">Within <span data-bind="text: serviceRadius"></span> miles of <span data-bind="text: cityStateLine"></span></p>
+                <p data-bind="visible: isServiceArea">Within <span data-bind="text: serviceRadius"></span> km of <span data-bind="text: cityStateLine"></span></p>
                 <app-address-map data-bind="visible: latitude() && longitude()"
                 params="label: 'Interactive map to ' + singleLine(), lat: latitude, lng: longitude,
                 isServiceLocation: isServiceLocation, radius: serviceRadius"></app-address-map>
