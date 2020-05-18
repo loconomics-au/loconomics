@@ -199,15 +199,15 @@ export default class AddressEditorActivity extends Activity {
             control assigning a string to the value).
         **/
         this.serviceRadiusOptions = ko.observableArray([
-            { value: 0.5, label: '0.5 miles' },
-            { value: 1.0, label: '1 mile' },
-            { value: 2.0, label: '2 miles' },
-            { value: 3.0, label: '3 miles' },
-            { value: 4.0, label: '4 miles' },
-            { value: 5.0, label: '5 miles' },
-            { value: 10, label: '10 miles' },
-            { value: 25, label: '25 miles' },
-            { value: 50, label: '50 miles' },
+            { value: 0.5, label: '0.5 km' },
+            { value: 1.0, label: '1 km' },
+            { value: 2.0, label: '2 km' },
+            { value: 3.0, label: '3 km' },
+            { value: 4.0, label: '4 km' },
+            { value: 5.0, label: '5 km' },
+            { value: 10, label: '10 km' },
+            { value: 25, label: '25 km' },
+            { value: 50, label: '50 km' },
             { value: 5000, label: 'I work remotely' },
         ]);
 
