@@ -3,27 +3,32 @@
 var i18n = {};
 i18n.distanceUnits = {
     'ES': 'km',
-    'US': 'miles'
+    'US': 'miles',
+    'AU': 'km'
 };
 i18n.numericMilesSeparator = {
     'es-ES': '.',
     'es-US': '.',
     'en-US': ',',
-    'en-ES': ','
+    'en-ES': ',',
+    'en-AU': ','
 };
 i18n.numericDecimalSeparator = {
     'es-ES': ',',
     'es-US': ',',
     'en-US': '.',
-    'en-ES': '.'
+    'en-ES': '.',
+    'en-AU': '.'
 };
 i18n.moneySymbolPrefix = {
     'ES': '',
-    'US': '$'
+    'US': '$',
+    'AU': '$'
 };
 i18n.moneySymbolSufix = {
     'ES': '€',
-    'US': ''
+    'US': '',
+    'AU': ''
 };
 i18n.getCurrentCulture = function getCurrentCulture() {
     var c = document.documentElement.getAttribute('data-culture');
