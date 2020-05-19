@@ -24,7 +24,7 @@
             <input id="streetAddress" type="text" class="form-control" required data-bind="value: streetAddress, disable: $parent.isLocked">
         </div>               
         <div class="form-group" data-bind="css: { 'has-error': $parent.postalCodeErrorMessage() }">
-            <label for="postalCode">Zip code</label>
+            <label for="postalCode">Postcode</label>
             <input id="postalCode" type="number" min="0" class="form-control" required data-bind="textInput: postalCode, event: { blur: $parent.postalCodeVM.onBlur }, disable: $parent.isLocked,
                         popover: { content: $parent.postalCodeErrorMessage(), trigger: 'focus', container: 'body', placement: 'bottom' }">
         </div>
