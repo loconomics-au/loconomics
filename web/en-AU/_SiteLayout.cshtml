@@ -1,0 +1,36 @@
+﻿@using WebMatrix.Data;
+@using WebMatrix.WebData;
+@{
+    Response.ContentEncoding = System.Text.Encoding.UTF8;
+    var abbrLangCode = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    var culture = System.Globalization.CultureInfo.CurrentUICulture.Name;
+}
+<!doctype html>
+    <html class="no-js" lang="@abbrLangCode" data-culture="@culture" data-base-url="@LcUrl.AppPath" data-fb-appid="@Facebook.AppId">
+    <head>
+        <meta charset="utf-8"/>
+        <title>Loconomics - @Page.Title</title>
+        <meta name="description" content="Find service providers to do the job right. At your service!"/>
+        <meta name="author" content="Loconomics Inc."/>
+        <meta name="viewport" content="width=device-width"/>
+        
+        <link rel="shortcut icon" href="@Href(LcUrl.AppPath + "favicon.ico")" type="image/x-icon" />
+    </head>
+    <body data-facebook-appid="@Facebook.AppId" data-facebook-language="@Facebook.Language">
+        @if (LcHelpers.IsOldBrowser())
+        {
+            @LcHelpers.OldBrowserNotice()
+        }
+        else
+        {
+            @RenderBody()
+
+            if (LcHelpers.InLive)
+            {
+                @RenderPage(LcUrl.RenderLangPath + "HelpCenter/$GoogleAnalytics.cshtml")
+                @RenderPage(LcUrl.RenderLangPath + "HelpCenter/$OlarkIntegration.cshtml")
+                @RenderPage(LcUrl.RenderLangPath + "HelpCenter/$ZendeskIntegration.cshtml")
+            }
+        }
+    </body>
+</html>
