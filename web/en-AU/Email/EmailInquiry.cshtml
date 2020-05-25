@@ -4,7 +4,7 @@
     LcMessaging.SecureTemplate();
     
     Layout = "_EmailLayout.cshtml";
-    Page.Title = "Loconomics.com - Inquiry";
+    Page.Title = "Loconomics.com.au - Inquiry";
     var kind = Request["Kind"].AsInt();
     var threadID = Request["ThreadID"].AsInt();
     var messageID = Request["MessageID"].AsInt();
@@ -115,4 +115,4 @@
             </div>
         }
     </div>
-    <div><a style="@LcEmailTemplateHelper.StyleRespondButton()" class="respond" target="_blank" href="@PageData["viewOnSiteUrl"]">Respond to this inquiry at loconomics.com</a></div>
+    <div><a style="@LcEmailTemplateHelper.StyleRespondButton()" class="respond" target="_blank" href="@PageData["viewOnSiteUrl"]">Respond to this inquiry at loconomics.com.au</a></div>
