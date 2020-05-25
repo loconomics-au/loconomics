@@ -790,7 +790,7 @@ public static partial class LcData
             ", userId, backgroundCheckId);
             
             // Send email to loconomics
-            LcMessaging.SendMail("verifications@loconomics.com",
+            LcMessaging.SendMail("verifications@loconomics.com.au",
                 "[Action Required] Background check request",
                 LcMessaging.ApplyTemplate(LcUrl.LangPath + "Email/EmailBackgroundCheckRequest/",
                     new Dictionary<string, object> { 

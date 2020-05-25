@@ -21,7 +21,7 @@ namespace LcRest
         public string businessName;
         /// <summary>
         /// Slug or URL fragment choosen by the service professional
-        /// as a custom URL belonging the loconomics.com domain.
+        /// as a custom URL belonging the loconomics.com.au domain.
         /// About the slug term: https://en.wikipedia.org/wiki/Semantic_URL#Slug
         /// </summary>
         public string serviceProfessionalProfileUrlSlug;

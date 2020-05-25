@@ -395,11 +395,11 @@ public class LcMessaging
         }
         protected virtual string getSenderForClient()
         {
-            return info.serviceProfessional.firstName + " " + info.serviceProfessional.lastName + " <automated@loconomics.com>";
+            return info.serviceProfessional.firstName + " " + info.serviceProfessional.lastName + " <automated@loconomics.com.au>";
         }
         protected virtual string getSenderForServiceProfessional()
         {
-            return "Loconomics Scheduler <automated@loconomics.com>";
+            return "Loconomics Scheduler <automated@loconomics.com.au>";
         }
         void sendToClient(string tplName)
         {
@@ -578,11 +578,11 @@ public class LcMessaging
             }
             protected override string getSenderForClient()
             {
-                return "Loconomics <automated@loconomics.com>";
+                return "Loconomics <automated@loconomics.com.au>";
             }
             protected override string getSenderForServiceProfessional()
             {
-                return "Loconomics Marketplace <automated@loconomics.com>";
+                return "Loconomics Marketplace <automated@loconomics.com.au>";
             }
             public override void BookingCancelledByClient()
             {
@@ -860,7 +860,7 @@ public class LcMessaging
             ApplyTemplate(LcUrl.LangPath + "EmailCommunications/Admin/ToServiceProfessional/Welcome/",
             new Dictionary<string,object> {
                 { "userID", userID }
-         }), "Loconomics Cooperative <automated@loconomics.com>");
+         }), "Loconomics Australia <automated@loconomics.com.au>");
     }
     public static void SendWelcomeCustomer(int userID, string userEmail)
     {
@@ -868,7 +868,7 @@ public class LcMessaging
             ApplyTemplate(LcUrl.LangPath + "EmailCommunications/Admin/ToClient/Welcome/",
             new Dictionary<string, object> {
                 { "userID", userID }
-        }), "Loconomics Cooperative <automated@loconomics.com>");
+        }), "Loconomics Australia <automated@loconomics.com.au>");
     }
     public static void SendResetPassword(int userID, string userEmail, string token)
     {
@@ -888,7 +888,7 @@ public class LcMessaging
             ApplyTemplate(LcUrl.LangPath + "EmailCommunications/Admin/ToServiceProfessional/BackgroundCheckRequestReceived/",
             new Dictionary<string, object> {
                 { "UserID", userID }
-        }), "Loconomics Marketplace <automated@loconomics.com>");
+        }), "Loconomics Marketplace <automated@loconomics.com.au>");
     }
     public static void SendOptionalCertificationVerificationRequestReceived(int userID, string userEmail)
     {
@@ -896,7 +896,7 @@ public class LcMessaging
             ApplyTemplate(LcUrl.LangPath + "EmailCommunications/Admin/ToServiceProfessional/OptionalCertificationVerificationRequestReceived/",
             new Dictionary<string, object> {
                 { "UserID", userID }
-        }), "Loconomics Marketplace <automated@loconomics.com>");
+        }), "Loconomics Marketplace <automated@loconomics.com.au>");
     }
     public static void SendRequiredLicenseVerificationRequestReceived(int userID, string userEmail)
     {
@@ -904,7 +904,7 @@ public class LcMessaging
             ApplyTemplate(LcUrl.LangPath + "EmailCommunications/Admin/ToServiceProfessional/RequiredLicenseVerificationRequestReceived/",
             new Dictionary<string, object> {
                 { "UserID", userID }
-        }), "Loconomics Marketplace <automated@loconomics.com>");
+        }), "Loconomics Marketplace <automated@loconomics.com.au>");
     }
     /// <summary>
     /// Sended when scheduled task indicates service professional has their marketplace profile activated, and they've completed two bookings
@@ -917,7 +917,7 @@ public class LcMessaging
             ApplyTemplate(LcUrl.LangPath + "EmailCommunications/Admin/ToServiceProfessional/OwnerInvitation/",
             new Dictionary<string, object> {
                 { "UserID", userID }
-        }), "Loconomics Marketplace <automated@loconomics.com>");
+        }), "Loconomics Marketplace <automated@loconomics.com.au>");
     }
     /// <summary>
     /// Sended when scheduled task indicates the professional must be reminded to enter its earnings
@@ -930,7 +930,7 @@ public class LcMessaging
             ApplyTemplate(LcUrl.LangPath + "EmailCommunications/Admin/ToServiceProfessional/EarningsEntryReminder/",
             new Dictionary<string, object> {
                 { "UserID", userID }
-        }), "Loconomics Cooperative <automated@loconomics.com>");
+        }), "Loconomics Australia <automated@loconomics.com.au>");
     }
     /// <summary>
     /// Sended when a user creates a user posting, and this user seems to match the requirements so we
@@ -945,7 +945,7 @@ public class LcMessaging
             new Dictionary<string, object> {
                 { "UserID", userID },
                 { "userPostingID", userPostingID }
-        }), "Loconomics Cooperative <automated@loconomics.com>");
+        }), "Loconomics Australia <automated@loconomics.com.au>");
     }
     /// <summary>
     /// Sended when a professional answers a GIG posting by 'applying' to it, sending a message to the 
@@ -961,7 +961,7 @@ public class LcMessaging
                 { "UserID", userID },
                 { "userPostingID", userPostingID },
                 { "serviceProfessionalUserID", serviceProfessionalUserID}
-        }), "Loconomics Cooperative <automated@loconomics.com>", professionalEmail);
+        }), "Loconomics Australia <automated@loconomics.com.au>", professionalEmail);
     }
     #endregion
 
@@ -970,7 +970,7 @@ public class LcMessaging
     {
         try
         {
-            SendMail("hipaasecurityofficial@loconomics.com", "Account Locked Out",
+            SendMail("hipaasecurityofficial@loconomics.com.au", "Account Locked Out",
                 String.Format("Attempt to log-in ended in 'Account Lock Out' message for userID:{0}, email:{1} at {2}", lockedUserID, lockedEmail, whenHappened)
             );
         }
@@ -981,7 +981,7 @@ public class LcMessaging
         try
         {
             // TODO: make support email config setting
-            SendMail("support@loconomics.com", LcHelpers.Channel + ": Exception on " + where + ": " + url,
+            SendMail("support@loconomics.com.au", LcHelpers.Channel + ": Exception on " + where + ": " + url,
                 exceptionPageContent);
         }
         catch { }
@@ -1017,7 +1017,7 @@ public class LcMessaging
     }
     public static void SendMerchantAccountNotification(int providerUserID)
     {
-        SendMail("support@loconomics.com", "Marketplace: Merchant Account Notification",
+        SendMail("support@loconomics.com.au", "Marketplace: Merchant Account Notification",
             ApplyTemplate(LcUrl.LangPath + "EmailCommunications/Admin/Internal/EmailProviderPaymentAccountNotification/",
             new Dictionary<string, object> {
                 { "userID", providerUserID}
@@ -1025,18 +1025,18 @@ public class LcMessaging
     }
     public static void SendReportUnauthorizedUse(int reportedByUserID, int reportedUserID, string message)
     {
-        SendMail("legal@loconomics.com", "Report of Unauthorized Use",
+        SendMail("legal@loconomics.com.au", "Report of Unauthorized Use",
             ApplyTemplate(LcUrl.LangPath + "EmailCommunications/Admin/Internal/EmailReportUnauthorizedUse/",
             new Dictionary<string, object> {
                 { "ReportedByUserID", reportedByUserID },
                 { "ReportedUserID", reportedUserID },
                 { "Message", message },
-                { "EmailTo", "legal@loconomics.com" }
+                { "EmailTo", "legal@loconomics.com.au" }
          }));
     }
     public static void SendBackgroundCheckRequest(int userID, int backgroundCheckID)
     {
-        SendMail("support@loconomics.com", "Background Check Request",
+        SendMail("support@loconomics.com.au", "Background Check Request",
             ApplyTemplate(LcUrl.LangPath + "EmailCommunications/Admin/Internal/EmailBackgroundCheckRequest/",
             new Dictionary<string, object> {
                 { "userID", userID },
@@ -1045,7 +1045,7 @@ public class LcMessaging
     }
     public static void SendLicenseVerificationRequest(int userID, int jobTitleID, int licenseCertificationID)
     {
-        SendMail("support@loconomics.com", "License Verification Request",
+        SendMail("support@loconomics.com.au", "License Verification Request",
             ApplyTemplate(LcUrl.LangPath + "EmailCommunications/Admin/Internal/EmailLicenseVerificationRequest/",
             new Dictionary<string, object> {
                 { "userID", userID },
@@ -1282,9 +1282,9 @@ public class LcMessaging
             // TODO: Test using the normal API for email sending, trying to solve current problem with
             // emails not being sent by this way:
             /*
-                SmtpClient client = new SmtpClient("mail.loconomics.com", 25);
+                SmtpClient client = new SmtpClient("mail.loconomics.com.au", 25);
                 client.EnableSsl = false;
-                client.Credentials = new NetworkCredential("automated@loconomics.com", "Loconomic$2011");
+                client.Credentials = new NetworkCredential("automated@loconomics.com.au", "Loconomic$2011");
                 MailAddress from = new MailAddress(from);
                 MailAddress to = new MailAddress(mail);
                 MailMessage message = new MailMessage(from, to);

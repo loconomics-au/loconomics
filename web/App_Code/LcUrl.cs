@@ -12,7 +12,7 @@ public static class LcUrl
     /// <summary>
 	/// Get the Site Root URL of the current request.
     /// Never will return a trailing slash.
-    /// Example: http://www.loconomics.com
+    /// Example: http://www.loconomics.com.au
 	/// </summary>
 	/// <returns></returns>
     public static string SiteUrl
@@ -26,16 +26,16 @@ public static class LcUrl
             // allow create URLs using the hosting canonical URLs (as loconomi.w03.wh-2.com),
             // we must check that if is Not in a local environment (localhost, local ip or alias,
             // let say everything without '.com' in the name to avoid in-dev problems)
-            // and is Not in our real domain (loconomics.com) we must enforce to use that
-            // domain (loconomics.com) with or without subdomain depending on the channel
+            // and is Not in our real domain (loconomics.com.au) we must enforce to use that
+            // domain (loconomics.com.au) with or without subdomain depending on the channel
             // (no subdomain for live, but yes for everything else)
             var domain = context.Request.Url.Authority;
             if (domain.Contains(".com") && 
-                !domain.Contains("loconomics.com"))
+                !domain.Contains("loconomics.com.au"))
             {
                 domain = (ASP.LcHelpers.Channel == "live" ? "" : 
                     ASP.LcHelpers.Channel + ".")
-                    + "loconomics.com";
+                    + "loconomics.com.au";
             }
             
             return context.Request.Url.Scheme + "://" + domain;
@@ -54,7 +54,7 @@ public static class LcUrl
             HttpContext context = HttpContext.Current;
             string url = "";
             // IsLocal doesn't work here: because in hosting for email templates returns true creating bad links
-            // We need this only when executed out of the loconomics.com domain, as in local ('dev' channel) or
+            // We need this only when executed out of the loconomics.com.au domain, as in local ('dev' channel) or
             // in hosting using the hosting cannonical urls (as in winhost: http://loconomi.w03.wh-2.com, this is
             // important for ScheduledTask execution and the restricted scheduled tasks configuration of winhost)
             if (!context.Request.Url.Authority.Contains("loconomics.com.au"))
@@ -81,7 +81,7 @@ public static class LcUrl
     /// <summary>
 	/// Get the current virtual app URL, is just the SiteUrl with the AppPath
     /// Ever will return a trailing slash
-    /// Example: http://www.loconomics.com/testing/
+    /// Example: http://www.loconomics.com.au/testing/
 	/// </summary>
 	/// <returns></returns>
     public static string AppUrl{
@@ -177,7 +177,7 @@ public static class LcUrl
     {
         get
         {
-            return (HttpContext.Current.Request.Url.Authority.Contains("loconomics.com") ? "~" : "");
+            return (HttpContext.Current.Request.Url.Authority.Contains("loconomics.com.au") ? "~" : "");
         }
     }
 

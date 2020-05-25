@@ -1170,7 +1170,7 @@ msgid "The file is too large, maximum file size is {0}"
 msgstr ""
 
 #: App_Code\LcRest\Client.cs:369
-msgid "The given e-mail already exists for other client at loconomics.com and cannot be saved."
+msgid "The given e-mail already exists for other client at loconomics.com.au and cannot be saved."
 msgstr ""
 
 #: api\v1\Test.cshtml:148

@@ -482,7 +482,7 @@ public static class LcAuthHelper
                 }
 
                 // SIGNUP
-                LcMessaging.SendMail("joshua.danielson@loconomics.com", "Sign-up", String.Format(@"
+                LcMessaging.SendMail("info@loconomics.com.au", "Sign-up", String.Format(@"
                     <html><body><h3>Sign-up.</h3>
                     <strong>This user was already in the database, is re-registering itself again!</strong><br/>
                     <dl>
@@ -529,7 +529,7 @@ public static class LcAuthHelper
                 LcAuth.SendRegisterUserEmail(registered);
 
                 // SIGNUP
-                LcMessaging.SendMail("joshua.danielson@loconomics.com", "Sign-up", String.Format(@"
+                LcMessaging.SendMail("info@loconomics.com.au", "Sign-up", String.Format(@"
                     <html><body><h3>Sign-up.</h3>
                     <dl>
                     <dt>Profile:</dt><dd>{0}</dd>
