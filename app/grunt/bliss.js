@@ -53,7 +53,7 @@ module.exports = function(grunt) {
                 debug: true,
                 includedFiles: includedFiles,
                 cordovajs: false,
-                siteUrl: 'https://dev.loconomics.com',
+                siteUrl: 'https://dev.loconomics.com.au',
                 facebookAppID: facebookAppID,
                 facebookLang: facebookLang,
                 googleMapsApiKey: googleMapsApiKey,
@@ -72,7 +72,7 @@ module.exports = function(grunt) {
                 debug: false,
                 includedFiles: includedFiles,
                 cordovajs: true,
-                siteUrl: 'https://loconomics.com',
+                siteUrl: 'https://loconomics.com.au',
                 facebookAppID: facebookAppID,
                 facebookLang: facebookLang,
                 googleMapsApiKey: googleMapsApiKey,
@@ -91,7 +91,7 @@ module.exports = function(grunt) {
                 debug: true,
                 includedFiles: includedFiles,
                 cordovajs: true,
-                siteUrl: 'https://dev.loconomics.com',
+                siteUrl: 'https://dev.loconomics.com.au',
                 facebookAppID: facebookAppID,
                 facebookLang: facebookLang,
                 googleMapsApiKey: googleMapsApiKey,
@@ -125,8 +125,8 @@ module.exports = function(grunt) {
                     name: '<%= package.appName %>',
                     description: '<%= package.appDescription %>',
                     author: {
-                      email: 'support@loconomics.com',
-                      url: 'https://loconomics.com',
+                      email: 'support@loconomics.com.au',
+                      url: 'https://loconomics.com.au',
                       text: '<%= package.author %>'
                     },
                     facebookAppID: facebookAppID,
@@ -148,8 +148,8 @@ module.exports = function(grunt) {
                     name: '<%= package.devAppName %>',
                     description: '<%= package.appDescription %>',
                     author: {
-                      email: 'support@loconomics.com',
-                      url: 'https://loconomics.com',
+                      email: 'support@loconomics.com.au',
+                      url: 'https://loconomics.com.au',
                       text: '<%= package.author %>'
                     },
                     facebookAppID: facebookAppID,
@@ -182,7 +182,7 @@ module.exports = function(grunt) {
                 includedFiles: landingPageTemplatesFiles,
                 dotVersion: '',
                 cordovajs: false,
-                siteUrl: 'https://dev.loconomics.com'
+                siteUrl: 'https://dev.loconomics.com.au'
             }
         }
     };
