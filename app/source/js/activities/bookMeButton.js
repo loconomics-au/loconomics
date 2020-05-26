@@ -145,7 +145,7 @@ function ViewModel() {
 
             var code = generateButtonCode({
                 tpl: tpl,
-                label: 'Click here to book me now (on loconomics.com)',
+                label: 'Click here to book me now (on loconomics.com.au)',
                 linkUrl: linkUrl,
                 imgUrl: imgUrl
             });

@@ -462,7 +462,7 @@ function ViewModel(app) {
             // Notify user
             var msg = 'We`ve found an existing record for {0}. Would you like to add him to your clients?'.replace(/\{0\}/g, user.firstName);
             showConfirm({
-                title: 'client found at loconomics.com',
+                title: 'client found at loconomics.com.au',
                 message: msg
             })
             .then(function() {

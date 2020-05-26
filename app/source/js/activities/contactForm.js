@@ -70,7 +70,7 @@ function ViewModel(app) {
 
         var subject = encodeURIComponent(this.emailSubject() || 'I need help!');
         var body = encodeURIComponent(this.message());
-        var url = 'mailto:support@loconomics.com?subject=' + subject + '&body=' + body;
+        var url = 'mailto:support@loconomics.com.au?subject=' + subject + '&body=' + body;
         return url;
     }, this);
 
