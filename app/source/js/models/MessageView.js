@@ -74,7 +74,7 @@ function MessageView(values, app) {
         // Message from the System
         return new PublicUserProfile({
             firstName: 'Loconomics',
-            lastName: 'Cooperative Inc.'
+            lastName: 'Australia Inc.'
         });
     };
 
