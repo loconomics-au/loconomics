@@ -73,7 +73,7 @@
                 else if (vocExperienceCategoryID == 1) {
                     subject = "Feedback";
                 }
-                if (!LcMessaging.SendMail(email, subject, feedback.message, WebSecurity.CurrentUserName))
+                if (!LcMessaging.SendMail(email, subject, "from: " + WebSecurity.CurrentUserName + " message: " +  feedback.message, "info@loconomics.com.au"))
                 {
                     // Failed e-mail, save copy in errors log
                     LcLogger.LogAspnetError(new Exception(subject + "::" + feedback.message));

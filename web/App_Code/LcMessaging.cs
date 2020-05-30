@@ -7,6 +7,8 @@ using System.Web.Helpers;
 using ASP;
 using System.Net;
 using System.Web.Caching;
+using System.Net.Mail;
+using System.Text;
 
 /// <summary>
 /// Descripción breve de LcMessaging
@@ -1193,7 +1195,30 @@ public class LcMessaging
     {
         try
         {
-            WebMail.Send(to, subject, body, from, contentEncoding: "utf-8", replyTo: replyTo);
+            if (from == null) from = WebMail.From;
+
+            using (MailMessage message = new MailMessage(from, to, subject, body))
+            {
+                message.BodyEncoding = Encoding.UTF8;
+                message.IsBodyHtml = true;
+                if (replyTo != null)
+                {
+                    message.ReplyToList.Add(new MailAddress(replyTo));
+                }
+
+                using (SmtpClient client = new SmtpClient(WebMail.SmtpServer, WebMail.SmtpPort))
+                {
+                    client.Credentials = new NetworkCredential(WebMail.UserName, WebMail.Password);
+                    // MaxIdleTime = 2 fixes issues with SmtpClient throwing errors when connections close
+                    // https://stackoverflow.com/questions/930236/net-best-method-to-send-email-system-net-mail-has-issues/1190727#1190727
+                    client.ServicePoint.MaxIdleTime = 2;
+                    client.ServicePoint.ConnectionLimit = 1;
+                    client.ServicePoint.ConnectionLeaseTimeout = 0;
+
+                    client.Timeout = 2000;
+                    client.Send(message);
+                }
+            }
 
             if (LogSuccessSendMail)
             {
