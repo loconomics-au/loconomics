@@ -9,6 +9,7 @@ using System.Net;
 using System.Web.Caching;
 using System.Net.Mail;
 using System.Text;
+using System.Configuration;
 
 /// <summary>
 /// Descripción breve de LcMessaging
@@ -396,12 +397,12 @@ public class LcMessaging
             flags = JobTitleMessagingFlags.Get(info.booking.jobTitleID, info.booking.languageID, info.booking.countryID);
         }
         protected virtual string getSenderForClient()
-        {
-            return info.serviceProfessional.firstName + " " + info.serviceProfessional.lastName + " <automated@loconomics.com.au>";
+        {            
+            return info.serviceProfessional.firstName + " " + info.serviceProfessional.lastName + " <"+ automatedEmail + ">";
         }
         protected virtual string getSenderForServiceProfessional()
         {
-            return "Loconomics Scheduler <automated@loconomics.com.au>";
+            return "Loconomics Scheduler <" + automatedEmail + ">";
         }
         void sendToClient(string tplName)
         {
@@ -580,11 +581,11 @@ public class LcMessaging
             }
             protected override string getSenderForClient()
             {
-                return "Loconomics <automated@loconomics.com.au>";
+                return "Loconomics <" + automatedEmail + ">";
             }
             protected override string getSenderForServiceProfessional()
             {
-                return "Loconomics Marketplace <automated@loconomics.com.au>";
+                return "Loconomics Marketplace <" + automatedEmail + ">";
             }
             public override void BookingCancelledByClient()
             {
@@ -862,7 +863,7 @@ public class LcMessaging
             ApplyTemplate(LcUrl.LangPath + "EmailCommunications/Admin/ToServiceProfessional/Welcome/",
             new Dictionary<string,object> {
                 { "userID", userID }
-         }), "Loconomics Australia <automated@loconomics.com.au>");
+         }), "Loconomics Australia <" + automatedEmail + ">");
     }
     public static void SendWelcomeCustomer(int userID, string userEmail)
     {
@@ -870,7 +871,7 @@ public class LcMessaging
             ApplyTemplate(LcUrl.LangPath + "EmailCommunications/Admin/ToClient/Welcome/",
             new Dictionary<string, object> {
                 { "userID", userID }
-        }), "Loconomics Australia <automated@loconomics.com.au>");
+        }), "Loconomics Australia <" + automatedEmail + ">");
     }
     public static void SendResetPassword(int userID, string userEmail, string token)
     {
@@ -890,7 +891,7 @@ public class LcMessaging
             ApplyTemplate(LcUrl.LangPath + "EmailCommunications/Admin/ToServiceProfessional/BackgroundCheckRequestReceived/",
             new Dictionary<string, object> {
                 { "UserID", userID }
-        }), "Loconomics Marketplace <automated@loconomics.com.au>");
+        }), "Loconomics Marketplace <" + automatedEmail + ">");
     }
     public static void SendOptionalCertificationVerificationRequestReceived(int userID, string userEmail)
     {
@@ -898,7 +899,7 @@ public class LcMessaging
             ApplyTemplate(LcUrl.LangPath + "EmailCommunications/Admin/ToServiceProfessional/OptionalCertificationVerificationRequestReceived/",
             new Dictionary<string, object> {
                 { "UserID", userID }
-        }), "Loconomics Marketplace <automated@loconomics.com.au>");
+        }), "Loconomics Marketplace <" + automatedEmail + ">");
     }
     public static void SendRequiredLicenseVerificationRequestReceived(int userID, string userEmail)
     {
@@ -906,7 +907,7 @@ public class LcMessaging
             ApplyTemplate(LcUrl.LangPath + "EmailCommunications/Admin/ToServiceProfessional/RequiredLicenseVerificationRequestReceived/",
             new Dictionary<string, object> {
                 { "UserID", userID }
-        }), "Loconomics Marketplace <automated@loconomics.com.au>");
+        }), "Loconomics Marketplace <" + automatedEmail + ">");
     }
     /// <summary>
     /// Sended when scheduled task indicates service professional has their marketplace profile activated, and they've completed two bookings
@@ -919,7 +920,7 @@ public class LcMessaging
             ApplyTemplate(LcUrl.LangPath + "EmailCommunications/Admin/ToServiceProfessional/OwnerInvitation/",
             new Dictionary<string, object> {
                 { "UserID", userID }
-        }), "Loconomics Marketplace <automated@loconomics.com.au>");
+        }), "Loconomics Marketplace <" + automatedEmail + ">");
     }
     /// <summary>
     /// Sended when scheduled task indicates the professional must be reminded to enter its earnings
@@ -932,7 +933,7 @@ public class LcMessaging
             ApplyTemplate(LcUrl.LangPath + "EmailCommunications/Admin/ToServiceProfessional/EarningsEntryReminder/",
             new Dictionary<string, object> {
                 { "UserID", userID }
-        }), "Loconomics Australia <automated@loconomics.com.au>");
+        }), "Loconomics Australia <" + automatedEmail + ">");
     }
     /// <summary>
     /// Sended when a user creates a user posting, and this user seems to match the requirements so we
@@ -947,7 +948,7 @@ public class LcMessaging
             new Dictionary<string, object> {
                 { "UserID", userID },
                 { "userPostingID", userPostingID }
-        }), "Loconomics Australia <automated@loconomics.com.au>");
+        }), "Loconomics Australia <" + automatedEmail + ">");
     }
     /// <summary>
     /// Sended when a professional answers a GIG posting by 'applying' to it, sending a message to the 
@@ -963,7 +964,7 @@ public class LcMessaging
                 { "UserID", userID },
                 { "userPostingID", userPostingID },
                 { "serviceProfessionalUserID", serviceProfessionalUserID}
-        }), "Loconomics Australia <automated@loconomics.com.au>", professionalEmail);
+        }), "Loconomics Australia <" + automatedEmail + ">", professionalEmail);
     }
     #endregion
 
@@ -1157,6 +1158,8 @@ public class LcMessaging
         return qs;
     }
     internal static readonly string SecurityRequestKey = "abcd3";
+    private static readonly string automatedEmail = ConfigurationManager.AppSettings["automatedEmail"];
+
     public static void SecureTemplate()
     {
         // Removed the extra check 'is live and is not local' because fails on Azure. Not sure
