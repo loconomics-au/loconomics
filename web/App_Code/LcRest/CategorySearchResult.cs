@@ -118,7 +118,7 @@ namespace LcRest
                                     WHERE 
                                     a.Latitude IS NOT NULL
                                     AND a.Longitude IS NOT NULL
-                                    AND @orig.STDistance(geography::Point(a.Latitude, a.Longitude, 4326))/1000*0.621371 <=
+                                    AND @orig.STDistance(geography::Point(a.Latitude, a.Longitude, 4326))/1000 <=
                                     (CASE WHEN (ServicesPerformedAtLocation = 0 AND sa.ServiceRadiusFromLocation IS NOT NULL) THEN
                                     CONVERT(FLOAT, ServiceRadiusFromLocation)
                                     ELSE 
@@ -246,7 +246,7 @@ namespace LcRest
                                     WHERE 
                                     a.Latitude IS NOT NULL
                                     AND a.Longitude IS NOT NULL
-                                    AND @orig.STDistance(geography::Point(a.Latitude, a.Longitude, 4326))/1000*0.621371 <=
+                                    AND @orig.STDistance(geography::Point(a.Latitude, a.Longitude, 4326))/1000 <=
                                     (CASE WHEN (ServicesPerformedAtLocation = 0 AND sa.ServiceRadiusFromLocation IS NOT NULL) THEN
                                     CONVERT(FLOAT, ServiceRadiusFromLocation)
                                     ELSE 

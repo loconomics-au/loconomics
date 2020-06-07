@@ -121,7 +121,7 @@ namespace LcRest
                         otherJobTitles=LTRIM(STUFF((SELECT ', ' + PositionSingular FROM Positions As P0 INNER JOIN UserProfilePositions As UP0 ON P0.PositionID = UP0.PositionID WHERE UP0.UserID = u.UserID AND P0.LanguageID = @LanguageID AND P0.CountryID = @CountryID AND UP0.StatusID = 1 AND UP0.Active = 1 AND P0.PositionID != @JobTitleID AND P0.Active = 1 AND P0.Approved <> 0 FOR XML PATH('')) , 1 , 1 , '' )),
                         allJobTitles=LTRIM(STUFF((SELECT ', ' + PositionSingular FROM Positions As P0 INNER JOIN UserProfilePositions As UP0 ON P0.PositionID = UP0.PositionID WHERE UP0.UserID = u.UserID AND P0.LanguageID = @LanguageID AND P0.CountryID = @CountryID AND UP0.StatusID = 1 AND UP0.Active = 1 AND P0.Active = 1 AND P0.Approved <> 0 FOR XML PATH('')) , 1 , 1 , '' )),
                         
-                        MIN(ROUND(@orig.STDistance(geography::Point(a.Latitude, a.Longitude, 4326))/1000*0.621371,1)) as distance
+                        MIN(ROUND(@orig.STDistance(geography::Point(a.Latitude, a.Longitude, 4326))/1000,1)) as distance
                     FROM dbo.users u 
                     INNER JOIN dbo.userprofilepositions upp 
                         ON u.UserID = upp.UserID 
@@ -146,7 +146,7 @@ namespace LcRest
                         AND p.positionID = @JobTitleID
                         AND a.Latitude IS NOT NULL
                         AND a.Longitude IS NOT NULL
-                        AND @orig.STDistance(geography::Point(a.Latitude, a.Longitude, 4326))/1000*0.621371 <=
+                        AND @orig.STDistance(geography::Point(a.Latitude, a.Longitude, 4326))/1000 <=
                         (CASE WHEN (sa.ServicesPerformedAtLocation = 0 AND sa.ServiceRadiusFromLocation IS NOT NULL) THEN
                         CONVERT(FLOAT, sa.ServiceRadiusFromLocation)
                         ELSE 
@@ -200,7 +200,7 @@ namespace LcRest
                         null As jobTitleNameSingular,
                         otherJobTitles=LTRIM(STUFF((SELECT ', ' + PositionSingular FROM Positions As P0 INNER JOIN UserProfilePositions As UP0 ON P0.PositionID = UP0.PositionID WHERE UP0.UserID = u.UserID AND P0.LanguageID = @LanguageID AND P0.CountryID = @CountryID AND UP0.StatusID = 1 AND UP0.Active = 1 AND P0.Active = 1 AND P0.Approved <> 0 FOR XML PATH('')) , 1 , 1 , '' )),
                         allJobTitles=LTRIM(STUFF((SELECT ', ' + PositionSingular FROM Positions As P0 INNER JOIN UserProfilePositions As UP0 ON P0.PositionID = UP0.PositionID WHERE UP0.UserID = u.UserID AND P0.LanguageID = @LanguageID AND P0.CountryID = @CountryID AND UP0.StatusID = 1 AND UP0.Active = 1 AND P0.Active = 1 AND P0.Approved <> 0 FOR XML PATH('')) , 1 , 1 , '' )),
-                        MIN(ROUND(@orig.STDistance(geography::Point(a.Latitude, a.Longitude, 4326))/1000*0.621371,1)) as distance
+                        MIN(ROUND(@orig.STDistance(geography::Point(a.Latitude, a.Longitude, 4326))/1000,1)) as distance
                     FROM dbo.users u 
                     INNER JOIN dbo.userprofilepositions upp 
                         ON u.UserID = upp.UserID 
@@ -227,7 +227,7 @@ namespace LcRest
                         OR u.BusinessName like @SearchTerm)
                         AND a.Latitude IS NOT NULL
                         AND a.Longitude IS NOT NULL
-                        AND @orig.STDistance(geography::Point(a.Latitude, a.Longitude, 4326))/1000*0.621371 <=
+                        AND @orig.STDistance(geography::Point(a.Latitude, a.Longitude, 4326))/1000 <=
                         (CASE WHEN (sa.ServicesPerformedAtLocation = 0 AND sa.ServiceRadiusFromLocation IS NOT NULL) THEN
                         CONVERT(FLOAT, sa.ServiceRadiusFromLocation)
                         ELSE 

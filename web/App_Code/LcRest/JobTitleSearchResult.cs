@@ -135,7 +135,7 @@ namespace LcRest
                             (SELECT 
                             up.UserID
                             ,up.PositionID
-                            ,MIN(ROUND(@orig.STDistance(geography::Point(a.Latitude, a.Longitude, 4326))/1000*0.621371,1)) as distance
+                            ,MIN(ROUND(@orig.STDistance(geography::Point(a.Latitude, a.Longitude, 4326))/1000,1)) as distance
                             FROM address a
                             INNER JOIN
                             serviceaddress sa
@@ -280,7 +280,7 @@ namespace LcRest
                             (SELECT 
                             up.UserID
                             ,up.PositionID
-                            ,MIN(ROUND(@orig.STDistance(geography::Point(a.Latitude, a.Longitude, 4326))/1000*0.621371,1)) as distance
+                            ,MIN(ROUND(@orig.STDistance(geography::Point(a.Latitude, a.Longitude, 4326))/1000,1)) as distance
                             FROM address a
                             INNER JOIN
                             serviceaddress sa
@@ -291,7 +291,7 @@ namespace LcRest
                             WHERE 
                             a.Latitude IS NOT NULL
                             AND a.Longitude IS NOT NULL
-                            AND @orig.STDistance(geography::Point(a.Latitude, a.Longitude, 4326))/1000*0.621371 <=
+                            AND @orig.STDistance(geography::Point(a.Latitude, a.Longitude, 4326))/1000 <=
                             (CASE WHEN (ServicesPerformedAtLocation = 0 AND sa.ServiceRadiusFromLocation IS NOT NULL) THEN
                             CONVERT(FLOAT, ServiceRadiusFromLocation)
                             ELSE 
@@ -553,7 +553,7 @@ namespace LcRest
                             (SELECT 
                             up.UserID
                             ,up.PositionID
-                            ,MIN(ROUND(@orig.STDistance(geography::Point(a.Latitude, a.Longitude, 4326))/1000*0.621371,1)) as distance
+                            ,MIN(ROUND(@orig.STDistance(geography::Point(a.Latitude, a.Longitude, 4326))/1000,1)) as distance
                             FROM address a
                             INNER JOIN
                             serviceaddress sa
@@ -564,7 +564,7 @@ namespace LcRest
                             WHERE 
                             a.Latitude IS NOT NULL
                             AND a.Longitude IS NOT NULL
-                            AND @orig.STDistance(geography::Point(a.Latitude, a.Longitude, 4326))/1000*0.621371 <=
+                            AND @orig.STDistance(geography::Point(a.Latitude, a.Longitude, 4326))/1000 <=
                             (CASE WHEN (ServicesPerformedAtLocation = 0 AND sa.ServiceRadiusFromLocation IS NOT NULL) THEN
                             CONVERT(FLOAT, ServiceRadiusFromLocation)
                             ELSE 
