@@ -55,7 +55,7 @@ namespace LcRest
             rating = LcRest.PublicUserRating.Get(userID, jobTitleID);
             verificationsSummary = LcRest.PublicUserVerificationsSummary.Get(userID, jobTitleID);
             stats = LcRest.PublicUserStats.Get(userID);
-            jobStats = LcRest.PublicUserJobStats.Get(userID, jobTitleID, clientVisibility);
+            jobStats = LcRest.PublicUserJobStats.Get(userID, jobTitleID, clientVisibility, Locale.Current);
         }
         #endregion
 

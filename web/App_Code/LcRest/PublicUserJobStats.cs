@@ -38,7 +38,7 @@ namespace LcRest
         #endregion
 
         #region Fetch
-        public static PublicUserJobStats Get(int userID, int jobTitleID, LcRest.ServiceProfessionalService.Visibility visibility)
+        public static PublicUserJobStats Get(int userID, int jobTitleID, LcRest.ServiceProfessionalService.Visibility visibility, Locale locale)
         {
             const string sqlVariableDeclaration = @"
                 DECLARE @userID AS int
@@ -46,9 +46,9 @@ namespace LcRest
                 DECLARE @jobTitleID AS int
                 SET @jobTitleID = @1
                 DECLARE @LanguageID int
-                SET @LanguageID = 1
+                SET @LanguageID = @2
                 DECLARE @CountryID int
-                SET @CountryID = 1
+                SET @CountryID = @3
                     
                 ;";
 
@@ -142,7 +142,7 @@ namespace LcRest
                 return FromDB(db.QuerySingle(sqlVariableDeclaration 
                                                + sqlProviderPackageForClientExpanded
                                                + sqlRemainder, 
-                                               userID, jobTitleID));
+                                               userID, jobTitleID, locale.languageID, locale.countryID));
             }
         }
         #endregion
