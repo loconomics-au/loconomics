@@ -30,7 +30,14 @@ namespace LcRest
 
         public static IEnumerable<HelpArticle> GetFullList(int languageID, int countryID)
         {
-            return new List<HelpArticle>() { new HelpArticle { id = 1, user_segment_id = 123, title = "test title", body = "test body" } };
+            var cached = HttpContext.Current.Cache["ClassCollection:HelpArticle"] as List<HelpArticle>;
+            if (cached == null)
+            {
+                cached = new List<HelpArticle>() { new HelpArticle { id = 1, user_segment_id = 123, title = "test title", body = "test body" } };
+                HttpContext.Current.Cache["ClassCollection:HelpArticle"] = cached;
+            }
+
+            return cached;
         }
     }
 }
