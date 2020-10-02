@@ -1,0 +1,37 @@
+﻿@using WebMatrix.WebData;
+@*
+  Retrieving all Help Articles from github pages markdown
+
+  Options:
+
+  - GET /
+
+  - @Result LcRest.HelpArticle
+
+  EXAMPLE {
+      "Help Articles": {
+          "url": "/api/v1/en-AU/help-articles",
+          "get": {
+              "label_names": ""
+          }
+      }
+  }
+*@
+@functions{
+  public class RestHelpArticles : RestWebPage
+  {
+    public override dynamic Get()
+    {
+      if (UrlData.Count == 0)
+      {
+        // Full list
+        var locale = LcRest.Locale.Current;
+        return LcRest.HelpArticle.GetFullList(locale.languageID, locale.countryID);
+      }
+      return base.Get();
+    }
+  }
+}
+@{
+  new RestHelpArticles().JsonResponse(this);
+}
