@@ -18,6 +18,7 @@ namespace LcRest
         public int permission_group_id;
         public string title;
         public string body;
+        public int section_id;
         public int user_segment_id;
 
         #endregion
@@ -33,7 +34,7 @@ namespace LcRest
             var cached = HttpContext.Current.Cache["ClassCollection:HelpArticle"] as List<HelpArticle>;
             if (cached == null)
             {
-                cached = new List<HelpArticle>() { new HelpArticle { id = 1, user_segment_id = 123, title = "test title", body = "test body" } };
+                cached = new List<HelpArticle>() { new HelpArticle { id = 1, user_segment_id = 123, title = "test title", body = "test body", section_id = 1 } };
                 HttpContext.Current.Cache["ClassCollection:HelpArticle"] = cached;
             }
 

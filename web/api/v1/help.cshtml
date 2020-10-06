@@ -1,0 +1,59 @@
+﻿@using WebMatrix.WebData;
+@*
+  Retrieving all Help Articles from github pages markdown
+
+  Options:
+
+  - GET /
+
+  - @Result LcRest.HelpArticle
+
+  EXAMPLE {
+      "Help Articles": {
+          "url": "/api/v1/en-AU/help/articles",
+          "get": {
+              "label_names": ""
+          }
+      },
+      "Help Sections": {
+          "url": "/api/v1/en-AU/help/sections"
+      },
+      "Help Categories": {
+          "url": "/api/v1/en-AU/help/categories"
+      }
+  }
+*@
+@functions{
+  public class RestHelpArticles : RestWebPage
+  {
+    public override dynamic Get()
+    {
+      var locale = LcRest.Locale.Current;
+      if (UrlData.Count == 0)
+      {
+        // Full article list
+        return LcRest.HelpArticle.GetFullList(locale.languageID, locale.countryID);
+      }
+      else if (UrlData.Count == 1 && UrlData[0] == "articles")
+      {
+        // Full article list
+        return LcRest.HelpArticle.GetFullList(locale.languageID, locale.countryID);
+
+      }
+      else if (UrlData.Count == 1 && UrlData[0] == "sections")
+      {
+        // full section list
+        return LcRest.HelpSection.GetFullList(locale.languageID, locale.countryID);
+      }
+      else if (UrlData.Count == 1 && UrlData[0] == "categories")
+      {
+        // full section list
+        return LcRest.HelpCategory.GetFullList(locale.languageID, locale.countryID);
+      }
+      return base.Get();
+    }
+  }
+}
+@{
+  new RestHelpArticles().JsonResponse(this);
+}

@@ -10,13 +10,14 @@
 'use strict';
 var ko = require('knockout');
 var session = require('./session');
+var remote = require('./drivers/restClient');
 // TODO Replace direct jquery.ajax call with a specialized Rest instance
 // under ./drivers, like 'zendeskRestClient'?
 var $ = require('jquery');
 
-var articlesUrl = 'https://loconomics.zendesk.com/api/v2/help_center/en-us/articles.json?label_names=';
-var categoriesUrl = 'https://loconomics.zendesk.com/api/v2/help_center/en-us/categories.json';
-var sectionsUrl = 'https://loconomics.zendesk.com/api/v2/help_center/en-us/sections.json';
+var articlesUrl = 'help/articles';
+var categoriesUrl = 'help/categories';
+var sectionsUrl = 'help/sections';
 
 function getArticlesUrl(labels) {
     return articlesUrl + encodeURIComponent(labels);
@@ -24,9 +25,10 @@ function getArticlesUrl(labels) {
 
 function getRemoteArticles(labels) {
     var result = [];
-    return Promise.resolve($.get(getArticlesUrl(labels))).then(function next(data) {
-        if (data.articles)
-            result = result.concat(data.articles);
+
+    return remote.get(getArticlesUrl(labels)).then(function next(data) {
+        if (data)
+            result = result.concat(data);
         if (data.next_page)
             return $.get(data.next_page).then(next);
         else
@@ -35,9 +37,10 @@ function getRemoteArticles(labels) {
 }
 function getRemoteCategories() {
     var result = [];
-    return Promise.resolve($.get(categoriesUrl)).then(function next(data) {
-        if (data.categories)
-            result = result.concat(data.categories);
+
+    return remote.get(categoriesUrl).then(function next(data) {
+        if (data)
+            result = result.concat(data);
         if (data.next_page)
             return $.get(data.next_page).then(next);
         else
@@ -46,9 +49,9 @@ function getRemoteCategories() {
 }
 function getRemoteSections() {
     var result = [];
-    return Promise.resolve($.get(sectionsUrl)).then(function next(data) {
-        if (data.sections)
-            result = result.concat(data.sections);
+    return remote.get(sectionsUrl).then(function next(data) {
+        if (data)
+            result = result.concat(data);
         if (data.next_page)
             return $.get(data.next_page).then(next);
         else
