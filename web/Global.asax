@@ -26,6 +26,10 @@
             }
             return message;
         };
+
+        // To turn on TLS 1.1 and 1.2 without affecting other protocols
+        System.Net.ServicePointManager.SecurityProtocol |= 
+            System.Net.SecurityProtocolType.Tls11 | System.Net.SecurityProtocolType.Tls12;
     }
 
     void Application_End(object sender, EventArgs e)
