@@ -5,6 +5,7 @@ using Markdig.Renderers;
 using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -23,6 +24,7 @@ public class LcContent
 
     public IEnumerable<HelpArticle> GetHelpArticleList()
     {
+        var pageOwnerRepo = ConfigurationManager.AppSettings["pageOwnerRepo"];
         var client = new RestClient("https://api.github.com");
         var request = new RestRequest("/repos/loconomics-au/coop-website/contents/help/articles/205985385-how-do-i-import-and-sync-my-existing-calendar.md", Method.GET);
         request.RequestFormat = DataFormat.Json;
