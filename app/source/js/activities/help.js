@@ -39,7 +39,8 @@ var A = Activity.extend(function HelpActivity() {
             this.viewModel.sections(res[2]);
             this.viewModel.isLoading(false);
         }.bind(this))
-        .catch(function(/*err*/) {
+        .catch(function(/*err*/) {            
+            //console.log(err);
             this.viewModel.isLoading(false);
         }.bind(this));
     }.bind(this);

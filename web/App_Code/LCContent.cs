@@ -15,43 +15,42 @@ using System.Web;
 /// </summary>
 public class LcContent
 {
+    public string pagesOwnerRepo;
+    public RestClient restClient;
     public LcContent()
     {
-        //
-        // TODO: Add constructor logic here
-        //
+        restClient = new RestClient("https://api.github.com");
+        pagesOwnerRepo = ConfigurationManager.AppSettings["pagesOwnerRepo"];
     }
 
     public IEnumerable<HelpArticle> GetHelpArticleList()
     {
-        var pageOwnerRepo = ConfigurationManager.AppSettings["pageOwnerRepo"];
-        var client = new RestClient("https://api.github.com");
-        var request = new RestRequest("/repos/loconomics-au/coop-website/contents/help/articles/205985385-how-do-i-import-and-sync-my-existing-calendar.md", Method.GET);
+        var request = new RestRequest("/repos/" + pagesOwnerRepo + "/contents/help/articles/", Method.GET);
         request.RequestFormat = DataFormat.Json;
 
-        var response = client.Execute<HelpPage>(request);
+        var response = restClient.Execute<List<HelpPage>>(request);
 
-        var content = Base64Decode(response.Data.Content);
+        List<HelpArticle> helpArticles = new List<HelpArticle>();
+        foreach (var page in response.Data)
+        {
+            HelpArticle article = GetHelpArticle(page.Path);
+            helpArticles.Add(article);
+        }
 
-        var article = content.GetFrontMatter<HelpArticleFrontMatter>();
-        var html = ParseMarkdown(content);
-        article.Content = ParseMarkdown(content);
-
-        return new List<HelpArticle>() { new HelpArticle { id = article.Id, user_segment_id = 123, title = article.Title, body = article.Content, section_id = article.SectionId } };        
+        return helpArticles;        
     }
 
-    public HelpArticle GetHelpArticle(string title)
+    public HelpArticle GetHelpArticle(string path)
     {
-        var client = new RestClient("https://api.github.com");
-        var request = new RestRequest("/repos/loconomics-au/coop-website/contents/help/articles/205985385-how-do-i-import-and-sync-my-existing-calendar.md", Method.GET);
+        var request = new RestRequest("/repos/" + pagesOwnerRepo + "/contents/" + path, Method.GET);
+        
         request.RequestFormat = DataFormat.Json;
 
-        var response = client.Execute<HelpPage>(request);
+        var response = restClient.Execute<HelpPage>(request);
 
         var content = Base64Decode(response.Data.Content);
 
-        var article = content.GetFrontMatter<HelpArticleFrontMatter>();
-        var html = ParseMarkdown(content);
+        var article = content.GetFrontMatter<HelpArticleFrontMatter>() ?? new HelpArticleFrontMatter();
         article.Content = ParseMarkdown(content);
 
         return new HelpArticle { id = article.Id, user_segment_id = 123, title = article.Title, body = article.Content, section_id = article.SectionId };
@@ -98,6 +97,7 @@ public class LcContent
     public class HelpPage
     {
         public string Name { get; set; }
+        public string Path { get; set; }
         public string Content { get; set; }
     }
 }
