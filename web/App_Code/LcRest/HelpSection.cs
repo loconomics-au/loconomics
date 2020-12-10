@@ -15,26 +15,19 @@ namespace LcRest
         public string description;
         public int id;
         public string locale;
-        public string name;        
+        public string name;
         #endregion
+
+        private readonly LcContent content;
 
         public HelpSection()
         {
-            //
-            // TODO: Add constructor logic here
-            //
+            content = new LcContent();
         }
 
-        public static IEnumerable<HelpSection> GetFullList(int languageID, int countryID)
+        public IEnumerable<HelpSection> GetFullList(int languageID, int countryID)
         {
-            var cached = HttpContext.Current.Cache["ClassCollection:HelpSection"] as List<HelpSection>;
-            if (cached == null)
-            {
-                cached = new List<HelpSection>() { new HelpSection { category_id = 1234, description = "section desc", id = 1, locale = "en-AU", name = "section A" } };
-                HttpContext.Current.Cache["ClassCollection:HelpSection"] = cached;
-            }
-
-            return cached;
+            return content.GetHelpSections().ToList();
         }
     }
 }

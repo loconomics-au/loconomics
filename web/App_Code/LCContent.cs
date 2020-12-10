@@ -23,38 +23,94 @@ public class LcContent
         pagesOwnerRepo = ConfigurationManager.AppSettings["pagesOwnerRepo"];
     }
 
-    public IEnumerable<HelpArticle> GetHelpArticleList()
+    public IEnumerable<HelpCategory> GetHelpCategories()
     {
-        var request = new RestRequest("/repos/" + pagesOwnerRepo + "/contents/help/articles/", Method.GET);
-        request.RequestFormat = DataFormat.Json;
+        List<HelpArticleFrontMatter> frontMatterArticles;
+        GetHelpArticleList(out frontMatterArticles);
 
-        var response = restClient.Execute<List<HelpPage>>(request);
+        List<HelpCategory> helpCategories = (from c in frontMatterArticles
+                                             select new { c.CategoryId, c.Category })
+                                             .Distinct()
+                                             .Select(o => new HelpCategory() { id = o.CategoryId, name = o.Category })
+                                             .ToList();
 
-        List<HelpArticle> helpArticles = new List<HelpArticle>();
-        foreach (var page in response.Data)
+        return helpCategories;
+    }
+
+    public IEnumerable<HelpSection> GetHelpSections()
+    {
+        List<HelpArticleFrontMatter> frontMatterArticles;
+        GetHelpArticleList(out frontMatterArticles);
+
+        List<HelpSection> helpSections = (from s in frontMatterArticles
+                                          select new { s.CategoryId, s.SectionId, s.Section })
+                                          .Distinct()
+                                          .Select(o => new HelpSection() { category_id = o.CategoryId, id = o.SectionId, name = o.Section })                                          
+                                          .ToList();
+
+        return helpSections;
+    }
+
+    public IEnumerable<HelpArticle> GetHelpArticleList(out List<HelpArticleFrontMatter> cached)
+    {
+        cached = HttpContext.Current.Cache["ClassCollection:LcMarkdown.HelpArticleList"] as List<HelpArticleFrontMatter>;
+        if (cached == null)
         {
-            HelpArticle article = GetHelpArticle(page.Path);
-            helpArticles.Add(article);
+            var request = new RestRequest("/repos/" + pagesOwnerRepo + "/contents/help/articles/", Method.GET);
+            request.RequestFormat = DataFormat.Json;
+
+            var response = restClient.Execute<List<HelpPage>>(request);
+
+            List<HelpArticleFrontMatter> frontMatterArticles = new List<HelpArticleFrontMatter>();
+            foreach (var page in response.Data)
+            {
+                HelpArticleFrontMatter frontMatter;
+                HelpArticle article = GetHelpArticle(page.Path, out frontMatter);
+                frontMatterArticles.Add(frontMatter);
+            }
+
+            cached = frontMatterArticles;
+            HttpContext.Current.Cache["ClassCollection:LcMarkdown.HelpArticleList"] = cached;
         }
+
+        List<HelpArticle> helpArticles = (from a in cached
+                                         select new HelpArticle() { id = a.Id, title = a.Title, body = a.Content,
+                                             section_id = a.SectionId }
+                                         )
+                                         .ToList();
 
         return helpArticles;        
     }
 
-    public HelpArticle GetHelpArticle(string path)
+    public HelpArticle GetHelpArticle(string path, out HelpArticleFrontMatter cached)
     {
-        var request = new RestRequest("/repos/" + pagesOwnerRepo + "/contents/" + path, Method.GET);
-        
-        request.RequestFormat = DataFormat.Json;
+        cached = HttpContext.Current.Cache["ClassInstance:LcMarkdown.HelpArticleFrontMatter:" + path] as HelpArticleFrontMatter;
+        //var article = new HelpArticleFrontMatter();
 
-        var response = restClient.Execute<HelpPage>(request);
+        if (cached == null)
+        {
+            var request = new RestRequest("/repos/" + pagesOwnerRepo + "/contents/" + path, Method.GET);
 
-        var content = Base64Decode(response.Data.Content);
+            request.RequestFormat = DataFormat.Json;
 
-        var article = content.GetFrontMatter<HelpArticleFrontMatter>() ?? new HelpArticleFrontMatter();
-        article.Content = ParseMarkdown(content);
+            var response = restClient.Execute<HelpPage>(request);
 
-        return new HelpArticle { id = article.Id, user_segment_id = 123, title = article.Title, body = article.Content, section_id = article.SectionId };
+            var content = Base64Decode(response.Data.Content);
 
+            cached = content.GetFrontMatter<HelpArticleFrontMatter>() ?? new HelpArticleFrontMatter();
+            cached.Content = ParseMarkdown(content);
+
+            HttpContext.Current.Cache["ClassInstance:LcMarkdown.HelpArticleFrontMatter:" + path] = cached;
+        }
+
+        return new HelpArticle
+        {
+            id = cached.Id,
+            user_segment_id = 123,
+            title = cached.Title,
+            body = cached.Content,
+            section_id = cached.SectionId
+        };
     }
 
     private string Base64Decode(string base64EncodedData)

@@ -21,6 +21,9 @@ namespace LcMarkdown
         [YamlMember(Alias = "category")]
         public string Category { get; set; }
 
+        [YamlMember(Alias = "category_id")]
+        public int CategoryId { get; set; }
+
         [YamlMember(Alias = "section")]
         public string Section { get; set; }
 

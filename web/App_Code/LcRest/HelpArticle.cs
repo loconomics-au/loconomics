@@ -17,36 +17,28 @@ namespace LcRest
     public class HelpArticle
     {
         #region fields
-        public int author_id;
-        public bool draft;
-        public int id;
-        public string locale;
-        public int permission_group_id;
-        public string title;
-        public string body;
-        public int section_id;
-        public int user_segment_id;
-
+        public int author_id { get; set; }
+        public bool draft { get; set; }
+        public int id { get; set; }
+        public string locale { get; set; }
+        public int permission_group_id { get; set; }
+        public string title { get; set; }
+        public string body { get; set; }
+        public int section_id { get; set; }
+        public int user_segment_id { get; set; }
         #endregion
+
+        private readonly LcContent content;
+
         public HelpArticle()
         {
-            //
-            // TODO: Add constructor logic here
-            //
+            content = new LcContent();
         }
 
-        public static IEnumerable<HelpArticle> GetFullList(int languageID, int countryID)
+        public IEnumerable<HelpArticle> GetFullList(int languageID, int countryID)
         {
-            LcContent content = new LcContent();
-            var cached = HttpContext.Current.Cache["ClassCollection:HelpArticle"] as List<HelpArticle>;
-            if (cached == null)
-            {
-                cached = content.GetHelpArticleList().ToList();
-                HttpContext.Current.Cache["ClassCollection:HelpArticle"] = cached;
-            }
-
-            return cached;
+            var articles = new List<HelpArticleFrontMatter>();
+            return content.GetHelpArticleList(out articles).ToList();
         }
-
     }
 }
