@@ -24,35 +24,40 @@
   }
 *@
 @functions{
-  public class RestHelpArticles : RestWebPage
-  {
-    public override dynamic Get()
+    public class RestHelpArticles : RestWebPage
     {
-      var locale = LcRest.Locale.Current;
-      if (UrlData.Count == 0)
+      public RestHelpArticles()
       {
-        // Full article list
-        return new LcRest.HelpArticle().GetFullList(locale.languageID, locale.countryID);
+        base.UseMock = true;
       }
-      else if (UrlData.Count == 1 && UrlData[0] == "articles")
-      {
-        // Full article list
-        return new LcRest.HelpArticle().GetFullList(locale.languageID, locale.countryID);
 
-      }
-      else if (UrlData.Count == 1 && UrlData[0] == "sections")
+      public override dynamic Get()
       {
-        // full section list
-        return new LcRest.HelpSection().GetFullList(locale.languageID, locale.countryID);
+        var locale = LcRest.Locale.Current;
+        if (UrlData.Count == 0)
+        {
+          // Full article list
+          return new LcRest.HelpArticle().GetFullList(locale.languageID, locale.countryID);
+        }
+        else if (UrlData.Count == 1 && UrlData[0] == "articles")
+        {
+          // Full article list
+          return new LcRest.HelpArticle().GetFullList(locale.languageID, locale.countryID);
+
+        }
+        else if (UrlData.Count == 1 && UrlData[0] == "sections")
+        {
+          // full section list
+          return new LcRest.HelpSection().GetFullList(locale.languageID, locale.countryID);
+        }
+        else if (UrlData.Count == 1 && UrlData[0] == "categories")
+        {
+          // full section list
+          return new LcRest.HelpCategory().GetFullList(locale.languageID, locale.countryID);
+        }
+        return base.Get();
       }
-      else if (UrlData.Count == 1 && UrlData[0] == "categories")
-      {
-        // full section list
-        return new LcRest.HelpCategory().GetFullList(locale.languageID, locale.countryID);
-      }
-      return base.Get();
     }
-  }
 }
 @{
   new RestHelpArticles().JsonResponse(this);

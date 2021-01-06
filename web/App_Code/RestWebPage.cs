@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.WebPages;
 using System.Web.Routing;
+using RestSharp;
+using System.Configuration;
 
 /// <summary>
 /// Base class to simplify implementation of REST pages
@@ -19,6 +21,8 @@ using System.Web.Routing;
 public class RestWebPage
 {
     public System.Web.WebPages.WebPage WebPage;
+
+    public bool UseMock = false;
 
     public HttpRequestBase Request
     {
@@ -54,6 +58,9 @@ public class RestWebPage
                 // dynamic part of the URL that want to be catched up
                 // as a typical WebPage.UrlData.
                 var rpath = WebPage.Context.GetRouteValue("urldata");
+                var page = WebPage.Context.GetRouteValue("page");
+                var locale = WebPage.Context.GetRouteValue("locale");
+                var useMock = Request.Headers["UseMock"];
 
                 if (rpath != null)
                 {
@@ -112,6 +119,20 @@ public class RestWebPage
         this.WebPage = WebPage;
 
         dynamic result = null;
+
+        var useMockHeader = Request.Headers["UseMock"];
+        var useMockConfig = ConfigurationManager.AppSettings["useMock"] == "true";
+        var mockEndpoint = ConfigurationManager.AppSettings["mockEndpoint"];
+
+        if (!String.IsNullOrEmpty(useMockHeader) && useMockHeader == "true" && UseMock && useMockConfig && !String.IsNullOrEmpty(mockEndpoint))
+        {
+            RestClient restClient = new RestClient(mockEndpoint);
+            var request = new RestRequest(Request.Url.AbsolutePath.Replace(Request.ApplicationPath, ""));
+            request.RequestFormat = DataFormat.Json;
+
+            result = restClient.ExecuteDynamic(request);
+            return result.Data.Data;
+        }
 
         // For all requests:
         // No cache
