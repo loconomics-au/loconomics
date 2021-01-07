@@ -133,7 +133,7 @@ public class RestWebPage
             request.RequestFormat = DataFormat.Json;
 
             result = restClient.ExecuteDynamic(request);
-            return result.Data.Data;
+            return result?.Data?.Data;
         }
 
         // For all requests:
