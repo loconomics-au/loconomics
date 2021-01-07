@@ -126,7 +126,9 @@ public class RestWebPage
 
         if (!String.IsNullOrEmpty(useMockHeader) && useMockHeader == "true" && UseMock && useMockConfig && !String.IsNullOrEmpty(mockEndpoint))
         {
+            // use mock endpoint for request
             RestClient restClient = new RestClient(mockEndpoint);
+            // generate request to mock endpoint. mocked request url is the same as api request, but need to remove the application path for dev 
             var request = new RestRequest(Request.Url.AbsolutePath.Replace(Request.ApplicationPath, ""));
             request.RequestFormat = DataFormat.Json;
 
