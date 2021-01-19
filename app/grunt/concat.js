@@ -10,7 +10,8 @@ module.exports ={
         src: [
             './vendor/bootstrap/css/bootstrap.css',
             './vendor/font-awesome/css/font-awesome.css',
-            './vendor/ionicons/css/ionicons.css'
+            './vendor/ionicons/css/ionicons.css',
+            './vendor/stripe/css/global.css'
         ],
         dest: './build/assets/css/libs.css'
     }

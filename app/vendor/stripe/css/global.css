@@ -1,0 +1,41 @@
+/* Variables */
+:root {
+  --gray-offset: rgba(0, 0, 0, 0.03);
+  --gray-border: rgba(0, 0, 0, 0.15);
+  --gray-light: rgba(0, 0, 0, 0.4);
+  --gray-mid: rgba(0, 0, 0, 0.7);
+  --gray-dark: rgba(0, 0, 0, 0.9);
+  --body-color: var(--gray-mid);
+  --headline-color: var(--gray-dark);
+  --accent-color: #0066f0;
+  --body-font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  --radius: 6px;
+  --logo-image: url("https://storage.googleapis.com/stripe-sample-images/KAVHOLM.svg");
+  --form-width: 343px;
+}
+
+
+/* Buttons and links */
+button#stripe-submit { 
+  background: var(--accent-color);
+  border-radius: var(--radius);
+  color: white;
+  border: 0;
+  padding: 12px 16px;
+  margin-top: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: block;
+}
+button#stripe-submit:hover {
+  filter: contrast(115%);
+}
+button#stripe-submit:active {
+  transform: translateY(0px) scale(0.98);
+  filter: brightness(0.9);
+}
+button#stripe-submit:disabled {
+  opacity: 0.5;
+  cursor: none;
+}
