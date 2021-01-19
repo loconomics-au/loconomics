@@ -14,6 +14,8 @@ require('../direct-deposit-viewer');
 require('../direct-deposit-editor');
 require('../venmo-viewer');
 require('../venmo-editor');
+require('../stripe-viewer');
+require('../stripe-editor');
 var PaymentAccount = require('../../../models/PaymentAccount');
 var paymentAccount = require('../../../data/paymentAccount');
 var PaymentPreferenceOption = require('../../../models/PaymentPreferenceOption');
@@ -63,12 +65,27 @@ function ViewModel(params) {
         var data = this.paymentOptionData();
 
         if(data && data.status()) {
-            var isVenmo = !data.accountNumber() || !data.routingNumber();
-            return isVenmo ? AvailableOptions.venmo : AvailableOptions.directDeposit;
+            var isDeposit = data.accountNumber() && data.routingNumber();
+            var isStripe = data.isStripe();
+            if (isDeposit) {
+                return AvailableOptions.directDeposit;
+            }
+            if (isStripe) {
+                return AvailableOptions.stripe;
+            }
+
+            return AvailableOptions.venmo;
         }
         else {
             return null;
         }
+    }, this);
+    /**
+     * When the viewer component for Stripe preference must be opened.
+     * @member {KnockoutComputed<boolean>}
+     */
+    this.isStripeViewerOpened = ko.pureComputed(function() {
+        return this.viewerPreferenceID() === AvailableOptions.stripe;
     }, this);
     /**
      * When the viewer component for Venmo preference must be opened.
@@ -83,6 +100,13 @@ function ViewModel(params) {
      */
     this.isDirectDepositViewerOpened = ko.pureComputed(function() {
         return this.viewerPreferenceID() === AvailableOptions.directDeposit;
+    }, this);
+    /**
+     * When the editor component for Stripe preference must be opened.
+     * @member {KnockoutComputed<boolean>}
+     */
+    this.isStripeEditorOpened = ko.pureComputed(function() {
+        return this.editorPreferenceID() === AvailableOptions.stripe;
     }, this);
     /**
      * When the editor component for Venmo preference must be opened.
@@ -125,6 +149,15 @@ function ViewModel(params) {
      */
     this.openVenmoEditor = function() {
         this.editorPreferenceID(AvailableOptions.venmo);
+        // and hide the selector list
+        this.isSelectorOpened(false);
+    }.bind(this);
+    /**
+     * Open the editor component for Stripe preference
+     * @method
+     */
+    this.openStripeEditor = function() {
+        this.editorPreferenceID(AvailableOptions.stripe);
         // and hide the selector list
         this.isSelectorOpened(false);
     }.bind(this);

@@ -24,7 +24,7 @@ module.exports = PaymentPreferenceOption;
  */
 var AvailableOptions = {
     directDeposit: 'direct-deposit',
-    venmo: 'venmo'
+    stripe: 'stripe'
 };
 
 /**
@@ -38,9 +38,9 @@ var optionsList = [
         description: 'Your bank account information to receive payments through Braintree'
     }),
     new PaymentPreferenceOption({
-        paymentPreferenceOptionID: AvailableOptions.venmo,
-        name: 'Venmo',
-        description: 'You will have to set up your Venmo account to release payments'
+        paymentPreferenceOptionID: AvailableOptions.stripe,
+        name: 'Stripe',
+        description: 'You will have to set up your Stripe account to release payments'
     })
 ];
 

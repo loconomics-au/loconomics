@@ -44,6 +44,11 @@
 @functions{
     public class RestPaymentAccount : RestWebPage
     {
+        public RestPaymentAccount()
+        {
+            base.UseMock = true;
+        }
+
         private dynamic GetData()
         {
             return LcRest.PaymentAccount.Get(WebSecurity.CurrentUserId);
@@ -51,7 +56,8 @@
 
         public override dynamic Get()
         {
-            if (UrlData.Count > 0) {
+            if (UrlData.Count > 0)
+            {
                 throw new HttpException(404, "[[[Not found]]]");
             }
 

@@ -19,12 +19,14 @@ function PaymentAccount(values) {
         postalCode: '',
         routingNumber: '',
         accountNumber: '',
+        stripeNumber: '',
         // Just for form validation purposes only
         accountNumberRepeated: '',
         ssn: '',
         stateProvinceCode: '',
         birthDate: '',
         isVenmo: false,
+        isStripe: false,
         agree: false,
         status: '',
         errors: {

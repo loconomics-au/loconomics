@@ -10,6 +10,9 @@
         <!-- ko if:isVenmoViewerOpened -->
         <payout-venmo-viewer params="data: paymentOptionData, requestEdit: openVenmoEditor, isEditorOpened: isVenmoEditorOpened()"></payout-venmo-viewer>
         <!-- /ko -->
+        <!-- ko if:isStripeViewerOpened -->
+        <payout-stripe-viewer params="data: paymentOptionData, requestEdit: openStripeEditor, isEditorOpened: isStripeEditorOpened()"></payout-stripe-viewer>
+        <!-- /ko -->
     </div>
     <div class="PaddedBox-xs-only PaddedBox-sm-only" data-bind="if: editorPreferenceID">
         <!-- ko if:isDirectDepositEditorOpened -->
@@ -17,6 +20,9 @@
         <!-- /ko -->
         <!-- ko if:isVenmoEditorOpened -->
         <payout-venmo-editor params="data: getDataForEditor(), onSaved: onSaved"></payout-venmo-editor>
+        <!-- /ko -->
+        <!-- ko if:isStripeEditorOpened -->
+        <payout-stripe-editor params="data: getDataForEditor(), onSaved: onSaved"></payout-stripe-editor>
         <!-- /ko -->
         <div class="LightForm">
             <button type="button" class="btn btn-secondary btn-block" data-bind="click: openSelector">

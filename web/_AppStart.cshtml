@@ -81,6 +81,12 @@
     // Refer professionals
     RouteTable.Routes.MapWebPageRoute("refer/", "~/_specialRoutes/refer.cshtml");
 
+    // Stripe Payment Gateway routes
+    // special routes for pages to onboard stripe accounts
+    RouteTable.Routes.MapWebPageRoute("stripe-refresh", "~/_specialRoutes/StripeOnboarding.cshtml", new { type = "refresh" });
+    RouteTable.Routes.MapWebPageRoute("stripe-return", "~/_specialRoutes/StripeOnboarding.cshtml", new { type = "return" });
+
+
 
     /*
      * Because a false positive at the PCI Scan (2017-03-07, ScanID 7340331)

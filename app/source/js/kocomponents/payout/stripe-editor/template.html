@@ -1,0 +1,16 @@
+<form id="stripeSetupForm" class="LightForm" data-bind="with: data" aria-describedby="stripeSetupFormInstructions">
+    <fieldset>
+        <legend>Set-up a Stripe account for payouts</legend> 
+        <p id="stripeSetupFormInstructions" class="help-block">
+            Client payments will be disbursed directly to your existing Stripe account you setup here. 
+            If you do not have a Stripe account, a new one will be created linked to your email address 
+            you used when signing up for Loconomics. You will be responsible for transfering payments 
+            to your bank from Stripe.<br />
+            On clicking the button below, you will be taken to the Stripe onboarding website to either link your existing Stripe account or create a new one.
+        </p>                        
+        <div class="form-group">
+            <button id="stripe-submit"
+            data-bind="text: $parent.submitText, disable: $parent.isLocked, click: $parent.save">Setup payouts on Stripe</button>
+        </div>       
+    </fieldset>
+</form>

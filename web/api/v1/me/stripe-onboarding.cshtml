@@ -1,0 +1,25 @@
+﻿@{
+
+}
+
+@functions{
+    public class StripeOnboarding : RestWebPage
+    {
+        public StripeOnboarding()
+        {
+            base.UseMock = true;
+        }
+
+        public override dynamic Post()
+        {
+            LCStripeProvider provider = new LCStripeProvider();
+            var accountLink = provider.OnboardUserAccount();
+            return accountLink;
+        }
+    }
+}
+
+@{
+    Response.RestRequiresUser(LcData.UserInfo.UserType.ServiceProfessional);
+    new StripeOnboarding().JsonResponse(this);
+}

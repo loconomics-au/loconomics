@@ -967,7 +967,8 @@ public static partial class LcData
         string status,
         string message,
         string signature,
-        string payload)
+        string payload,
+        string providerName = null)
     {
         using (var db = Database.Open("sqlloco"))
         {
@@ -977,10 +978,11 @@ public static partial class LcData
                         MerchantAccountID = @1
                         , Status = coalesce(@2, Status)
                         , Message = coalesce(@3, Message)
+                        , PaymentProviderName = coalesce(@6, PaymentProviderName)
                         , bt_signature = coalesce(@4, bt_signature)
                         , bt_payload = coalesce(@5, bt_payload)
                         , UpdatedDate = getdate()
-                        , ModifiedBy = 'braintree'
+                        , ModifiedBy = coalesce(@6, 'loco')
                     WHERE ProviderUserID = @0
                 ELSE
                     INSERT INTO ProviderPaymentAccount (
@@ -988,6 +990,7 @@ public static partial class LcData
                         , MerchantAccountID
                         , Status
                         , Message
+                        , PaymentProviderName
                         , bt_signature
                         , bt_payload
                         , CreatedDate
@@ -998,11 +1001,12 @@ public static partial class LcData
                         , @1
                         , coalesce(@2, 'pending')
                         , @3
+                        , @6
                         , @4
                         , @5
                         , getdate()
                         , getdate()
-                        , 'braintree'
+                        , coalesce (@6, 'loco')
                     )
 
                 -- We need to recheck the alert
@@ -1013,7 +1017,8 @@ public static partial class LcData
                     status,
                     message,
                     signature,
-                    payload
+                    payload, 
+                    providerName
                 );
         }
     }

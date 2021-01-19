@@ -5,6 +5,7 @@ using System.Web;
 using System.Configuration;
 using Braintree;
 using System.Web.WebPages;
+using LcRest;
 
 /// <summary>
 /// Descripción breve de LcPayment
@@ -740,6 +741,153 @@ public static partial class LcPayment
             signature,
             payload
         );
+    }
+
+    public static PaymentAccount GetPaymentAccount(int userID)
+    {
+
+        PaymentAccount acc = null;
+        var btAccount = LcPayment.GetProviderPaymentAccount(userID);
+        if (btAccount != null &&
+            btAccount.IndividualDetails != null)
+        {
+            acc = new PaymentAccount
+            {
+                userID = userID,
+                firstName = btAccount.IndividualDetails.FirstName,
+                lastName = btAccount.IndividualDetails.LastName,
+                phone = btAccount.IndividualDetails.Phone,
+                email = btAccount.IndividualDetails.Email,
+                streetAddress = btAccount.IndividualDetails.Address.StreetAddress,
+                //extendedAddress = btAccount.IndividualDetails.Address.ExtendedAddress,
+                city = btAccount.IndividualDetails.Address.Locality,
+                postalCode = btAccount.IndividualDetails.Address.PostalCode,
+                stateProvinceCode = btAccount.IndividualDetails.Address.Region,
+                countryCode = btAccount.IndividualDetails.Address.CountryCodeAlpha2,
+                birthDate = btAccount.IndividualDetails.DateOfBirth == null ? null :
+                    btAccount.IndividualDetails.DateOfBirth.IsDateTime() ?
+                    (DateTime?)btAccount.IndividualDetails.DateOfBirth.AsDateTime() :
+                    null,
+                ssn = String.IsNullOrEmpty(btAccount.IndividualDetails.SsnLastFour) ? "" : btAccount.IndividualDetails.SsnLastFour.PadLeft(10, '*'),
+                status = (btAccount.Status ?? Braintree.MerchantAccountStatus.PENDING).ToString().ToLower()
+            };
+            // IMPORTANT: We need to strictly check for the null value of IndividualDetails and FundingDetails
+            // since errors can arise, see #554
+            if (btAccount.FundingDetails != null)
+            {
+                acc.routingNumber = btAccount.FundingDetails.RoutingNumber;
+                acc.accountNumber = String.IsNullOrEmpty(btAccount.FundingDetails.AccountNumberLast4) ? "" : btAccount.FundingDetails.AccountNumberLast4.PadLeft(10, '*');
+                // Is Venmo account if there is no bank informatino
+                acc.isVenmo = String.IsNullOrEmpty(acc.accountNumber) && String.IsNullOrEmpty(acc.routingNumber);
+            }
+        }
+        else
+        {
+            // Automatically fetch personal data from our DB (this will work as a preset)
+            var data = LcRest.UserProfile.Get(userID);
+            var add = LcRest.Address.GetHomeAddress(userID);
+            acc = new PaymentAccount
+            {
+                userID = userID,
+                firstName = data.firstName,
+                lastName = data.lastName,
+                phone = data.phone,
+                email = data.email,
+                streetAddress = add.addressLine1,
+                postalCode = add.postalCode,
+                city = add.city,
+                stateProvinceCode = add.stateProvinceCode
+            };
+        }
+        // Get data from our database as LAST step: both when there is data from Braintree and when not (this will let status to work
+        // on localdev environments too, for testing)
+        var dbAccount = LcData.GetProviderPaymentAccount(userID);
+        if (dbAccount != null)
+        {
+            // Status from Braintree is not working, or has a big delay setting up the first time so user don't see the status,
+            // using our saved copy:
+            acc.status = (string)dbAccount.Status;
+            //if (btAccount.Status == Braintree.MerchantAccountStatus.SUSPENDED)
+            if (dbAccount.status == "suspended")
+            {
+                var gw = LcPayment.NewBraintreeGateway();
+                var notification = gw.WebhookNotification.Parse((string)dbAccount.bt_signature, (string)dbAccount.bt_payload);
+                var errors = new List<string>();
+                errors.Add(notification.Message);
+                notification.Errors.All().Select(x => x.Code + ": " + x.Message);
+                acc.errors = errors;
+            }
+        }
+        return acc;
+    }
+
+    public static void SetPaymentAccount(PaymentAccount account)
+    {
+        // Gathering state and postal IDs and verifying they match
+        var add = new LcRest.Address
+        {
+            postalCode = account.postalCode,
+            countryCode = account.countryCode
+        };
+        if (!LcRest.Address.AutosetByCountryPostalCode(add))
+        {
+            throw new ValidationException("[[[Postal Code is not valid.]]]", "postalCode");
+        }
+        else
+        {
+            account.city = add.city;
+            account.stateProvinceCode = add.stateProvinceCode;
+        }
+
+        var emulateBraintree = ASP.LcHelpers.Channel == "localdev";
+        if (emulateBraintree)
+        {
+            LcData.SetProviderPaymentAccount(
+                account.userID,
+                "FAIK REQUEST ID: " + Guid.NewGuid(),
+                "pending",
+                null,
+                null,
+                null
+            );
+        }
+        else
+        {
+            var email = LcRest.UserProfile.GetEmail(account.userID);
+            var result = LcPayment.CreateProviderPaymentAccount(
+                new LcData.UserInfo
+                {
+                    UserID = account.userID,
+                    FirstName = account.firstName,
+                    LastName = account.lastName,
+                    Email = email,
+                    MobilePhone = account.phone
+                }, new LcData.Address
+                {
+                    AddressLine1 = account.streetAddress,
+                    PostalCode = account.postalCode,
+                    City = account.city,
+                    StateProvinceCode = account.stateProvinceCode,
+                    CountryID = add.countryID
+                }, new LcPayment.BankInfo
+                {
+                    RoutingNumber = account.routingNumber,
+                    AccountNumber = account.accountNumber
+                },
+                account.birthDate.Value,
+                account.ssn
+            );
+
+            if (result == null)
+            {
+                throw new ValidationException("[[[It looks like you already have an account set up with Braintree. Please contact us, and we can help.]]]");
+            }
+            else if (!result.IsSuccess())
+            {
+                throw new ValidationException(result.Message);
+                //foreach (var err in result.Errors.All()) { }
+            }
+        }
     }
 
     #region BankInfo Class

@@ -1,0 +1,11 @@
+﻿@{
+    var response = "";
+
+    LCStripeProvider provider = new LCStripeProvider();
+    provider.UpdateStatus();
+
+    var appPath = Request.ApplicationPath;
+    var absPath = Request.Url.AbsolutePath;
+
+    Response.Redirect(Request.ApplicationPath);
+}
