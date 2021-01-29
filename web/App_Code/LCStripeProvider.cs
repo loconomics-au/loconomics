@@ -1,5 +1,6 @@
 ﻿using LcRest;
 using Stripe;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Globalization;
 using System.Threading;
@@ -135,5 +136,15 @@ public class LCStripeProvider
 
     #region MarketPlace
     public const string MarketplaceProviderFee = "1.75% plus $0.30";
+    #endregion
+
+    #region Payments
+    public LcPayment.PaymentInfo CollectPayment(out Dictionary<string, string> validationResults)
+    {
+        LcPayment.PaymentInfo paymentInfo = null;
+        validationResults = null;
+
+        return paymentInfo;
+    }
     #endregion
 }

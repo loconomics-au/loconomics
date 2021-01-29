@@ -61,6 +61,7 @@ namespace LcRest
         public bool paymentEnabled;
         public bool paymentCollected;
         public bool paymentAuthorized;
+        public string paymentProvider;
         public int? awaitingResponseFromUserID;
         public bool pricingAdjustmentRequested;
         internal string supportTicketNumber;
@@ -164,6 +165,7 @@ namespace LcRest
                 paymentLastFourCardNumberDigits = forClient || internalUse ? LcEncryptor.Decrypt(booking.paymentLastFourCardNumberDigits) : null,
                 paymentMethodID = internalUse ? booking.paymentMethodID : null,
                 cancellationPaymentTransactionID = internalUse ? booking.cancellationPaymentTransactionID : null,
+                paymentProvider = booking.PaymentProviderName,
                 clientPayment = booking.clientPayment,
                 serviceProfessionalPaid = booking.serviceProfessionalPaid,
                 serviceProfessionalPPFeePaid = booking.serviceProfessionalPPFeePaid,
@@ -256,7 +258,7 @@ namespace LcRest
             // That's excludes service professional bookings too from require payment (is not a client booking).
             // IMPORTANT: After bug found at #1002, paymentEnabled can be changed to false later if the pricing/services attached sum zero,
             // so nothing need to be charged, no payment to be collected.
-            // TOO: From issue #564, Epic #563, payment can be enabled without requiring an active
+            // TODO: From issue #564, Epic #563, payment can be enabled without requiring an active
             // MarketplacePaymentAccount when the professional preference is 'booking request', 
             // that means we must forbide booking when is InstantBooking and not payment account is active.
             booking.paymentEnabled = false;
@@ -433,6 +435,7 @@ namespace LcRest
                 paymentLastFourCardNumberDigits,
                 paymentMethodID,
                 cancellationPaymentTransactionID,
+                P.PaymentProviderName,
                 clientPayment,
                 serviceProfessionalPaid,
                 serviceProfessionalPPFeePaid,
@@ -493,6 +496,11 @@ namespace LcRest
              LEFT JOIN
             CalendarEvents As EA2
                 ON EA2.Id = B.AlternativeDate2ID
+        ";
+        const string sqlJoinProvider = @"            
+			LEFT JOIN 
+            ProviderPaymentAccount AS P 
+                ON P.ProviderUserID = B.ServiceProfessionalUserID
         ";
         const string sqlGetItem = sqlSelect + "WHERE B.bookingID = @0";
         const string sqlGetList = sqlSelect + sqlJoinDate + @"
@@ -1611,85 +1619,36 @@ namespace LcRest
 
             try
             {
-                // The steps on emulation allows a quick view of what the overall process does and data being set.
-                if (LcPayment.TESTING_EMULATEBRAINTREE)
+                // TODO call BT or Stripe code
+                Dictionary<string, string> validationResults = null;
+                LcPayment.PaymentInfo paymentInfo = null;
+
+                switch (this.paymentProvider)
                 {
-                    paymentTransactionID = null;
-                    cancellationPaymentTransactionID = null;
-                    paymentMethodID = LcPayment.CreateFakePaymentMethodId();
-                    paymentLastFourCardNumberDigits = null;
-                    paymentCollected = true;
-                    paymentAuthorized = false;
+                    case "braintree":
+                        paymentInfo = LcPayment.CollectPayment(bookingID, clientUserID, paymentData, savePayment, out validationResults);
+                        break;
+                    case "stripe":
+                        paymentInfo = new LCStripeProvider().CollectPayment(out validationResults);
+                        break;
+                    default:
+                        validationResults.Add("Invalid Payment Provider", string.Format("Payment Provider '{0}' for Booking ID {1} is not valid", this.paymentProvider, this.bookingID));
+                        break;
                 }
-                else
+
+                paymentMethodID = paymentInfo.PaymentMethodID;
+                paymentLastFourCardNumberDigits = paymentInfo.PaymentLastFourCardNumberDigits;
+                paymentCollected = paymentInfo.PaymentCollected;
+                paymentAuthorized = paymentInfo.PaymentAuthorized;
+                paymentTransactionID = paymentInfo.PaymentTransactionID;
+                cancellationPaymentTransactionID = paymentInfo.CancellationPaymentTransactionID;  
+
+                if (validationResults != null && validationResults.Count > 0)
                 {
-                    BraintreeGateway gateway = LcPayment.NewBraintreeGateway();
-                    // Find or create Customer on Braintree
-                    var client = LcPayment.GetOrCreateBraintreeCustomer(clientUserID);
+                    // Remove
+                    DeleteBooking(this);
 
-                    //ASP.LcHelpers.DebugLogger.Log("COLLECT PAYMENT, Braintree preparation, client " + clientUserID);
-
-                    // Quick way for saved payment method that does not needs to be updated
-                    var hasID = !String.IsNullOrWhiteSpace(paymentData.paymentMethodID);
-                    if (hasID && !savePayment)
-                    {
-                        // Just double check payment exists to avoid mistake/malicious attempts:
-                        if (!paymentData.ExistsOnVault())
-                        {
-                            //ASP.LcHelpers.DebugLogger.Log("COLLECT PAYMENT THROWS: Chosen payment method has expired");
-                            // Since we have not input data to save, we can only throw an error
-                            // invalidSavedPaymentMethod
-                            throw new ConstraintException("[[[Chosen payment method has expired]]]");
-                        }
-                    }
-                    else
-                    {
-                        // Creates or updates a payment method with the given data
-
-                        // We create a temp ID if needed
-                        // (when an ID is provided, thats used -and validated and autogenerated if is not found while saving-,
-                        // and an empty ID for a payment to save is just left empty to be autogenerated as a persistent payment method)
-                        if (!hasID && !savePayment)
-                        {
-                            paymentData.paymentMethodID = LcPayment.TempSavedCardPrefix + ASP.LcHelpers.Channel + "_" + bookingID.ToString();
-                        }
-
-                        // Validate
-                        var validationResults = paymentData.Validate();
-                        if (validationResults.Count > 0)
-                        {
-                            //ASP.LcHelpers.DebugLogger.Log("COLLECT PAYMENT THROWS: validation errors, before delete booking");
-
-                            // Remove
-                            DeleteBooking(this);
-
-                            //ASP.LcHelpers.DebugLogger.Log("COLLECT PAYMENT THROWS: validation errors, before return them");
-
-                            return validationResults;
-                        }
-
-                        // Save on Braintree secure Vault
-                        // It updates the paymentMethodID if a new one was generated
-                        var saveCardError = paymentData.SaveInVault(client.Id);
-                        if (!String.IsNullOrEmpty(saveCardError))
-                        {
-                            //ASP.LcHelpers.DebugLogger.Log("COLLECT PAYMENT THROWS: saveCardError: " + saveCardError);
-                            // paymentDataError
-                            throw new ConstraintException(saveCardError);
-                        }
-                    }
-
-                    // We have a valid payment ID at this moment, save it on the booking
-                    paymentMethodID = paymentData.paymentMethodID;
-                    // Set card number (is processed later while saving to ensure only 4 and encrypted are persisted)
-                    paymentLastFourCardNumberDigits = paymentData.cardNumber;
-                    // Flags
-                    paymentCollected = true;
-                    paymentAuthorized = false;
-                    paymentTransactionID = null;
-                    cancellationPaymentTransactionID = null;
-
-                    //ASP.LcHelpers.DebugLogger.Log("COLLECT PAYMENT THROWS: finished Braintree tasks");
+                    return validationResults;
                 }
             }
             catch (Exception ex)
@@ -2656,6 +2615,12 @@ namespace LcRest
                 if (booking.paymentEnabled && booking.pricingSummary.totalPrice == 0)
                 {
                     booking.paymentEnabled = false;
+                }
+
+                var paymentAccount = LcData.GetProviderPaymentAccount(serviceProfessionalUserID);
+                if (paymentAccount != null)
+                {
+                    booking.paymentProvider = paymentAccount.PaymentProviderName;
                 }
 
                 // 2º: Preparing event date-times, checking availability and creating event
