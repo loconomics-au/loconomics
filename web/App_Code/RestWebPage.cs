@@ -133,6 +133,8 @@ public class RestWebPage
             request.RequestFormat = DataFormat.Json;
 
             result = restClient.ExecuteDynamic(request);
+            WebPage.Response.AddHeader("IsMocked", "true");
+
             return result?.Data?.Data;
         }
 

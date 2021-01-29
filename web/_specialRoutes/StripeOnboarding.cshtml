@@ -1,5 +1,15 @@
 ﻿@{
-    var response = "";
+    // stop browser from caching this page
+    Response.Cache.SetCacheability(HttpCacheability.NoCache);
+    Response.Cache.SetExpires(DateTime.UtcNow.AddHours(-1));
+    Response.Cache.SetNoStore();
+
+    Response.ExpiresAbsolute = DateTime.Now.AddDays(-1d);
+    Response.Expires = -1500;
+    Response.CacheControl = "no-cache";
+    //Page.Response.Cache.SetCacheability(HttpCacheability.NoCache);
+
+    Response.RestRequiresUser(LcData.UserInfo.UserType.ServiceProfessional);
 
     LCStripeProvider provider = new LCStripeProvider();
     provider.UpdateStatus();

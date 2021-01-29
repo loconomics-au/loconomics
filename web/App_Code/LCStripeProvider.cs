@@ -68,9 +68,29 @@ public class LCStripeProvider
     {
         var service = new AccountService();
         var paymentAccount = GetPaymentAccount(WebSecurity.CurrentUserId);
-        var mechantAccount = service.Get(paymentAccount.stripeNumber);
 
-        paymentAccount.status = mechantAccount.DetailsSubmitted ? "active" : "pending";
+        if (string.IsNullOrEmpty(paymentAccount.stripeNumber))
+        {
+            using (var logger = new LcLogger("StripeProvider"))
+            {
+                logger.Log("Connected Account:: No MerchantAccountID for UserID: {0}", WebSecurity.CurrentUserId);
+                logger.Save();
+            }
+            return;
+        }
+        var merchantAccount = service.Get(paymentAccount.stripeNumber);
+
+        if (merchantAccount == null)
+        {
+            using (var logger = new LcLogger("StripeProvider"))
+            {
+                logger.Log("Connected Account:: Impossible to get the provider account from MerchantAccountID: {0}", paymentAccount.stripeNumber);                
+                logger.Save();
+            }
+            return;
+        }
+
+        paymentAccount.status = merchantAccount.DetailsSubmitted ? "active" : "pending";
 
         SetPaymentAccount(paymentAccount);
     }
