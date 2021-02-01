@@ -493,7 +493,7 @@ public static partial class LcPayment
         public string CancellationPaymentTransactionID { get; set; }
     }
 
-    public static PaymentInfo CollectPayment(int bookingID, int clientUserID, LcPayment.InputPaymentMethod paymentData, bool savePayment, out Dictionary<string, string> validationResults)
+    public static PaymentInfo CollectPayment(int bookingID, int clientUserID, InputPaymentMethod paymentData, bool savePayment, out Dictionary<string, string> validationResults)
     {
         var paymentInfo = new PaymentInfo();
         validationResults = null;

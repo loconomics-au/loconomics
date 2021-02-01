@@ -288,6 +288,12 @@ namespace LcRest
                 booking.paymentEnabled = true;
             }
 
+            var paymentAccount = LcData.GetProviderPaymentAccount(serviceProfessionalID);
+            if (paymentAccount != null)
+            {
+                booking.paymentProvider = paymentAccount.PaymentProviderName;
+            }
+
             // Checks:
             booking.bookingStatusID = (int)LcEnum.BookingStatus.incomplete;
             booking.cancellationPolicyID = booking.userJobTitle.cancellationPolicyID;
@@ -1603,7 +1609,7 @@ namespace LcRest
         /// use (can be fetched with the API /me/payment-methods). When using a presaved paymentMethodID, passing this
         /// flag as true and the input data will update the saved data.</param>
         /// <param name="paymentData">The data for the payment method to use, pre-saved or new</param>
-        public Dictionary<string, string> CollectPayment(LcPayment.InputPaymentMethod paymentData, bool savePayment)
+        public Dictionary<string, string> CollectPayment( LcPayment.InputPaymentMethod paymentData, bool savePayment)
         {
             if (!paymentEnabled)
                 throw new ConstraintException("[[[Payment not enabled for this booking]]]");
@@ -1623,13 +1629,18 @@ namespace LcRest
                 Dictionary<string, string> validationResults = null;
                 LcPayment.PaymentInfo paymentInfo = null;
 
+                if (pricingSummary == null)
+                {
+                    FillPricingSummary();
+                }
+
                 switch (this.paymentProvider)
                 {
                     case "braintree":
                         paymentInfo = LcPayment.CollectPayment(bookingID, clientUserID, paymentData, savePayment, out validationResults);
                         break;
                     case "stripe":
-                        paymentInfo = new LCStripeProvider().CollectPayment(out validationResults);
+                        paymentInfo = new LCStripeProvider().CollectPayment(pricingSummary.totalPrice, serviceProfessionalUserID, paymentData, out validationResults);
                         break;
                     default:
                         validationResults.Add("Invalid Payment Provider", string.Format("Payment Provider '{0}' for Booking ID {1} is not valid", this.paymentProvider, this.bookingID));

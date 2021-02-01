@@ -58,8 +58,8 @@ function BaseClientBookingCardVM(app) {
     /// Date time picker(s)
     this.timeFieldToBeSelected = ko.observable('');
     /// Progress management
-    // Se inicializa con un estado previo al primer paso
-    // (necesario para el manejo de reset y preparación del activity)
+    // Initializes with a state prior to the first step
+    // (necessary for handling reset and preparing the activity)
     this.progress = new BookingProgress({ step: -1 });
 
     /// States (other states are computed)
@@ -150,6 +150,9 @@ function BaseClientBookingCardVM(app) {
         );
     }, this);
     this.isAnonymous = user.isAnonymous;
+    this.isStripe = ko.pureComputed(function() {
+        return this.booking().paymentProvider() == "stripe";
+    }, this);
 
     ///
     /// Computed observables and View Functions

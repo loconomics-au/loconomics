@@ -1,5 +1,6 @@
 ﻿using LcRest;
 using Stripe;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Globalization;
@@ -14,9 +15,13 @@ public class LCStripeProvider
     private readonly string apiKey = "";
     private readonly string refreshUrl = "";
     private readonly string returnUrl = "";
+
+    public static string PublicKey = ConfigurationManager.AppSettings["Stripe.PublicKey"];
+
     public LCStripeProvider()
     {
         apiKey = ConfigurationManager.AppSettings["Stripe.ApiKey"];
+        
         refreshUrl = ConfigurationManager.AppSettings["Stripe.RefreshUrl"];
         returnUrl = ConfigurationManager.AppSettings["Stripe.ReturnUrl"];
     }
@@ -47,7 +52,7 @@ public class LCStripeProvider
             firstName = merchantAccount.Individual.FirstName,
             lastName = merchantAccount.Individual.LastName,
             stripeNumber = merchantAccount.Id,
-            countryCode = LcRest.Locale.Current.countryCode
+            countryCode = Locale.Current.countryCode
         };
 
         SetPaymentAccount(data);
@@ -139,12 +144,41 @@ public class LCStripeProvider
     #endregion
 
     #region Payments
-    public LcPayment.PaymentInfo CollectPayment(out Dictionary<string, string> validationResults)
+    public LcPayment.PaymentInfo CollectPayment(decimal? totalPrice, int serviceProfessionalUserID, LcPayment.InputPaymentMethod paymentData, out Dictionary<string, string> validationResults)
     {
         LcPayment.PaymentInfo paymentInfo = null;
         validationResults = null;
+        int stripeAccountID = 0;
+
+
+        var paymentAccount = LcData.GetProviderPaymentAccount(serviceProfessionalUserID);
+        if (paymentAccount != null)
+        {
+            stripeAccountID = paymentAccount.MerchantAccountID;
+        }
+
+        StripeConfiguration.ApiKey = apiKey;
+
+        var service = new PaymentIntentService();
+        var createOptions = new PaymentIntentCreateOptions
+        {
+            Amount = totalPrice.Value.ToMinorUnit(),
+            Currency = "aud",
+            
+            PaymentMethodTypes = new List<string>
+                {
+                    "card",
+                },
+        };
+
+        var requestOptions = new RequestOptions();
+        requestOptions.StripeAccount = stripeAccountID.ToString();
+        var intent = service.Create(createOptions, requestOptions);
+
+        paymentInfo.PaymentMethodID = intent.Id;
 
         return paymentInfo;
+
     }
     #endregion
 }

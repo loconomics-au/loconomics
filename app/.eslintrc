@@ -4,6 +4,9 @@
         "commonjs": true,
         "es6": true
     },
+    "globals": {
+        "Stripe": "readonly"
+    },
     "extends": "eslint:recommended",
     "parserOptions": {
         "sourceType": "module"
@@ -95,7 +98,8 @@
         ],
         "max-statements": [
             "error",
-            25
+            30,
+            { "ignoreTopLevelFunctions": true }
         ],
         "max-statements-per-line": "off",
         "multiline-comment-style": "off",

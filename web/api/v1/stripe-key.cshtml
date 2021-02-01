@@ -1,0 +1,19 @@
+﻿
+@functions{
+        public class StripeKey : RestWebPage
+        {
+            public StripeKey()
+            {
+                base.UseMock = true;
+            }
+
+            public override dynamic Get()
+            {
+                return new { publicKey = LCStripeProvider.PublicKey };
+            }
+        }
+    }
+
+@{
+    new StripeKey().JsonResponse(this);
+}

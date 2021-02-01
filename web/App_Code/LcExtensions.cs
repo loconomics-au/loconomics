@@ -179,6 +179,11 @@ public static class LcExtensions
             return alt;
     }
 
+    public static long ToMinorUnit(this decimal priceInMajorUnit, long alt = 0)
+    {
+        return Convert.ToInt64(priceInMajorUnit * 100);
+    }
+
     public static List<T> Replace<T>(this List<T> list, T lookFor, T replaceWith)
     {
         for (int i = 0, l = list.Count; i < l; i++)

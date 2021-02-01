@@ -11,6 +11,7 @@ var bookings = require('../data/bookings');
 var availability = require('../data/availability');
 var showNotification = require('../modals/notification').show;
 var showError = require('../modals/error').show;
+var stripeKey = require('../data/stripeKey');
 
 // Functions to manage the lastBooking info, for save/restore state feature
 // IMPORTANT: initially used localforage, but this is cleared on a logout/login,
@@ -285,6 +286,8 @@ function NewClientBookingCardVM(app) {
             this.newDataReady(true);
             // Enter edit mode
             this.edit();
+            
+            this.loadStripe('#card-element', '#submit'); 
 
             // Reset progress to none and trigger next so Load logic gets executed
             this.progress.reset();
@@ -365,6 +368,102 @@ function NewClientBookingCardVM(app) {
             e.stopImmediatePropagation();
         }
     }.bind(this);
+    
+    this.loadStripe = function(stripeElement, stripeSubmit) {
+
+        const this2 = this;
+        stripeKey.getPublicKey()
+            .then(function(result) {
+                return result;
+            })
+            .then(function(data) {
+                return setupElements(data);
+            })
+            .then(function({ stripe, card }) {
+                document.querySelector(stripeSubmit).addEventListener("click", function(evt) {
+                evt.preventDefault();
+                this2.pay(stripe, card);
+            });
+        });
+
+        var setupElements = function(data) {
+            const stripe = Stripe(data.publicKey);
+            
+            /* ------- Set up Stripe Elements to use in checkout form ------- */
+            var elements = stripe.elements();
+            var style = {
+                base: {
+                    color: "#32325d",
+                    fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+                    fontSmoothing: "antialiased",
+                    fontSize: "16px",
+                    "::placeholder": {
+                    color: "#aab7c4"
+                    }
+                },
+                invalid: {
+                    color: "#fa755a",
+                    iconColor: "#fa755a"
+                }
+            };
+
+            var card = elements.create("card", { style: style });
+            card.mount(stripeElement);
+
+            return {
+                stripe: stripe,
+                card: card,
+                clientSecret: data.clientSecret
+            };
+        };
+    };
+    
+    this.pay = function(stripe, card) {
+        
+        var that = this;
+
+        var cardholderName = document.querySelector("#name").value;
+        var data = {
+            billing_details: {}
+        };
+
+        if (cardholderName) {
+            data["billing_details"]["name"] = cardholderName;
+        }
+
+        // Collect payment details
+        stripe
+            .createPaymentMethod("card", card, data)
+            .then(function(result) {
+            if (result.error) {
+                showError(result.error.message);
+            } else {
+
+                that.paymentMethod().paymentMethodID(result.paymentMethod.id);
+                that.paymentMethod().cardNumber(result.paymentMethod.card.last4);
+                // this.booking().paymentMethod = { 
+                //     paymentMethodId: result.paymentMethod.id, 
+                //     cardNumber: result.paymentMethod.card.last4,
+                //     nameOnCard: result.paymentMethod.billingDetails.name,
+                //     expirationMonthYear: result.paymentMethod.exp_month + '' + result.paymentMethod.exp_year,
+                //     savePayment: true
+                // };
+
+                /*
+                orderData.paymentMethodId = result.paymentMethod.id;
+
+                return fetch("/pay", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(orderData)
+                });
+                */
+            }
+        });
+    };
+    
 }
 NewClientBookingCardVM._inherits(BaseClientBookingCardVM);
 
