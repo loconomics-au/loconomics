@@ -131,6 +131,9 @@ function BaseClientBookingCardVM(app) {
     this.isLocked = ko.pureComputed(function() {
         return this.isLoading() || this.isSaving();
     }, this);
+    this.hasPaymentMethod = ko.pureComputed(function() {
+        return this.paymentMethod() !== null && this.paymentMethod().paymentMethodID() !== '';
+    }, this);
     // Edit permissions, per client edition rules #880
     this.canEdit = ko.pureComputed(function() {
         // Not allowed in request state (only cancellation is allowed there), so just only on 'confirmed' ones
@@ -150,6 +153,14 @@ function BaseClientBookingCardVM(app) {
         );
     }, this);
     this.isAnonymous = user.isAnonymous;
+    
+    this.clientName = ko.pureComputed(function() {        
+        var fullName = '';
+        if (!user.isAnonymous) {
+            fullName = user.fullName();
+        }
+        return fullName;
+    }, this);
     this.isStripe = ko.pureComputed(function() {
         return this.booking().paymentProvider() == "stripe";
     }, this);

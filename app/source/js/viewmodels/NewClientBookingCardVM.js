@@ -59,6 +59,7 @@ function NewClientBookingCardVM(app) {
     this.isLoadingNewBooking = ko.observable(false);
     this.isRestoring = ko.observable(false);
     this.isDone = ko.observable(false);
+    this.canProcessPayment = ko.observable(false);
 
     ///
     /// States
@@ -88,6 +89,7 @@ function NewClientBookingCardVM(app) {
 
         this.isSaving(false);
         this.isDone(false);
+        this.canProcessPayment(false);
     }.bind(this);
 
     ///
@@ -287,7 +289,9 @@ function NewClientBookingCardVM(app) {
             // Enter edit mode
             this.edit();
             
-            this.loadStripe('#card-element', '#submit'); 
+            this.canProcessPayment(false);
+            this.loadStripe('#card-element', '#stripe-submit'); 
+            
 
             // Reset progress to none and trigger next so Load logic gets executed
             this.progress.reset();
@@ -410,10 +414,11 @@ function NewClientBookingCardVM(app) {
             var card = elements.create("card", { style: style });
             card.mount(stripeElement);
 
+            this2.canProcessPayment(true);
+
             return {
                 stripe: stripe,
-                card: card,
-                clientSecret: data.clientSecret
+                card: card
             };
         };
     };
@@ -422,7 +427,13 @@ function NewClientBookingCardVM(app) {
         
         var that = this;
 
-        var cardholderName = document.querySelector("#name").value;
+        var cardholderName = "";
+        cardholderName = that.clientName();
+        if (!that.isAnonymous)
+        {
+            cardholderName = that.clientName();
+        }
+        
         var data = {
             billing_details: {}
         };
@@ -432,15 +443,17 @@ function NewClientBookingCardVM(app) {
         }
 
         // Collect payment details
-        stripe
-            .createPaymentMethod("card", card, data)
-            .then(function(result) {
+        stripe.createPaymentMethod("card", card, data)
+        .then(function(result) {
             if (result.error) {
+                that.canProcessPayment(true);
                 showError(result.error.message);
             } else {
 
                 that.paymentMethod().paymentMethodID(result.paymentMethod.id);
                 that.paymentMethod().cardNumber(result.paymentMethod.card.last4);
+                
+                that.canProcessPayment(true);
                 /*
                 orderData.paymentMethodId = result.paymentMethod.id;
 
