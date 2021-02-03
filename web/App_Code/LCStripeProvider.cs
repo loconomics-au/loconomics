@@ -148,7 +148,7 @@ public class LCStripeProvider
     {
         LcPayment.PaymentInfo paymentInfo = null;
         validationResults = null;
-        int stripeAccountID = 0;
+        string stripeAccountID = String.Empty;
 
 
         var paymentAccount = LcData.GetProviderPaymentAccount(serviceProfessionalUserID);
@@ -169,6 +169,9 @@ public class LCStripeProvider
                 {
                     "card",
                 },
+            PaymentMethod = paymentData.paymentMethodID,
+            ConfirmationMethod = "manual",
+            CaptureMethod = "manual",
         };
 
         var requestOptions = new RequestOptions();
