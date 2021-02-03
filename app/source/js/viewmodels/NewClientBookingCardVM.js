@@ -441,14 +441,6 @@ function NewClientBookingCardVM(app) {
 
                 that.paymentMethod().paymentMethodID(result.paymentMethod.id);
                 that.paymentMethod().cardNumber(result.paymentMethod.card.last4);
-                // this.booking().paymentMethod = { 
-                //     paymentMethodId: result.paymentMethod.id, 
-                //     cardNumber: result.paymentMethod.card.last4,
-                //     nameOnCard: result.paymentMethod.billingDetails.name,
-                //     expirationMonthYear: result.paymentMethod.exp_month + '' + result.paymentMethod.exp_year,
-                //     savePayment: true
-                // };
-
                 /*
                 orderData.paymentMethodId = result.paymentMethod.id;
 

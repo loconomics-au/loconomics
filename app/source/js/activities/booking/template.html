@@ -226,7 +226,27 @@
                             <span class="text-secondary">Sign in</span>
                         </a>
                     </div>
-                    <form id="bookingPaymentForm" class="PaddedBox-xs Box-md" data-bind="visible: !addressEditorOpened()" aria-describedby="bookingPaymentFormInstructions">
+                    <form id="payment-form" data-bind="visible: isStripe">
+                        <div id="card-element"><!--Stripe.js injects the Card Element--></div>
+                        <button id="submit">
+                            <div class="spinner hidden" id="spinner"></div>
+                            <span id="button-text">Pay</span>
+                        </button>
+                        <p id="card-error" role="alert"></p>
+                        <p class="result-message hidden">
+                            Payment succeeded, see the result in your
+                            <a href="" target="_blank">Stripe dashboard.</a> Refresh the page to pay again.
+                        </p>                        
+                        <button type="submit" form="bookingPaymentForm" class="btn btn-primary btn-block" data-bind="disable: (isLocked() || !hasPaymentMethod()), click: nextStep">Save and continue</button>
+                        <div id="bookingPaymentFormInstructions" class="well Box-xs">
+                            <h2><strong>How payment works:</strong></h2>
+                            <p>
+                                <span data-bind="visible: !booking().instantBooking()">Your card will be authorized for $<span data-bind="text: booking().pricingSummary().totalPrice"></span> after <span data-bind="text: serviceProfessionalInfo() && serviceProfessionalInfo().profile() && serviceProfessionalInfo().profile().firstName()"></span> confirms this booking. It will be charged on the day <span data-bind="text: serviceProfessionalInfo() && serviceProfessionalInfo().profile() && serviceProfessionalInfo().profile().firstName()"></span> performs the scheduled services.</span>
+                                <span data-bind="visible: booking().instantBooking()">Your card will be authorized for $<span data-bind="text: booking().pricingSummary().totalPrice"></span> when you confirm this booking in the next step. It will be charged on the day <span data-bind="text: serviceProfessionalInfo() && serviceProfessionalInfo().profile() && serviceProfessionalInfo().profile().firstName()"></span> performs the scheduled services.</span>
+                            </p>
+                        </div>
+                    </form>
+                    <form id="bookingPaymentForm" class="PaddedBox-xs Box-md" data-bind="visible: addressEditorOpened()" aria-describedby="bookingPaymentFormInstructions">
                         <fieldset data-bind="with: paymentMethod">
                             <legend class="text-uppercase">ADD PAYMENT INFORMATION</legend>
                             <div class="form-group">
