@@ -375,7 +375,7 @@ function NewClientBookingCardVM(app) {
     
     this.loadStripe = function(stripeElement, stripeSubmit) {
 
-        const this2 = this;
+        var that = this;
         stripeKey.getPublicKey()
             .then(function(result) {
                 return result;
@@ -386,12 +386,13 @@ function NewClientBookingCardVM(app) {
             .then(function({ stripe, card }) {
                 document.querySelector(stripeSubmit).addEventListener("click", function(evt) {
                 evt.preventDefault();
-                this2.pay(stripe, card);
+                that.canProcessPayment(false);
+                that.pay(stripe, card);
             });
         });
 
         var setupElements = function(data) {
-            const stripe = Stripe(data.publicKey);
+            var stripe = Stripe(data.publicKey);
             
             /* ------- Set up Stripe Elements to use in checkout form ------- */
             var elements = stripe.elements();
@@ -402,7 +403,7 @@ function NewClientBookingCardVM(app) {
                     fontSmoothing: "antialiased",
                     fontSize: "16px",
                     "::placeholder": {
-                    color: "#aab7c4"
+                        color: "#aab7c4"
                     }
                 },
                 invalid: {
@@ -414,7 +415,7 @@ function NewClientBookingCardVM(app) {
             var card = elements.create("card", { style: style });
             card.mount(stripeElement);
 
-            this2.canProcessPayment(true);
+            that.canProcessPayment(true);
 
             return {
                 stripe: stripe,
