@@ -586,6 +586,24 @@ public static partial class LcPayment
         return paymentInfo;
     }
 
+    public static bool AuthorizeTransaction(Booking booking, string paymentMethodID, out string paymentTransactionID, out bool paymentAuthorized)
+    {
+        if (LcPayment.IsFakePaymentMethod(paymentMethodID))
+        {
+            paymentTransactionID = LcPayment.CreateFakeTransactionId();
+            paymentAuthorized = true;
+            return true;
+        }
+        else
+        {
+            // Transaction authorization, so NOT charge/settle now
+            paymentTransactionID = LcPayment.AuthorizeBookingTransaction(booking);
+            paymentAuthorized = true;
+
+            return true;
+        }
+    }
+
     #endregion
 
     #region Marketplace

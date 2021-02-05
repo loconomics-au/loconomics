@@ -60,6 +60,7 @@ function NewClientBookingCardVM(app) {
     this.isRestoring = ko.observable(false);
     this.isDone = ko.observable(false);
     this.canProcessPayment = ko.observable(false);
+    this.hasAuthenticatedPayment = ko.observable(false);
 
     ///
     /// States
@@ -90,6 +91,7 @@ function NewClientBookingCardVM(app) {
         this.isSaving(false);
         this.isDone(false);
         this.canProcessPayment(false);
+        this.hasAuthenticatedPayment(false);
     }.bind(this);
 
     ///
@@ -290,6 +292,8 @@ function NewClientBookingCardVM(app) {
             this.edit();
             
             this.canProcessPayment(false);
+            this.hasAuthenticatedPayment(false);
+
             this.loadStripe('#card-element', '#stripe-submit'); 
             
 
@@ -387,12 +391,14 @@ function NewClientBookingCardVM(app) {
                 document.querySelector(stripeSubmit).addEventListener("click", function(evt) {
                 evt.preventDefault();
                 that.canProcessPayment(false);
+                that.hasAuthenticatedPayment(false);
+
                 that.pay(stripe, card);
             });
         });
 
         var setupElements = function(data) {
-            var stripe = Stripe(data.publicKey);
+            var stripe = Stripe(data.publicKey, { "stripeAccount": that.originalBooking().serviceProviderMerchantID() });
             
             /* ------- Set up Stripe Elements to use in checkout form ------- */
             var elements = stripe.elements();
@@ -416,6 +422,7 @@ function NewClientBookingCardVM(app) {
             card.mount(stripeElement);
 
             that.canProcessPayment(true);
+            that.hasAuthenticatedPayment(false);
 
             return {
                 stripe: stripe,
@@ -448,24 +455,16 @@ function NewClientBookingCardVM(app) {
         .then(function(result) {
             if (result.error) {
                 that.canProcessPayment(true);
-                showError(result.error.message);
+                showError({ error: result.error.message });
             } else {
 
                 that.paymentMethod().paymentMethodID(result.paymentMethod.id);
                 that.paymentMethod().cardNumber(result.paymentMethod.card.last4);
+                that.paymentMethod().expirationMonth(result.paymentMethod.card.exp_month);
+                that.paymentMethod().expirationYear(result.paymentMethod.card.exp_year);
                 
                 that.canProcessPayment(true);
-                /*
-                orderData.paymentMethodId = result.paymentMethod.id;
-
-                return fetch("/pay", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(orderData)
-                });
-                */
+                that.hasAuthenticatedPayment(true);
             }
         });
     };

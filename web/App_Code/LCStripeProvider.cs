@@ -144,6 +144,14 @@ public class LCStripeProvider
     #endregion
 
     #region Payments
+    /// <summary>
+    /// Put a hold on a payment, to be collected at a later date
+    /// </summary>
+    /// <param name="totalPrice">The amount of the transaction</param>
+    /// <param name="serviceProfessionalUserID">The ID of the service professional to pay</param>
+    /// <param name="paymentData">The data of the payment submitted by the client</param>
+    /// <param name="validationResults">Any errors that occur during payment</param>
+    /// <returns></returns>
     public LcPayment.PaymentInfo CollectPayment(decimal? totalPrice, int serviceProfessionalUserID, LcPayment.InputPaymentMethod paymentData, out Dictionary<string, string> validationResults)
     {
         LcPayment.PaymentInfo paymentInfo = null;
@@ -160,10 +168,12 @@ public class LCStripeProvider
         StripeConfiguration.ApiKey = apiKey;
 
         var service = new PaymentIntentService();
+
+        RegionInfo region = new RegionInfo(System.Threading.Thread.CurrentThread.CurrentCulture.LCID);
         var createOptions = new PaymentIntentCreateOptions
         {
             Amount = totalPrice.Value.ToMinorUnit(),
-            Currency = "aud",
+            Currency = region.ISOCurrencySymbol.ToLower(),
             
             PaymentMethodTypes = new List<string>
                 {
@@ -176,12 +186,103 @@ public class LCStripeProvider
 
         var requestOptions = new RequestOptions();
         requestOptions.StripeAccount = stripeAccountID.ToString();
-        var intent = service.Create(createOptions, requestOptions);
+        PaymentIntent intent = service.Create(createOptions, requestOptions);
 
-        paymentInfo.PaymentMethodID = intent.Id;
+        paymentInfo = new LcPayment.PaymentInfo()
+        {
+            // We have a valid payment ID at this moment, save it on the booking
+            PaymentMethodID = paymentData.paymentMethodID,
+            // Set card number (is processed later while saving to ensure only 4 and encrypted are persisted)
+            PaymentLastFourCardNumberDigits = paymentData.cardNumber,
+            // Flags
+            PaymentCollected = false,
+            PaymentAuthorized = true,
+            // save transaction id (payment intent)
+            PaymentTransactionID = intent.Id,
+            CancellationPaymentTransactionID = null
+        };
 
         return paymentInfo;
+    }
 
+    /// <summary>
+    /// Authorize a transaction can occur. No charge occurs
+    /// </summary>
+    /// <param name="serviceProfessionalUserID">The ID of the service professional to pay</param>
+    /// <param name="paymentTransactionID">The Stripe transaction ID</param>
+    /// <param name="paymentAuthorized">Is payment autorized on this booking?</param>
+    /// <returns>true if the transaction can occur</returns>
+    public bool AuthorizeTransaction(int serviceProfessionalUserID, string paymentTransactionID, out bool paymentAuthorized)
+    {
+        paymentAuthorized = false;
+        string stripeAccountID = String.Empty;
+        var paymentAccount = LcData.GetProviderPaymentAccount(serviceProfessionalUserID);
+        if (paymentAccount != null)
+        {
+            stripeAccountID = paymentAccount.MerchantAccountID;
+        }
+
+        var service = new PaymentIntentService();
+        var confirmOptions = new PaymentIntentConfirmOptions { };
+
+        var requestOptions = new RequestOptions();
+        requestOptions.StripeAccount = stripeAccountID.ToString();
+        PaymentIntent intent = service.Confirm(paymentTransactionID, confirmOptions, requestOptions);
+
+        if (intent.Status == "succeeded")
+        {
+            paymentAuthorized = true;
+        }
+        else
+        {
+            // TODO impliment re-auth by client if credit card requires it
+            throw new Exception(intent.Status);
+        }
+        return true;
+    }
+
+    /// <summary>
+    /// Submit a transaction to transfer the full amount to the service professionals account
+    /// </summary>
+    /// <param name="serviceProfessionalUserID">The ID of the service professional to pay</param>
+    /// <param name="paymentTransactionID">The Stripe transaction ID</param>
+    /// <returns></returns>
+    public string SettleTransaction(int serviceProfessionalUserID, string paymentTransactionID)
+    {
+        string errorMessage = String.Empty;
+        string stripeAccountID = String.Empty;
+
+        var paymentAccount = LcData.GetProviderPaymentAccount(serviceProfessionalUserID);
+        if (paymentAccount != null)
+        {
+            stripeAccountID = paymentAccount.MerchantAccountID;
+        }
+
+        var service = new PaymentIntentService();
+        var captureOptions = new PaymentIntentCaptureOptions { };
+
+        var requestOptions = new RequestOptions();
+        requestOptions.StripeAccount = stripeAccountID.ToString();
+        PaymentIntent intent = service.Capture(paymentTransactionID, captureOptions, requestOptions);
+
+        if (intent.Status != "succeeded")
+        {
+            errorMessage = intent.Status;
+        }
+
+        return errorMessage;
+    }
+
+    /// <summary>
+    /// Stripe does not support releasing payments to connected accounts
+    /// </summary>
+    /// <param name="transactionID"></param>
+    /// <returns></returns>
+    public string ReleaseTransaction(string transactionID)
+    {
+        string errorMessage = String.Empty;
+
+        return errorMessage;
     }
     #endregion
 }

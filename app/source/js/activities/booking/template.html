@@ -233,9 +233,8 @@
                         <div class="spinner hidden" id="spinner"></div>
                         </button>
                         <p id="card-error" role="alert"></p>
-                        <p class="result-message hidden">
-                            Payment succeeded, see the result in your
-                            <a href="" target="_blank">Stripe dashboard.</a> Refresh the page to pay again.
+                        <p class="well Box-xs" data-bind="visible: hasAuthenticatedPayment()" >
+                            Payment authorized
                         </p>
                         <button type="submit" form="bookingPaymentForm" class="btn btn-primary btn-block" data-bind="disable: (isLocked() || !hasPaymentMethod()), click: nextStep">Save and continue</button>
                         <div id="bookingPaymentFormInstructions" class="well Box-xs">
@@ -246,7 +245,7 @@
                             </p>
                         </div>
                     </form>
-                    <form id="bookingPaymentForm" class="PaddedBox-xs Box-md" data-bind="visible: addressEditorOpened()" aria-describedby="bookingPaymentFormInstructions">
+                    <form id="bookingPaymentForm" class="PaddedBox-xs Box-md" data-bind="visible: !addressEditorOpened() && !isStripe()" aria-describedby="bookingPaymentFormInstructions">
                         <fieldset data-bind="with: paymentMethod">
                             <legend class="text-uppercase">ADD PAYMENT INFORMATION</legend>
                             <div class="form-group">

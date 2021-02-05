@@ -62,6 +62,7 @@ namespace LcRest
         public bool paymentCollected;
         public bool paymentAuthorized;
         public string paymentProvider;
+        public string serviceProviderMerchantID;
         public int? awaitingResponseFromUserID;
         public bool pricingAdjustmentRequested;
         internal string supportTicketNumber;
@@ -292,6 +293,7 @@ namespace LcRest
             if (paymentAccount != null)
             {
                 booking.paymentProvider = paymentAccount.PaymentProviderName;
+                booking.serviceProviderMerchantID = paymentAccount.MerchantAccountID;
             }
 
             // Checks:
@@ -508,8 +510,8 @@ namespace LcRest
             ProviderPaymentAccount AS P 
                 ON P.ProviderUserID = B.ServiceProfessionalUserID
         ";
-        const string sqlGetItem = sqlSelect + "WHERE B.bookingID = @0";
-        const string sqlGetList = sqlSelect + sqlJoinDate + @"
+        const string sqlGetItem = sqlSelect + sqlJoinProvider + "WHERE B.bookingID = @0";
+        const string sqlGetList = sqlSelect + sqlJoinProvider + sqlJoinDate + @"
             WHERE 
                 (B.clientUserID = @0 OR B.serviceProfessionalUserID = @0)
                   AND (
@@ -1771,6 +1773,8 @@ namespace LcRest
         /// If the authorization through Braintree fails, throw the error</returns>
         public bool AuthorizeTransaction()
         {
+            bool authorizeTransaction = false;
+
             if (!paymentEnabled)
                 return false; // throw new ConstraintException("Payment not enabled for this booking");
             if (!paymentCollected || String.IsNullOrEmpty(paymentMethodID))
@@ -1778,25 +1782,26 @@ namespace LcRest
             if (paymentAuthorized)
                 throw new ConstraintException("[[[Payment authorized for this booking already]]]");
 
-            if (LcPayment.IsFakePaymentMethod(paymentMethodID))
+            // We need pricing info, if not preloaded
+            if (pricingSummary == null)
+                FillPricingSummary();
+
+            switch (this.paymentProvider)
             {
-                paymentTransactionID = LcPayment.CreateFakeTransactionId();
-                return true;
+                case "braintree":
+                    authorizeTransaction = LcPayment.AuthorizeTransaction(this, paymentMethodID, out paymentTransactionID, out paymentAuthorized);
+                    break;
+                case "stripe":
+                    authorizeTransaction = new LCStripeProvider().AuthorizeTransaction(serviceProfessionalUserID, paymentTransactionID, out paymentAuthorized);
+                    break;
+                default:
+                    throw new ConstraintException(string.Format("Payment Provider '{0}' for Booking ID {1} is not valid", this.paymentProvider, this.bookingID));
+                    break;
             }
-            else
-            {
-                // We need pricing info, if not preloaded
-                if (pricingSummary == null)
-                    FillPricingSummary();
+            
+            SetPaymentState(this);
 
-                // Transaction authorization, so NOT charge/settle now
-                paymentTransactionID = LcPayment.AuthorizeBookingTransaction(this);
-                paymentAuthorized = true;
-
-                SetPaymentState(this);
-
-                return true;
-            }
+            return authorizeTransaction;
         }
 
         /// <summary>
@@ -1818,7 +1823,20 @@ namespace LcRest
             }
 
             // Require payment from authorized transaction
-            var settleError = LcPayment.SettleTransaction(paymentTransactionID);
+            var settleError = String.Empty;
+            switch (this.paymentProvider)
+            {
+                case "braintree":
+                    settleError = LcPayment.SettleTransaction(paymentTransactionID);
+                    break;
+                case "stripe":
+                    settleError = new LCStripeProvider().SettleTransaction(serviceProfessionalUserID, paymentTransactionID);
+                    break;
+                default:
+                    throw new ConstraintException(string.Format("Payment Provider '{0}' for Booking ID {1} is not valid", this.paymentProvider, this.bookingID));
+                    break;
+            }
+
             if (!String.IsNullOrEmpty(settleError))
                 throw new Exception(settleError);
 
@@ -1839,6 +1857,7 @@ namespace LcRest
         /// <returns></returns>
         public bool ReleasePayment()
         {
+
             if (!paymentEnabled)
                 return false; // throw new ConstraintException("Payment not enabled for this booking");
             if (!paymentCollected || String.IsNullOrEmpty(paymentMethodID))
@@ -1850,7 +1869,22 @@ namespace LcRest
                 SettleTransaction();
             }
 
-            var errmsg = LcPayment.ReleaseTransactionFromEscrow(paymentTransactionID);
+            var errmsg = String.Empty;
+            switch (this.paymentProvider)
+            {
+                case "braintree":
+                    errmsg = LcPayment.ReleaseTransactionFromEscrow(paymentTransactionID);
+                    break;
+                case "stripe":
+                    // stripe does not support releasing transations to a service providers account. the final step is handled by SettleTransaction.
+                    errmsg = String.Empty;
+                    break;
+                default:
+                    throw new ConstraintException(string.Format("Payment Provider '{0}' for Booking ID {1} is not valid", this.paymentProvider, this.bookingID));
+                    break;
+            }
+
+
             if (!String.IsNullOrEmpty(errmsg))
                 throw new Exception(errmsg);
 

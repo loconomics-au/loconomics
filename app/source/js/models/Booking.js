@@ -69,6 +69,7 @@ function Booking(values) {
         paymentCollected: false,
         paymentAuthorized: false,
         paymentProvider: null,
+        serviceProviderMerchantID: null,
         awaitingResponseFromUserID: null,
         pricingAdjustmentRequested: false,
 
