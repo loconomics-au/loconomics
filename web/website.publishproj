@@ -14,11 +14,11 @@ Copyright (C) Microsoft Corporation. All rights reserved.
 
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Configuration Condition=" '$(Configuration)' == '' ">LocalDebug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.30319</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{3f7780b4-c61a-4df2-985a-5db5a712b38a}</ProjectGuid>
+    <ProjectGuid>{d207136a-70a6-4f40-a630-2699eb3ba717}</ProjectGuid>
     <SourceWebPhysicalPath>$(MSBuildThisFileDirectory)</SourceWebPhysicalPath>
     <SourceWebVirtualPath>/web</SourceWebVirtualPath>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
