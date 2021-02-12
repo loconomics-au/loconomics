@@ -10,6 +10,8 @@ module.exports = function(grunt) {
         filter: grunt.file.isFile
     }, includedPatterns);
 
+    const siteUrl = "http://localhost/loconomics";
+
     const facebookAppID = '273905020314811';
     const facebookLang = 'en-AU';
 
@@ -19,6 +21,7 @@ module.exports = function(grunt) {
     var version = moment().format('YYYYMMDDHHmm');
     var pkg = grunt.file.readJSON('package.json');
     var appVersion = pkg.version;
+    
     // Version number as single number, 2 digits per position
     // Example: 1.1.0 -> 10100, 2.34.5 -> 23405
     var versionCode = appVersion.split('.').reverse().reduce(function(t, x, i) { return t + (x|0) * Math.pow(10, i * 2); }, 0);
@@ -33,7 +36,7 @@ module.exports = function(grunt) {
                 debug: false,
                 includedFiles: includedFiles,
                 cordovajs: false,
-                siteUrl: 'https://app-loconomics-dev-001.azurewebsites.net',
+                siteUrl: siteUrl,
                 facebookAppID: facebookAppID,
                 facebookLang: facebookLang,
                 googleMapsApiKey: googleMapsApiKey,
@@ -54,7 +57,7 @@ module.exports = function(grunt) {
                 debug: true,
                 includedFiles: includedFiles,
                 cordovajs: false,
-                siteUrl: 'https://app-loconomics-dev-001.azurewebsites.net',
+                siteUrl: siteUrl,
                 facebookAppID: facebookAppID,
                 facebookLang: facebookLang,
                 googleMapsApiKey: googleMapsApiKey,

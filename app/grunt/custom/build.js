@@ -8,6 +8,7 @@
  */
 'use strict';
 var envOptions = require('../shared/envOptions');
+var buildConfigurations = require('../shared/buildConfigurations');
 const TASK_NAME = 'build';
 /**
  * Tasks list to build for Production environment
@@ -42,8 +43,21 @@ const DEV_TASKS = [
  * @param {Grunt} grunt
  */
 module.exports = function(grunt) {
-    grunt.registerTask(TASK_NAME, 'Build App', function() {
+    
+    grunt.registerTask(TASK_NAME, 'Build App', function(configuration) {
         const isDevEnv = envOptions.inDev();
+        
+        if (configuration != undefined)
+        {            
+            var config = {};
+            config = buildConfigurations(grunt, configuration);
+            if (config != undefined)
+            {
+                grunt.config.set('bliss.webapp.options.context.siteUrl', config.siteUrl);
+                grunt.config.set('bliss.appDebug.options.context.siteUrl', config.siteUrl);
+            }
+        }
+        
         let tasks;
         if (isDevEnv) {
             tasks = DEV_TASKS;
