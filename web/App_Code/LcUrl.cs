@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Web;
 
 /// <summary>
@@ -78,13 +79,15 @@ public static class LcUrl
                 
         }
     }
+
     /// <summary>
 	/// Get the current virtual app URL, is just the SiteUrl with the AppPath
     /// Ever will return a trailing slash
     /// Example: http://www.loconomics.com.au/testing/
 	/// </summary>
 	/// <returns></returns>
-    public static string AppUrl{
+    public static string AppUrl
+    {
         get
         {
             // Dont use AppPath if is being executed on winhost 
@@ -92,6 +95,29 @@ public static class LcUrl
             return SiteUrl + (domain.Contains(".com") ? "/" : AppPath);
         }
     }
+
+    /// <summary>
+	/// Get the current web site url for email links, can be different from the application url if we are using a CDN
+    /// Ever will return a trailing slash
+    /// Example: http://www.loconomics.com.au/testing/
+	/// </summary>
+	/// <returns></returns>
+    public static string AppEmailUrl
+    {
+        get
+        {
+            string configValue = ConfigurationManager.AppSettings["appEmailUrl"];
+
+            if (string.IsNullOrEmpty(configValue))
+            {
+                // default to usual AppUrl
+                return AppUrl;
+            }
+
+            return configValue;
+        }
+    }
+
     /// <summary>
 	/// Get the current virtual app path plus the language path
     /// Ever will return a begining and trailing slash.
