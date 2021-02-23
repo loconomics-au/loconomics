@@ -77,7 +77,7 @@
     // Public Profile URL optimized for SEO:
     RouteTable.Routes.MapWebPageRoute("{city}/{jobTitle}/{user}", "~/_specialRoutes/PublicProfileURL.cshtml");
     // CustomURL:
-    RouteTable.Routes.MapWebPageRoute(LcRest.MarketplaceProfile.CustomUrlPrefix + "{customurl}/", "~/_specialRoutes/CustomURL.cshtml");
+    RouteTable.Routes.MapWebPageRoute(LcRest.MarketplaceProfile.CustomUrlPrefix + "{customurl}", "~/_specialRoutes/CustomURL.cshtml");
     // Refer professionals
     RouteTable.Routes.MapWebPageRoute("refer/", "~/_specialRoutes/refer.cshtml");
 

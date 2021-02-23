@@ -93,7 +93,7 @@ namespace LcRest
             };
         }
 
-        public const string CustomUrlPrefix = "-";
+        public const string CustomUrlPrefix = "provider/";
 
         public static string BuildServiceProfessionalCustomURL(string slug)
         {
