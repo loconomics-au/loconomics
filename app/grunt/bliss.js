@@ -11,6 +11,8 @@ module.exports = function(grunt) {
     }, includedPatterns);
 
     const siteUrl = "http://localhost/loconomics";
+    const sitePath = "/loconomics/";
+    const apiUrl = "http://localhost/loconomics-api";
 
     const facebookAppID = '273905020314811';
     const facebookLang = 'en-AU';
@@ -37,6 +39,8 @@ module.exports = function(grunt) {
                 includedFiles: includedFiles,
                 cordovajs: false,
                 siteUrl: siteUrl,
+                apiUrl: apiUrl,
+                sitePath: sitePath,
                 facebookAppID: facebookAppID,
                 facebookLang: facebookLang,
                 googleMapsApiKey: googleMapsApiKey,

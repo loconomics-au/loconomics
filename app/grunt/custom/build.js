@@ -53,8 +53,9 @@ module.exports = function(grunt) {
             config = buildConfigurations(grunt, configuration);
             if (config != undefined)
             {
-                grunt.config.set('bliss.webapp.options.context.siteUrl', config.siteUrl);
-                grunt.config.set('bliss.appDebug.options.context.siteUrl', config.siteUrl);
+                grunt.config.set('bliss.webapp.options.context.apiUrl', config.apiUrl);
+                grunt.config.set('bliss.webapp.options.context.sitePath', config.sitePath);
+                grunt.config.set('bliss.appDebug.options.context.apiUrl', config.apiUrl);
             }
         }
         

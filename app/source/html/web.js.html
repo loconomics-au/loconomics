@@ -1,6 +1,6 @@
-@*context: {debug:bool, includedFiles:[], cordovajs:bool, siteUrl:string, appVersion:string, jsVersion:string, cssVersion.string, facebookLang:string, facebookAppID:string, appId:string, appName:string} *@
+@*context: {debug:bool, includedFiles:[], cordovajs:bool, siteUrl:string, apiUrl:string, sitePath:string, appVersion:string, jsVersion:string, cssVersion.string, facebookLang:string, facebookAppID:string, appId:string, appName:string} *@
 <!DOCTYPE html>
-<html lang="en" class="App" data-site-url="@(siteUrl)"
+<html lang="en" class="App" data-site-url="@(apiUrl)"
     data-app-version="@(appVersion)" data-app-id="@(appId)" data-app-name="@(appName)"
     data-js-version="@(jsVersion)"
     data-facebook-language="@(facebookLang)" data-facebook-appid="@(facebookAppID)" 
@@ -14,7 +14,7 @@
             By default is just a slash, but the server-side can replace the base VERBATIM as typed next
             with a different base:
         -->
-        <base href=/ >
+        <base href=@(sitePath) >
         <meta name="description" content="Loconomics.com.au App">
         <meta name="author" content="Loconomics Australia">
         <link rel="icon" href="assets/images/favicon.20180326.ico" />

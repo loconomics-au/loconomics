@@ -3,10 +3,10 @@
 module.exports = function(grunt, configuration) {
     
     var configs = { 
-        local: { siteUrl: 'http://localhost/loconomics' }, 
-        localdev: { siteUrl: 'https://localdev.loconomics.com.au' }, 
-        dev: { siteUrl: 'https://app-loconomics-dev-001.azurewebsites.net' }, 
-        live: { siteUrl: 'https://app-loconomics-prod-001.azurewebsites.net' }
+        local: { apiUrl: 'http://localhost/loconomics-api', sitePath: "/loconomics/" }, 
+        localdev: { apiUrl: 'https://localdev.loconomics.com.au', sitePath: "/" }, 
+        dev: { apiUrl: 'https://app-loconomics-dev-001.azurewebsites.net', sitePath: "/" }, 
+        live: { apiUrl: 'https://app-loconomics-prod-001.azurewebsites.net', sitePath: "/" }
     };
 
     return configs[configuration];
