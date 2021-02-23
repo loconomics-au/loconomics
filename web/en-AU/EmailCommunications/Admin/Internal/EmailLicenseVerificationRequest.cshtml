@@ -22,11 +22,8 @@
             V.SecondLastName,
             V.BusinessName,
             V.LicenseCertificationNumber,
-            V.City,
-            SP.StateProvinceName,
-            C.CountyName,
-            S.StatusName,
-            S.StatusDescription,
+            S.VerificationStatusName,
+            S.VerificationStatusDisplayDescription,
             L.VerificationWebsiteURL
         FROM
             LicenseCertification As L
@@ -34,14 +31,8 @@
             UserLicenseCertifications As V
               ON L.LicenseCertificationID = V.LicenseCertificationID
              INNER JOIN
-            Status As S
-              ON V.StatusID = S.StatusID
-             INNER JOIN
-            StateProvince As SP
-              ON V.StateProvinceID = SP.StateProvinceID
-             INNER JOIN
-            County As C
-              ON V.CountyID = C.CountyID
+            verificationstatus As S
+              ON V.VerificationStatusID = S.VerificationStatusID
         WHERE
             V.ProviderUserID = @0
              AND
@@ -88,11 +79,8 @@
         <li><strong>License - Second Last Name:</strong> @data.SecondLastName</li>
         }
         <li><strong>License - Business Name:</strong> @data.BusinessName</li>
-        <li><strong>License - City:</strong> @data.City</li>
-        <li><strong>License - State Name:</strong> @data.StateProvinceName</li>
-        <li><strong>License - County Name:</strong> @data.CountyName</li>
 
-        <li><strong>Request Status Name:</strong> @data.StatusName</li>
-        <li><strong>Request Status Description:</strong> @data.StatusDescription</li>        
+        <li><strong>Request Status Name:</strong> @data.VerificationStatusName</li>
+        <li><strong>Request Status Description:</strong> @data.VerificationStatusDisplayDescription</li>        
     </ul>
 </div>
