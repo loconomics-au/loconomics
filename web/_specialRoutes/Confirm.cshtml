@@ -11,12 +11,12 @@
             if (user.accountStatusID == (int)LcEnum.AccountStatus.serviceProfessionalClient) {
                 // Redirect to client activation sign-up, prepopulating only the email and
                 // providing confirmationCode
-                Response.Redirect(LcUrl.AppPath + "signup/client?email=" + Uri.EscapeDataString(user.email) + "&confirmationCode=" + Uri.EscapeDataString(code), true);
+                Response.Redirect(LcUrl.AppClientUrl + "signup/client?email=" + Uri.EscapeDataString(user.email) + "&confirmationCode=" + Uri.EscapeDataString(code), true);
             }
             // Account confirmed, redirect to dashboard 
-            Response.Redirect(LcUrl.AppPath + "dashboard", true);
+            Response.Redirect(LcUrl.AppClientUrl + "dashboard", true);
         }
         // Bad confirmation code, silently redirects to the singup form
-        Response.Redirect(LcUrl.AppPath + "signup", true);
+        Response.Redirect(LcUrl.AppClientUrl + "signup", true);
     }
 }

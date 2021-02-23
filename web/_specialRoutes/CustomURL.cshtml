@@ -14,7 +14,7 @@
 
         if (user is int) {
             var posID = LcData.UserInfo.GetProviderPreferredPosition(user).PositionID;
-            Response.Redirect(LcData.UserInfo.GetUserPublicUrlPath(user, posID));
+            Response.Redirect(LcUrl.AppClientUrl + LcData.UserInfo.GetUserPublicUrlPath(user, posID));
         }
     }
     // Not found custom URL, this URL page doesn't exist, transfer to Not Found

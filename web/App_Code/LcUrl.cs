@@ -42,6 +42,22 @@ public static class LcUrl
             return context.Request.Url.Scheme + "://" + domain;
         }
     }
+
+    public static string SiteClientUrl
+    {
+        get
+        {
+            string configValue = ConfigurationManager.AppSettings["appClientUrl"];
+
+            if (string.IsNullOrEmpty(configValue))
+            {
+                // default to usual AppUrl
+                return AppUrl;
+            }
+
+            return configValue;
+        }
+    }
     /// <summary>
 	/// Get the current virtual app path, will be empty for root app.
     /// Ever will return a begining and trailing slash (or unique slash if there is no path)
@@ -67,6 +83,8 @@ public static class LcUrl
             {
                 url = context.Request.ApplicationPath;
             }
+
+
                 
             if (url.EndsWith("/"))
             {
@@ -102,19 +120,11 @@ public static class LcUrl
     /// Example: http://www.loconomics.com.au/testing/
 	/// </summary>
 	/// <returns></returns>
-    public static string AppEmailUrl
+    public static string AppClientUrl
     {
         get
         {
-            string configValue = ConfigurationManager.AppSettings["appEmailUrl"];
-
-            if (string.IsNullOrEmpty(configValue))
-            {
-                // default to usual AppUrl
-                return AppUrl;
-            }
-
-            return configValue;
+            return SiteClientUrl + "/";
         }
     }
 

@@ -45,7 +45,7 @@ namespace LcRest
                     // contains information like the city and the primary
                     // job title name (if some information is missed it fallbacks
                     // to the non-SEO, ID based, URL, ever a valid address).
-                    return LcUrl.SiteUrl + LcData.UserInfo.GetUserPublicSeoUrlPath(this.userID);
+                    return LcUrl.SiteClientUrl + LcData.UserInfo.GetUserPublicSeoUrlPath(this.userID);
                 }
                 else
                 {

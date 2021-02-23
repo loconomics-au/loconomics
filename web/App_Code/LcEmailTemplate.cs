@@ -59,7 +59,7 @@ public static class LcEmailTemplate
         {
             get
             {
-                return LcUrl.AppEmailUrl + "help";
+                return LcUrl.AppClientUrl + "help";
             }
         }
         /// <summary>
@@ -69,7 +69,7 @@ public static class LcEmailTemplate
         {
             get
             {
-                return LcUrl.AppEmailUrl + "terms/background-check-policy";
+                return LcUrl.AppClientUrl + "terms/background-check-policy";
             }
         }
         /// <summary>
@@ -79,7 +79,7 @@ public static class LcEmailTemplate
         {
             get
             {
-                return LcUrl.AppEmailUrl + "terms/terms-of-service";
+                return LcUrl.AppClientUrl + "terms/terms-of-service";
             }
         }
         /// <summary>
@@ -89,7 +89,7 @@ public static class LcEmailTemplate
         {
             get
             {
-                return LcUrl.AppEmailUrl + "terms/privacy-policy";
+                return LcUrl.AppClientUrl + "terms/privacy-policy";
             }
         }
         /// <summary>
@@ -99,14 +99,14 @@ public static class LcEmailTemplate
         {
             get
             {
-                return LcUrl.AppEmailUrl + "help/categories/200431835-resources-for-service-professionals";
+                return LcUrl.AppClientUrl + "help/categories/200431835-resources-for-service-professionals";
             }
         }
         public string viewCommunicationPreferences
         {
             get
             {
-                return LcUrl.AppEmailUrl + "privacySettings";
+                return LcUrl.AppClientUrl + "privacySettings";
             }
         }
     }
@@ -208,7 +208,7 @@ public static class LcEmailTemplate
         #region URLs
         public static string GetBookingUrl(int bookingID)
         {
-            return LcUrl.AppEmailUrl + "viewBooking/" + bookingID.ToString();
+            return LcUrl.AppClientUrl + "viewBooking/" + bookingID.ToString();
         }
         /// <summary>
         /// URL: Opens a view in the website where the user can see the email content
@@ -227,7 +227,7 @@ public static class LcEmailTemplate
         {
             get
             {
-                return LcUrl.AppEmailUrl + "booking/" + booking.serviceProfessionalUserID.ToString() + "/" + booking.jobTitleID.ToString();
+                return LcUrl.AppClientUrl + "booking/" + booking.serviceProfessionalUserID.ToString() + "/" + booking.jobTitleID.ToString();
             }
         }
         /// <summary>
@@ -247,7 +247,7 @@ public static class LcEmailTemplate
         {
             get
             {
-                return LcUrl.AppEmailUrl + "reviews/" + booking.bookingID.ToString();
+                return LcUrl.AppClientUrl + "reviews/" + booking.bookingID.ToString();
             }
         }
         /// <summary>
@@ -267,7 +267,7 @@ public static class LcEmailTemplate
         {
             get
             {
-                return LcUrl.AppEmailUrl + "appointment/?clientID=" + booking.clientUserID.ToString();
+                return LcUrl.AppClientUrl + "appointment/?clientID=" + booking.clientUserID.ToString();
             }
         }
         /// <summary>
@@ -287,7 +287,7 @@ public static class LcEmailTemplate
         {
             get
             {
-                return LcUrl.AppEmailUrl + "reviews/" + booking.bookingID.ToString();
+                return LcUrl.AppClientUrl + "reviews/" + booking.bookingID.ToString();
             }
         }
         /// <summary>
@@ -297,7 +297,7 @@ public static class LcEmailTemplate
         {
             get
             {
-                return LcUrl.AppEmailUrl + "profile/" + booking.clientUserID.ToString();
+                return LcUrl.AppClientUrl + "profile/" + booking.clientUserID.ToString();
             }
         }
         #endregion
@@ -421,7 +421,7 @@ public static class LcEmailTemplate
         {
             get
             {
-                return LcUrl.AppEmailUrl + "login/reset-password";
+                return LcUrl.AppClientUrl + "login/reset-password";
             }
         }
         /// <summary>
@@ -436,7 +436,7 @@ public static class LcEmailTemplate
         {
             get
             {
-                return LcUrl.AppEmailUrl + "login/reset-password/confirm?token=" + Uri.EscapeDataString(passwordResetToken);
+                return LcUrl.AppClientUrl + "login/reset-password/confirm?token=" + Uri.EscapeDataString(passwordResetToken);
             }
         }
         /// <summary>
@@ -453,14 +453,14 @@ public static class LcEmailTemplate
                 {
                     confirmationToken = LcAuth.GetConfirmationToken(userID) ?? "";
                 }
-                return LcUrl.AppEmailUrl + "auth/confirm/?confirmationCode=" + Uri.EscapeDataString(confirmationToken);
+                return LcUrl.AppUrl + "auth/confirm/?confirmationCode=" + Uri.EscapeDataString(confirmationToken);
             }
         }
         public string viewDownloadAppURL
         {
             get
             {
-                return LcUrl.AppEmailUrl + "downloadApp";
+                return LcUrl.AppClientUrl + "downloadApp";
             }
         }
         /// <summary>
@@ -470,7 +470,7 @@ public static class LcEmailTemplate
         {
             get
             {
-                return LcUrl.AppEmailUrl + "dashboard";
+                return LcUrl.AppClientUrl + "dashboard";
             }
         }
         /// <summary>
@@ -480,7 +480,7 @@ public static class LcEmailTemplate
         {
             get
             {
-                return LcUrl.AppEmailUrl + "marketplaceProfile";
+                return LcUrl.AppClientUrl + "marketplaceProfile";
             }
         }
         /// <summary>
@@ -490,7 +490,7 @@ public static class LcEmailTemplate
         {
             get
             {
-                return LcUrl.AppEmailUrl + "paymentPlan";
+                return LcUrl.AppClientUrl + "paymentPlan";
             }
         }
         /// <summary>
@@ -500,7 +500,7 @@ public static class LcEmailTemplate
         {
             get
             {
-                return LcUrl.AppEmailUrl + "becomeOwner";
+                return LcUrl.AppClientUrl + "becomeOwner";
             }
         }
         /// <summary>
@@ -510,7 +510,7 @@ public static class LcEmailTemplate
         {
             get
             {
-                return LcUrl.AppEmailUrl + "earnings-add";
+                return LcUrl.AppClientUrl + "earnings-add";
             }
         }
         #endregion
@@ -598,7 +598,7 @@ public static class LcEmailTemplate
         {
             get
             {
-                return LcUrl.AppEmailUrl + "posting/" + posting.userPostingID;
+                return LcUrl.AppClientUrl + "posting/" + posting.userPostingID;
             }
         }
 

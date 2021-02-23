@@ -1,4 +1,4 @@
-@* Email sent to proffesionals notifying the immediate availability of a new GIG posting suggested for them.
+@* Email sent to professionals notifying the immediate availability of a new GIG posting suggested for them.
 
     Sender e-mail: automated@@loconomics.com
     Sender name: Loconomics Cooperative
@@ -15,7 +15,7 @@
     // All the data for this email:
     var info = LcEmailTemplate.GetAccountInfo();
     var userPostingID = Request["userPostingID"];
-    var viewPostingURL = LcUrl.AppUrl + "suggested-postings/" + userPostingID;
+    var viewPostingURL = LcUrl.AppClientUrl + "suggested-postings/" + userPostingID;
 }
 
 <!-- HEADER -->

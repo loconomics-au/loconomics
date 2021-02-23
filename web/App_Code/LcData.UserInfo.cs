@@ -683,7 +683,7 @@ public static partial class LcData
 
         public static string GetUserPublicUrlPath(int userid, int? positionID = null)
         {
-            return LcUrl.AppPath + "#!listing/" + userid + (positionID == null ? "" : "/" + positionID.ToString());
+            return "#!listing/" + userid + (positionID == null ? "" : "/" + positionID.ToString());
         }
 
         /// <summary>
@@ -699,7 +699,7 @@ public static partial class LcData
             city = ASP.LcHelpers.StringSlugify(city, 40);
             if (!String.IsNullOrEmpty(city) && pos != null)
             {
-                return LcUrl.AppPath + city + "/"
+                return city + "/"
                     + ASP.LcHelpers.StringSlugify(pos.PositionSingular, 40) + "/"
                     + userid + "/" + 
                     (positionID == null ? "" : "?jobTitleID=" + positionID.ToString());
