@@ -9,8 +9,7 @@
     if (IsPost)
     {
         var url = Request["url"].Replace(LcUrl.SiteUrl, "");
-        LcMessaging.SendMail(Request["email"], "Testing Email " + url,
-            LcMessaging.ApplyTemplate(url, null));
+        LcMessaging.SendMail(Request["email"], "Testing Email " + url, LcMessaging.ApplyTemplate(url, null));
     }
 
     var list = new Dictionary<string, List<string>>{
@@ -20,29 +19,29 @@
         ,{ "[needs review] EmailProviderReference", new List<string> { "Email/EmailProviderReference/?UserID=141&PositionID=14&RequestKey=abcd3&EmailTo=iagosrl@gmail.com" } }
 
         ,{ "Welcome", new List<string> {
-            "EmailCommunications/Admin/ToClient/Welcome?UserID=141&RequestKey=abcd3"
-            ,"EmailCommunications/Admin/ToServiceProfessional/Welcome?UserID=141&RequestKey=abcd3"
+            "EmailCommunications/Admin/ToClient/Welcome?UserID=22&RequestKey=abcd3"
+            ,"EmailCommunications/Admin/ToServiceProfessional/Welcome?UserID=6&RequestKey=abcd3"
         } }
         ,{ "ResetPassword", new List<string> {
-            "EmailCommunications/Admin/ToUser/ResetPassword?UserID=141&RequestKey=abcd3"
+            "EmailCommunications/Admin/ToUser/ResetPassword?UserID=6&passwordResetToken=abcd1&RequestKey=abcd3"
         } }
         ,{ "GIG Posting", new List<string> {
-            "EmailCommunications/Admin/ToServiceProfessional/SuggestedPosting?UserID=141&userPostingID=1&RequestKey=abcd3"
-            ,"EmailCommunications/Admin/ToClient/PostingApplication?UserID=141&userPostingID=1&serviceProfessionalUserID=141&RequestKey=abcd3"
+            "EmailCommunications/Admin/ToServiceProfessional/SuggestedPosting?UserID=6&userPostingID=1&RequestKey=abcd3"
+            ,"EmailCommunications/Admin/ToClient/PostingApplication?UserID=14&userPostingID=1&serviceProfessionalUserID=6&RequestKey=abcd3"
         } }
         ,{ "Admin/ToServiceProfessional (remaining templates)", new List<string> {
-            "EmailCommunications/Admin/ToServiceProfessional/BackgroundCheckRequestReceived?UserID=141&RequestKey=abcd3"
-            ,"EmailCommunications/Admin/ToServiceProfessional/OptionalCertificationVerificationRequestReceived?UserID=141&jobTitleID=106&RequestKey=abcd3"
-            ,"EmailCommunications/Admin/ToServiceProfessional/OwnerInvitation?UserID=141&RequestKey=abcd3"
-            ,"EmailCommunications/Admin/ToServiceProfessional/RequiredLicenseVerificationRequestReceived?UserID=141&jobTitleID=106&RequestKey=abcd3"
-            ,"EmailCommunications/Admin/ToServiceProfessional/EarningsEntryReminder?UserID=141&jobTitleID=106&RequestKey=abcd3"
+            "EmailCommunications/Admin/ToServiceProfessional/BackgroundCheckRequestReceived?UserID=6&RequestKey=abcd3"
+            ,"EmailCommunications/Admin/ToServiceProfessional/OptionalCertificationVerificationRequestReceived?UserID=6&jobTitleID=76&RequestKey=abcd3"
+            ,"EmailCommunications/Admin/ToServiceProfessional/OwnerInvitation?UserID=6&RequestKey=abcd3"
+            ,"EmailCommunications/Admin/ToServiceProfessional/RequiredLicenseVerificationRequestReceived?UserID=6&jobTitleID=76&RequestKey=abcd3"
+            ,"EmailCommunications/Admin/ToServiceProfessional/EarningsEntryReminder?UserID=6&jobTitleID=76&RequestKey=abcd3"
         } }
 
         ,{ "Admin/Internal", new List<string> {
-            "EmailCommunications/Admin/Internal/EmailBackgroundCheckRequest/?userID=141&jobTitleID=14&backgroundCheckID=1&RequestKey=abcd3"
-            ,"EmailCommunications/Admin/Internal/EmailLicenseVerificationRequest/?userID=141&jobTitleID=14&licenseCertificationID=18&RequestKey=abcd3"
+            "EmailCommunications/Admin/Internal/EmailBackgroundCheckRequest/?userID=6&jobTitleID=76&backgroundCheckID=1&RequestKey=abcd3"
+            ,"EmailCommunications/Admin/Internal/EmailLicenseVerificationRequest/?userID=1&jobTitleID=106&licenseCertificationID=17&RequestKey=abcd3"
             ,"EmailCommunications/Admin/Internal/EmailProviderPaymentAccountNotification/?userID=141&RequestKey=abcd3"
-            ,"EmailCommunications/Admin/Internal/EmailReportUnauthorizedUse/?ReportedUserID=141&ReportedByUserID=141&Message=Reporting+some+problem&RequestKey=abcd3"
+            ,"EmailCommunications/Admin/Internal/EmailReportUnauthorizedUse/?ReportedUserID=22&ReportedByUserID=6&Message=Reporting+some+problem&RequestKey=abcd3"
         } }
     };
 
