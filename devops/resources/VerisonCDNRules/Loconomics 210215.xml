@@ -1,0 +1,22 @@
+<policy>
+    <rules>
+        <rule>
+            <description>HTTP to HTTPS redirect</description>
+            <match.request.request-scheme.literal value="http">
+                <feature.url.url-redirect source="/801089A6/cdne-loconomicsweb-001/(.*)" destination="https://%{host}/$1" code="301"/>
+            </match.request.request-scheme.literal>
+        </rule>
+        <rule>
+            <description>FILENAME-BASED CACHE BUSTING</description>
+            <match.always>
+                <feature.url.url-rewrite source="/801089A6/cdne-loconomicsweb-001/(.+)\.\d+(\.(js|css|png|jpg|gif|ico)$)" destination="/801089A6/cdne-loconomicsweb-001/$1$2"/>
+            </match.always>
+        </rule>
+        <rule>
+            <description>Redirect to Dashboard</description>
+            <match.always>
+                <feature.url.url-redirect source="/801089A6/cdne-loconomicsweb-001/dashboard(.*)" destination="https://%{host}/#!/dashboard$1" code="302"/>
+            </match.always>
+        </rule>
+    </rules>
+</policy>
