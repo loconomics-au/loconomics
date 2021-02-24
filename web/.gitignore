@@ -6,6 +6,6 @@ _logs/*
 !.gitkeep
 node_modules
 node_modules/*
-_specialRoutes/app.html
-assets/*
-welcome/*
+wwwroot/app.html
+wwwroot/assets/*
+wwwroot/welcome/*

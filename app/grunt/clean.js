@@ -5,5 +5,5 @@ module.exports = {
     plugins: ['./phonegap/plugins'],
     platforms: ['./phonegap/platforms'],
     // next throws error 'cannot delete files outside the current working directory'
-    //webapp: ['../web/assets/**.*', '../web/welcome/**.*']
+    //webapp: ['../web/wwwroot/assets/**.*', '../web/wwwroot/welcome/**.*']
 };

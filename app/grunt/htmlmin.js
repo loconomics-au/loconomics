@@ -10,7 +10,7 @@ module.exports = function(grunt) {
         webapp: {
             options: commonOptions,
             files: {
-                '../web/_specialRoutes/app.html': '../web/_specialRoutes/app.html'
+                '../web/wwwroot/app.html': '../web/wwwroot/app.html'
             }
         },
         landingPagesBuild: {
@@ -19,7 +19,7 @@ module.exports = function(grunt) {
         },
         landingPagesWeb: {
             options: commonOptions,
-            files: getLandingPagesFiles(grunt, '../web/welcome', '../web/welcome')
+            files: getLandingPagesFiles(grunt, '../web/wwwroot/welcome', '../web/wwwroot/welcome')
         }
     };
 };

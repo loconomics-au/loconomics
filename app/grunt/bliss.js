@@ -10,6 +10,7 @@ module.exports = function(grunt) {
         filter: grunt.file.isFile
     }, includedPatterns);
 
+    // these are defaults and get reset by grunt/custom/buld.js
     const siteUrl = "http://localhost/loconomics";
     const sitePath = "/loconomics/";
     const apiUrl = "http://localhost/loconomics-api";
@@ -31,7 +32,7 @@ module.exports = function(grunt) {
     var tasks = {
         webapp: {
           files: {
-            '../web/_specialRoutes/app.html': ['source/html/web.js.html']
+            '../web/wwwroot/app.html': ['source/html/web.js.html']
           },
           options: {
             context: {
@@ -195,7 +196,7 @@ module.exports = function(grunt) {
         }
     };
     tasks.landingPagesWeb = {
-        files: getLandingPagesFiles(grunt, '../web/welcome'),
+        files: getLandingPagesFiles(grunt, '../web/wwwroot/welcome'),
         options: {
             context: {
                 facebookAppID: facebookAppID,

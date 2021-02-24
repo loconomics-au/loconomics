@@ -38,7 +38,7 @@ module.exports = {
     // *clean web directories from here is not allowed by grunt-clean
     // Remember to increase version at package.json. `npm version patch` or 'minor'
     // can be used from console.
-    // /web files to copy over: /web/assets, /web/welcome, /web/_specialRoutes/app.html
+    // /web files to copy over: /web/wwwroot/assets, /web/wwwroot/welcome, /web/wwwroot/app.html
     // remember to git-tag version after
     'build-web-release': [
         'clean:build',

@@ -18,7 +18,7 @@ module.exports = {
             'images/**/*.*',
             'fonts/**/*.*'
         ],
-        dest: '../web/assets/',
+        dest: '../web/wwwroot/assets/',
         filter: 'isFile'
     },
     phonegap: {
@@ -76,7 +76,7 @@ module.exports = {
         expand: true,
         cwd: 'build/assets/',
         src: ['js/welcome.min.js', 'css/welcome.min.css', 'images/**/*.*', 'fonts/**/*.*'],
-        dest: '../web/assets/',
+        dest: '../web/wwwroot/assets/',
         filter: 'isFile'
     }
 };

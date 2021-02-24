@@ -5,7 +5,7 @@
  * the directory, mapping the source file with the build destination
  * @param {Object} grunt Grunt instance
  * @param {string} destFolder Base of the destination folder, as accessed
- * from the root. Usually: 'build/welcome' or '../web/welcome'
+ * from the root. Usually: 'build/welcome' or '../web/wwwroot/welcome'
  * @param {string} [sourceFolder] Source folder as accessed from the root.
  */
 module.exports = function(grunt, destFolder, sourceFolder) {
@@ -17,7 +17,7 @@ module.exports = function(grunt, destFolder, sourceFolder) {
         filter: grunt.file.isFile
     }, ['*.html']);
     // Generate the files mapping object, that will be something like
-    // files: { '../web/welcome/one.html': ['source/html/landingPages/one.html'] }
+    // files: { '../web/wwwroot/welcome/one.html': ['source/html/landingPages/one.html'] }
     var landingBuildPath = destFolder + '/';
     var landingPagesFiles = {};
     landingPages.forEach(function(page) {
