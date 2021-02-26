@@ -3,6 +3,7 @@
 **/
 'use strict';
 
+require('../kocomponents/nav/website-footer');
 var Activity = require('../components/Activity');
 var onboarding = require('../data/onboarding');
 var help = require('../data/help');

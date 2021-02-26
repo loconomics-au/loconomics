@@ -4,6 +4,7 @@
 'use strict';
 
 import '../../kocomponents/tab-list';
+import '../../kocomponents/nav/website-footer';
 import * as activities from '../index';
 import Activity from '../../components/Activity';
 import ko from 'knockout';

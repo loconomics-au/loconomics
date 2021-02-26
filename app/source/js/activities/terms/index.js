@@ -7,6 +7,7 @@
  * TODO: Quick460 Must complete refactoring
  */
 
+import '../../kocomponents/nav/website-footer'; 
 import * as activities from '../index';
 import Activity from '../../components/Activity';
 import ko from 'knockout';
