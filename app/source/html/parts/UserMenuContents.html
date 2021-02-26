@@ -4,7 +4,7 @@
 <li data-bind="visible: isAnonymous, css: cssIfActive('login')">
     <a href="/login">Sign in</a>
 </li>
-<li data-bind="visible: !isApp(), css: cssIfActive('download-app')" class="go-download">
+<li data-bind="visible: !isApp() && appEnabled(), css: cssIfActive('download-app')" class="go-download">
     <a href="/download-app">Download the app</a>
 </li>
 <li data-bind="visible: isAnonymous, css: cssIfActive('home-hiw')">

@@ -30,6 +30,8 @@ require('./locales/en-US-LC');
 var attachFastClick = require('fastclick').attach;
 var showError = require('./modals/error').show;
 
+window.appEnabled = false;
+
 /**
     A set of fixes/workarounds for Bootstrap behavior/plugins
     to be executed before Bootstrap is included/executed.

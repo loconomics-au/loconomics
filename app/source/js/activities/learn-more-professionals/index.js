@@ -87,6 +87,8 @@ export default class LearnMoreProfessionalsActivity extends Activity {
         // A static utility (currently only used to conditionally show/hide DownloadApp links)
         this.inApp = ko.observable(!!window.cordova);
 
+        this.appEnabled = ko.observable(window.appEnabled);
+
         /**
          * @member {KnockoutComputed<string>} suggestionButtonText Gives the text
          * for each suggestion button based on the action triggered after select

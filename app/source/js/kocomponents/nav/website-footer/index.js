@@ -12,7 +12,8 @@ ko.components.register(TAG_NAME, {
     template: template,
     viewModel: {
         instance: {
-            isApp: ko.pureComputed(() => !!window.cordova)
+            isApp: ko.pureComputed(() => !!window.cordova),
+            appEnabled: ko.pureComputed(() => window.appEnabled)
         }
     }
 });

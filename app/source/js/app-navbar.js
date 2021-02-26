@@ -232,7 +232,8 @@ exports.extend = function (app) {
         isInOnboarding: ko.observable(false),
         isAtCurrentOnboardingStep: ko.observable(false),
         active: ko.observable(''),
-        useHelp: help.useHelp
+        useHelp: help.useHelp,
+        appEnabled: ko.observable(window.appEnabled)
     };
 
     var onboarding = require('./data/onboarding');

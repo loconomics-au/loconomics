@@ -73,7 +73,7 @@
             <app-signup params="api: signup, onSignedUp: signupRedirect">
             </app-signup>
         </div>
-        <div data-bind="visible: !inApp(), template: { name: 'download-app-template' }"></div>
+        <div data-bind="visible: !inApp() && appEnabled(), template: { name: 'download-app-template' }"></div>
         <a href="/add-job-title" class="btn btn-default btn-add-profile" data-bind="visible: isClient() && !isServiceProfessional()">Add a listing</a>
     </div>
 </div>

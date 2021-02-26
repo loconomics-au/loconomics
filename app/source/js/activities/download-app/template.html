@@ -1,6 +1,6 @@
 <div class="Boxes-sm">
     <div class="LeadContent">
-        <div class="DownloadApp">
+        <div class="DownloadApp" data-bind="visible: appEnabled()">
             <h1><icon-dec params="icon: 'ion-android-phone-portrait'"></icon-dec> <span data-bind="text: title"></span></h1>
             <h2>Select your device:</h2>
             <div>
@@ -15,5 +15,11 @@
                 <a href="http://play.google.com/store/apps/details?id=com.loconomics.app&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-AC-global-none-all-co-pr-py-PartBadges-Oct1515-1"><img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/apps/en-play-badge.png" width="135" height="40" /></a>
             -->
         </div>
+        <div class="DownloadApp" data-bind="visible: !appEnabled()">
+            <h2>App not currently available</h2>
+            <div>
+                Our mobile app is currently in development, please try again soon
+            </div>
+        </div>     
     </div>
 </div>

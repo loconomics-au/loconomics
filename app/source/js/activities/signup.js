@@ -81,4 +81,5 @@ function ViewModel(app) {
 
     // A static utility (currently only used to conditionally show/hide DownloadApp links)
     this.inApp = ko.observable(!!window.cordova);
+    this.appEnabled = ko.observable(window.appEnabled);
 }
