@@ -66,6 +66,17 @@ To define the REST URL there are several ways, the one commented previously for 
 **In summary:** At start-up, the app looks for a `siteUrl` key at localStorage; if nothing, looks for a `data-site-url` attribute at the html
 element; if nothing, uses the document base URL (the domain from where the document is being served).
 
+## First Run
+All dll's are in Nuget. After a cloning the site build solution Loconomics-plus-calendarDll.sln. This will build required files from the CalendarDll project to web/bin
+
+There is a continuing bug in Microsoft.CodeDom.Providers.DotNetCompilerPlatform where the roslyn folder does not get created in the bin folder. [Issue here](https://github.com/aspnet/RoslynCodeDomProvider/issues/66)
+
+To fix this issue, run 
+```
+Update-Package Microsoft.CodeDom.Providers.DotNetCompilerPlatform -r
+```
+This command will reinstall the nuget package and copy the required files to the bin folder
+
 ## Testing Links
 Requires API access. Request access from [@iagosrl](mailto:iago@loconomics.com) or [@joshdanielson](mailto:joshua.danielson@loconomics.com).
 
