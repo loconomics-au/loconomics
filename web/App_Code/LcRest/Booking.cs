@@ -832,7 +832,7 @@ namespace LcRest
                     WHERE   BookingStatusID = @1
                              AND
                             -- passed x hours from request or some change (some provider communication or customer change)
-                            UpdatedDate < dateadd(hh, 0 - @0, getdate())    
+                            Booking.UpdatedDate < dateadd(hh, 0 - @0, getdate())    
                 ", ConfirmationLimitInHours, (int)LcEnum.BookingStatus.request)
                  .Select<dynamic, Booking>(x => FromDB(x, true));
             }
