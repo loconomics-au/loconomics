@@ -572,15 +572,18 @@ namespace LcRest
         {
             using (var db = new LcDatabase(dbShared)) {
                 return db.Query(@"
-                    SELECT  *
+                    SELECT  Booking.*, P.PaymentProviderName
                     FROM    Booking
+                    LEFT JOIN
+                        ProviderPaymentAccount AS P
+                        ON P.ProviderUserID = Booking.ServiceProfessionalUserID            
                     WHERE   BookingStatusID = @0
                              AND
                             -- Not expired previously: it has dates info still
                             (ServiceDateID is not null OR AlternativeDate1ID is not null OR AlternativeDate2ID is not null)
                              AND
                             -- is old enough to be considered not active: 1 day
-                            UpdatedDate < dateadd(d, -1, getdate())
+                            Booking.UpdatedDate < dateadd(d, -1, getdate())
                 ", (int)LcEnum.BookingStatus.incomplete).Select<dynamic, Booking>(x => FromDB(x, true));
             }
         }
@@ -603,11 +606,14 @@ namespace LcRest
                 });
 
                 return db.Query(@"
-                    SELECT  B.*
+                    SELECT  B.*, P.PaymentProviderName
                     FROM    Booking As B
                              INNER JOIN
                             CalendarEvents As E
                               ON B.ServiceDateID = E.Id
+                            LEFT JOIN
+                            ProviderPaymentAccount AS P
+                                ON P.ProviderUserID = B.ServiceProfessionalUserID          
                     WHERE   
                             -- With payment enabled
                             B.PaymentEnabled = 1
@@ -648,11 +654,14 @@ namespace LcRest
                 });
 
                 return db.Query(@"
-                SELECT  B.*
+                SELECT  B.*, P.PaymentProviderName
                 FROM    Booking As B
                          INNER JOIN
                         CalendarEvents As E
                           ON B.ServiceDateID = E.Id
+                        LEFT JOIN
+                            ProviderPaymentAccount AS P
+                            ON P.ProviderUserID = B.ServiceProfessionalUserID
                 WHERE   
                         -- With payment enabled
                         B.PaymentEnabled = 1
@@ -677,11 +686,14 @@ namespace LcRest
 
         #region SQLs QueryPendingOfPaymentRelease
         private const string sqlPendingOfPaymentReleaseForVeteranServiceProfessionals = @"
-            SELECT  B.*
+            SELECT  B.*, P.PaymentProviderName
             FROM    Booking As B
                         INNER JOIN
                     CalendarEvents As E
                         ON B.ServiceDateID = E.Id
+                    LEFT JOIN
+                        ProviderPaymentAccount AS P
+                        ON P.ProviderUserID = B.ServiceProfessionalUserID
             WHERE   PaymentEnabled = 1
                      AND
                     B.PaymentCollected = 1
@@ -703,11 +715,14 @@ namespace LcRest
                     ) > 0 -- There are complete bookings (almost 1)
         ";
         private const string sqlPendingOfPaymentReleaseForNewServiceProfessionals = @"
-            SELECT  B.*
+            SELECT  B.*, P.PaymentProviderName
             FROM    Booking As B
                         INNER JOIN
                     CalendarEvents As E
                         ON B.ServiceDateID = E.Id
+                    LEFT JOIN
+                        ProviderPaymentAccount AS P
+                        ON P.ProviderUserID = B.ServiceProfessionalUserID
             WHERE   PaymentEnabled = 1
                      AND
                     B.PaymentCollected = 1
@@ -729,11 +744,14 @@ namespace LcRest
                     ) = 0 -- There is no complete bookings
         ";
         private const string sqlPendingOfPaymentReleaseForServiceProfessionals = @"
-            SELECT  B.*
+            SELECT  B.*, P.PaymentProviderName
             FROM    Booking As B
                         INNER JOIN
                     CalendarEvents As E
                         ON B.ServiceDateID = E.Id
+                        LEFT JOIN
+                    ProviderPaymentAccount AS P
+                        ON P.ProviderUserID = B.ServiceProfessionalUserID
             WHERE   PaymentEnabled = 1
                      AND
                     B.PaymentCollected = 1
@@ -775,11 +793,14 @@ namespace LcRest
             using (var db = new LcDatabase(dbShared))
             {
                 return db.Query(@"
-                    SELECT  B.*
+                    SELECT  B.*, P.PaymentProviderName
                     FROM    Booking As B
                              INNER JOIN
                             CalendarEvents As E
                               ON B.ServiceDateID = E.Id
+                            LEFT JOIN
+                                ProviderPaymentAccount AS P
+                                ON P.ProviderUserID = B.ServiceProfessionalUserID
                     WHERE   BookingStatusID = @0
                              AND
                             -- at 48 hours after service ended (more than 48 hours is fine)
@@ -803,12 +824,15 @@ namespace LcRest
             using (var db = new LcDatabase(dbShared))
             {
                 return db.Query(@"
-                    SELECT  *
+                    SELECT  Booking.*, P.PaymentProviderName
                     FROM    Booking
+                    LEFT JOIN
+                        ProviderPaymentAccount AS P
+                        ON P.ProviderUserID = Booking.ServiceProfessionalUserID
                     WHERE   BookingStatusID = @1
                              AND
                             -- passed x hours from request or some change (some provider communication or customer change)
-                            UpdatedDate < dateadd(hh, 0 - @0, getdate())
+                            UpdatedDate < dateadd(hh, 0 - @0, getdate())    
                 ", ConfirmationLimitInHours, (int)LcEnum.BookingStatus.request)
                  .Select<dynamic, Booking>(x => FromDB(x, true));
             }
@@ -816,11 +840,14 @@ namespace LcRest
 
         #region SQL PendingOfCompleteWithoutPaymentBookings
         private const string sqlPendingOfCompleteWithoutPaymentBookings = @"
-            SELECT  B.*
+            SELECT  B.*, P.PaymentProviderName
             FROM    Booking As B
                         INNER JOIN
                     CalendarEvents As E
                         ON B.ServiceDateID = E.Id
+                        LEFT JOIN
+                    ProviderPaymentAccount AS P
+                        ON P.ProviderUserID = B.ServiceProfessionalUserID
             WHERE   PaymentEnabled = 0
                      AND
                     BookingStatusID = @0
