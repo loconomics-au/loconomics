@@ -211,9 +211,10 @@ public class ScheduleTask
                         {
                             var errTitle = "Booking Charge Customer, Receive Payment";
                             var errDesc = String.Format(
-                                "BookingID: {0}, TransactionID: {1} Payment not received, error on Braintree 'settle transaction': {2}",
+                                "BookingID: {0}, TransactionID: {1} Payment not received, error on {2} Provider 'settle transaction': {3}",
                                 b.bookingID,
                                 b.paymentTransactionID,
+                                b.paymentProvider,
                                 ex.Message
                             );
 
