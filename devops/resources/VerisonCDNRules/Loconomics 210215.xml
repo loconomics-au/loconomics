@@ -13,9 +13,105 @@
             </match.always>
         </rule>
         <rule>
+            <description>Redirect to Help</description>
+            <match.always>
+                <feature.url.url-redirect source="/801089A6/cdne-loconomicsweb-001/help(.*)" destination="https://%{host}/#!/help$1" code="302"/>
+            </match.always>
+        </rule>
+        <rule>
+            <description>Redirect to Terms</description>
+            <match.always>
+                <feature.url.url-redirect source="/801089A6/cdne-loconomicsweb-001/terms(.*)" destination="https://%{host}/#!/terms$1" code="302"/>
+            </match.always>
+        </rule>
+        <rule>
+            <description>Redirect to Privacy Settings</description>
+            <match.always>
+                <feature.url.url-redirect source="/801089A6/cdne-loconomicsweb-001/privacySettings(.*)" destination="https://%{host}/#!/privacySettings$1" code="302"/>
+            </match.always>
+        </rule>
+        <rule>
+            <description>Redirect to View Booking</description>
+            <match.always>
+                <feature.url.url-redirect source="/801089A6/cdne-loconomicsweb-001/viewBooking(.*)" destination="https://%{host}/#!/viewBooking$1" code="302"/>
+            </match.always>
+        </rule>
+        <rule>
+            <description>Redirect to Inbox Booking</description>
+            <match.always>
+                <feature.url.url-redirect source="/801089A6/cdne-loconomicsweb-001/inbox/booking(.*)" destination="https://%{host}/#!/inbox/booking$1" code="302"/>
+            </match.always>
+        </rule>
+        <rule>
+            <description>Redirect to Booking</description>
+            <match.always>
+                <feature.url.url-redirect source="/801089A6/cdne-loconomicsweb-001/booking(.*)" destination="https://%{host}/#!/booking$1" code="302"/>
+            </match.always>
+        </rule>
+        <rule>
+            <description>Redirect to Reviews</description>
+            <match.always>
+                <feature.url.url-redirect source="/801089A6/cdne-loconomicsweb-001/reviews(.*)" destination="https://%{host}/#!/reviews$1" code="302"/>
+            </match.always>
+        </rule>
+        <rule>
+            <description>Redirect to Appointment</description>
+            <match.always>
+                <feature.url.url-redirect source="/801089A6/cdne-loconomicsweb-001/appointment(.*)" destination="https://%{host}/#!/appointment$1" code="302"/>
+            </match.always>
+        </rule>
+        <rule>
+            <description>Redirect to Profile</description>
+            <match.always>
+                <feature.url.url-redirect source="/801089A6/cdne-loconomicsweb-001/profile(.*)" destination="https://%{host}/#!/profile$1" code="302"/>
+            </match.always>
+        </rule>
+        <rule>
+            <description>Redirect to Reset Password</description>
+            <match.always>
+                <feature.url.url-redirect source="/801089A6/cdne-loconomicsweb-001/login/reset-password(.*)" destination="https://%{host}/#!/login/reset-password$1" code="302"/>
+            </match.always>
+        </rule>
+        <rule>
+            <description>Redirect to Auth Confirm</description>
+            <match.always>
+                <feature.url.url-redirect source="/801089A6/cdne-loconomicsweb-001/auth/confirm(.*)" destination="https://%{host}/#!/auth/confirm$1" code="302"/>
+            </match.always>
+        </rule>
+        <rule>
+            <description>Redirect to Download App</description>
+            <match.always>
+                <feature.url.url-redirect source="/801089A6/cdne-loconomicsweb-001/downloadApp(.*)" destination="https://%{host}/#!/downloadApp$1" code="302"/>
+            </match.always>
+        </rule>
+        <rule>
             <description>Redirect to Dashboard</description>
             <match.always>
                 <feature.url.url-redirect source="/801089A6/cdne-loconomicsweb-001/dashboard(.*)" destination="https://%{host}/#!/dashboard$1" code="302"/>
+            </match.always>
+        </rule>
+        <rule>
+            <description>Redirect to Signup</description>
+            <match.always>
+                <feature.url.url-redirect source="/801089A6/cdne-loconomicsweb-001/signup(.*)" destination="https://%{host}/#!/signup$1" code="302"/>
+            </match.always>
+        </rule>
+        <rule>
+            <description>Redirect to Suggested Postings</description>
+            <match.always>
+                <feature.url.url-redirect source="/801089A6/cdne-loconomicsweb-001/suggested-postings(.*)" destination="https://%{host}/#!/suggested-postings$1" code="302"/>
+            </match.always>
+        </rule>
+        <rule>
+            <description>Redirect to Become Owner</description>
+            <match.always>
+                <feature.url.url-redirect source="/801089A6/cdne-loconomicsweb-001/becomeOwner(.*)" destination="https://%{host}/#!/becomeOwner$1" code="302"/>
+            </match.always>
+        </rule>
+        <rule>
+            <description>Redirect to Earnings Add</description>
+            <match.always>
+                <feature.url.url-redirect source="/801089A6/cdne-loconomicsweb-001/earnings-add(.*)" destination="https://%{host}/#!/earnings-add$1" code="302"/>
             </match.always>
         </rule>
     </rules>
